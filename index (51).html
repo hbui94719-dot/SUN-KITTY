@@ -1,0 +1,2142 @@
+<!doctype html><html lang="vi"><head>
+<meta charset="utf-8">
+<title>Con nhà mình · Kitty</title>
+<meta name="description" content="Vuốt một cái, con lớn một chút. Nuôi con từ lọt lòng tới 18 tuổi trong 6 phút.">
+<meta property="og:type" content="website"><meta property="og:title" content="Con nhà mình">
+<meta property="og:description" content="Vuốt một cái, con lớn một chút. Chưa đẻ hả? Thử nuôi đi.">
+<meta name="theme-color" content="#FFCFE2">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png"><link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Con nhà mình"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.webmanifest">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols&display=swap&text=%E2%99%88%E2%99%89%E2%99%8A%E2%99%8B%E2%99%8C%E2%99%8D%E2%99%8E%E2%99%8F%E2%99%90%E2%99%91%E2%99%92%E2%99%93">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Be+Vietnam+Pro:wght@400;600;700&display=swap&subset=vietnamese">
+<style>
+/* Layout: one portrait phone screen — top meters, one swipeable sticker card, two answer buttons. Single bright look on purpose. */
+:root{
+  --ink:#5A2A4A; --paper:#FFFFFF; --stage:#FFCFE2; --muted:#74425E;
+  --left:#E8274B; --right:#4C9BE8; --good:#22B07D;
+  --display:"Baloo 2", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --body:"Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--body);transition:background .5s;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+#app{height:100%;max-width:460px;margin:0 auto;display:flex;flex-direction:column;padding-inline:16px;box-sizing:border-box;position:relative;overflow:hidden}
+button{font-family:var(--body);color:var(--ink);cursor:pointer}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.screen{flex:1;display:flex;flex-direction:column;min-height:0;padding-block:14px}
+.sticker{background:var(--paper);border:3px solid var(--ink);border-radius:26px;box-shadow:5px 6px 0 var(--ink)}
+h1,.disp{font-family:var(--display);font-weight:800;letter-spacing:-.01em;line-height:1}
+
+/* intro */
+.logo{font-size:clamp(36px,12.4vw,58px);white-space:nowrap;margin:18px 0 4px;text-wrap:balance}
+.logo span{display:inline-block;background:var(--ink);color:var(--stage);padding:0 10px;border-radius:12px;transform:rotate(-3deg)}
+.tag{font-size:16px;color:var(--muted);margin:6px 0 16px;line-height:1.4}
+.lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:14px 0 8px}
+.seg{display:flex;gap:10px}
+.seg button{flex:1;font-size:17px;font-weight:700;padding:12px;border:3px solid var(--ink);border-radius:16px;background:var(--paper)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.namebox{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:17px}
+.namebox b{font-family:var(--display);font-size:26px;flex:1}
+.nmin{flex:1;min-width:0;font-family:var(--display);font-size:26px;font-weight:800;line-height:1.15;color:var(--ink);background:transparent;border:0;border-bottom:2px dashed rgba(90,42,74,.35);border-radius:0;padding:0 0 2px;outline:none}
+.nmin:focus{border-bottom:2px solid var(--ink)}
+.nmin::placeholder{color:rgba(90,42,74,.35)}
+.lbl small{text-transform:none;letter-spacing:0;font-weight:600;color:var(--muted);margin-left:4px}
+.nmerr{margin:6px 0 0;min-height:0}
+.nmerr:empty{display:none}
+.namebox button{border:2px solid var(--ink);border-radius:12px;background:var(--stage);font-weight:700;padding:6px 12px}
+.fams{display:grid;gap:10px}
+.fam{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;border:3px solid var(--ink);border-radius:18px;background:var(--paper);box-shadow:3px 4px 0 var(--ink);font-size:15px;transition:transform .1s}
+.fam:active{transform:translate(3px,4px);box-shadow:0 0 0 var(--ink)}
+.fam i{font-style:normal;font-size:28px}
+.fam b{display:block;font-size:16px}
+.fam small{color:var(--muted)}
+
+/* game top */
+.top{display:flex;align-items:center;gap:10px}
+.age{font-family:var(--display);font-size:30px;line-height:1;min-width:0}
+.age small{display:block;font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.meters{margin-left:auto;display:flex;gap:8px}
+.meter{width:50px;text-align:center;position:relative}
+.meter .ico{font-size:20px;line-height:1;height:26px;display:flex;justify-content:center}
+.mi{width:26px;height:26px;display:block}
+.mlabel{display:block;font-size:10.5px;font-weight:700;margin-top:3px;line-height:1;white-space:nowrap}
+.dt{display:inline-flex;align-items:center;gap:2px;margin:0 3px;white-space:nowrap}.dt .mi{width:16px;height:16px}
+.share .stats span{display:inline-flex;align-items:center;gap:4px}.share .stats .mi{width:20px;height:20px}
+.gen .mi{width:15px;height:15px;display:inline-block;vertical-align:-2px}
+.bar{height:40px;width:18px;margin:4px auto 0;border:2.5px solid var(--ink);border-radius:9px;background:var(--paper);position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;right:0;bottom:0;background:var(--ink);transition:height .45s cubic-bezier(.3,1.4,.5,1)}
+.bar.low i{background:var(--left)} .bar.high i{background:var(--right)}
+.bar.low{border-color:var(--left)} .bar.high{border-color:var(--right)}
+.meter .dot{position:absolute;top:-8px;left:50%;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--ink);opacity:0;transition:opacity .15s,transform .15s}
+.meter .dot.on{opacity:1}.meter .dot.big{transform:scale(1.7)}
+.meter .delta{position:absolute;top:22px;left:0;right:0;font-weight:800;font-size:15px;opacity:0}
+.meter .delta.show{animation:pop 1.1s ease-out}
+@keyframes pop{0%{opacity:0;transform:translateY(6px)}20%{opacity:1}100%{opacity:0;transform:translateY(-18px)}}
+.progress{height:6px;border-radius:3px;background:rgba(90,42,74,.15);margin-top:10px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--ink);transition:width .4s}
+
+/* card */
+.table{flex:1;position:relative;min-height:0;margin:14px 0 10px}
+.card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:16px 18px 18px;touch-action:none;will-change:transform;cursor:grab;transition:transform .25s}
+.card.drag{transition:none;cursor:grabbing}
+.who{align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--stage);border:2px solid var(--ink);border-radius:999px;padding:3px 10px}
+.face{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
+.say{font-size:19px;font-weight:600;line-height:1.38;text-align:center;text-wrap:balance;margin:6px 0 0;min-height:3em}
+.hint{position:absolute;top:18px;font-family:var(--display);font-size:20px;padding:4px 12px;border:3px solid currentColor;border-radius:12px;opacity:0;background:var(--paper);max-width:58%;line-height:1.15;pointer-events:none}
+.hint.l{right:16px;color:var(--left);transform:rotate(8deg)} .hint.r{left:16px;color:var(--right);transform:rotate(-8deg)}
+.back{position:absolute;inset:10px -6px -6px 10px;z-index:-1;background:var(--paper);opacity:.55}
+
+.opts{display:flex;gap:10px;padding-bottom:6px}
+.opt{flex:1;min-width:0;font-size:15px;font-weight:700;line-height:1.25;padding:13px 10px;border:3px solid var(--ink);border-radius:18px;background:var(--paper);box-shadow:3px 4px 0 var(--ink);display:flex;align-items:center;gap:6px;text-align:left;transition:transform .1s,background .15s}
+.opt.r{flex-direction:row-reverse;text-align:right}
+.opt span{font-family:var(--display);font-size:22px;line-height:1}
+.opt.l.hot{background:var(--left);color:#fff}.opt.r.hot{background:var(--right);color:#fff}
+.opt:active{transform:translate(3px,4px);box-shadow:none}
+.swipehint{text-align:center;font-size:12px;color:var(--muted);margin:0 0 4px}
+
+/* reaction + splash */
+.react .say{font-size:20px}
+.react .tap,.tapn{font-size:13px;font-weight:700;color:var(--muted);margin-top:8px;animation:tapin .4s .6s both,tapbob 1.8s 1.4s ease-in-out infinite}
+.tapn{display:block}
+.splash .tapn{margin-top:14px;font-size:14px}
+.dres .tapn{font-size:12.5px;margin-top:6px}
+@keyframes tapin{from{opacity:0}to{opacity:1}}
+@keyframes tapbob{50%{opacity:.45}}
+.dopts.done .opt{pointer-events:none}
+.splash{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;z-index:5;background:var(--stage);animation:in .35s ease-out;padding-inline:20px;box-sizing:border-box}
+.splash .big{font-size:56px;text-wrap:balance;transform:rotate(-3deg)}
+.splash p{font-size:16px;color:var(--muted);margin:0}
+@keyframes in{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
+
+/* end */
+.share{margin:6px auto 0;width:100%;max-width:330px;aspect-ratio:9/16;max-height:calc(100% - 180px);display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px 18px 14px;box-sizing:border-box;background:var(--ink);color:var(--paper);border-radius:26px;position:relative;overflow:hidden}
+.share .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.75;font-weight:700}
+.share .nm{font-family:var(--display);font-size:30px;margin-top:4px}
+.share .face{max-height:34%}
+.share .ttl{font-family:var(--display);font-size:27px;line-height:1.02;color:var(--stage);text-wrap:balance}
+.share .sub{font-size:13px;opacity:.85;margin-top:4px}
+.share .stats{display:flex;gap:14px;margin:10px 0 6px;font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+.share q{font-size:14px;font-style:italic;line-height:1.35;opacity:.95;text-wrap:balance}
+.moments{margin-top:12px;display:grid;gap:8px;text-align:left;width:100%}
+.moments p{margin:0;font-size:12.5px;line-height:1.35;background:rgba(255,255,255,.08);border-radius:12px;padding:7px 10px}
+.moments b{color:var(--stage);margin-right:4px}
+.share .foot{margin-top:auto;font-size:11px;opacity:.6;letter-spacing:.06em}
+.endbtns{display:flex;gap:10px;margin-top:14px}
+.endbtns button{flex:1;font-size:16px;font-weight:700;padding:13px;border:3px solid var(--ink);border-radius:16px;background:var(--paper);box-shadow:3px 4px 0 var(--ink)}
+.endbtns button.main{background:var(--ink);color:var(--paper)}
+.note{text-align:center;font-size:12px;color:var(--muted);margin-top:8px;user-select:text;-webkit-user-select:text}
+.face img.art{height:100%;max-height:300px;width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 4px 0 rgba(90,42,74,.18))}
+.endface{position:relative}
+.endsticker{position:absolute;right:-6px;bottom:-4px;width:44%;max-width:140px;transform:rotate(8deg);filter:drop-shadow(2px 3px 0 rgba(0,0,0,.35))}
+.npc{position:absolute;top:44px;right:12px;width:26%;max-width:108px;transform:rotate(7deg);filter:drop-shadow(2px 3px 0 rgba(90,42,74,.25));pointer-events:none}
+img.ico{width:24px;height:24px;object-fit:contain;display:block;margin:0 auto}
+.fam img.ico{width:34px;height:34px}
+body{background-size:256px;background-repeat:repeat}
+/* bộ sưu tập, đời sau, đấu khẩu */
+.screen.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.gen{background:var(--ink);color:var(--paper);border-radius:16px;padding:10px 14px;font-size:14px;line-height:1.45;margin:4px 0 2px}
+.gen small{opacity:.8}
+.collbtn{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:center;font-size:13px;padding:10px 12px;border:2.5px dashed var(--ink);border-radius:16px;background:transparent}
+.collbtn .go{font-weight:700;text-decoration:underline}
+.linkbtn{margin:10px auto 0;display:block;background:none;border:0;font-size:13px;color:var(--muted);text-decoration:underline}
+a.linkbtn{text-align:center}
+.coll h1{font-size:40px;margin:6px 0 6px}
+.coll h2{font-family:var(--display);font-size:22px;margin:18px 0 8px}
+.coll h2 small{font-family:var(--body);font-size:13px;color:var(--muted)}
+.cl{margin:0 0 6px;font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{border:2.5px solid var(--ink);border-radius:14px;padding:8px 10px;background:var(--paper);opacity:.6;min-width:0}
+.chip.got{opacity:1;box-shadow:3px 3px 0 var(--ink)}
+.chip b{display:block;font-size:14px;line-height:1.2}
+.chip small{display:block;font-size:11.5px;color:var(--muted);line-height:1.3;margin-top:3px}
+.achlist{display:grid;gap:8px}
+.ach{display:flex;gap:10px;align-items:center;border:2.5px solid var(--ink);border-radius:14px;padding:8px 12px;background:var(--paper);opacity:.6}
+.ach.got{opacity:1;box-shadow:3px 3px 0 var(--ink)}
+.ach i{font-style:normal;font-size:22px}
+.ach b{display:block;font-size:14px}.ach small{color:var(--muted);font-size:12px}
+.toast{position:absolute;left:16px;right:16px;top:12px;z-index:10;background:var(--ink);color:var(--paper);border-radius:16px;padding:8px 14px;box-shadow:4px 5px 0 rgba(90,42,74,.35);animation:toastin .4s ease-out}
+.toast p{margin:6px 0;font-size:14px;line-height:1.3}.toast small{opacity:.8}
+@keyframes toastin{from{transform:translateY(-120%)}to{transform:none}}
+.endbtns{flex-wrap:wrap}
+.endbtns button{min-width:0}
+.endbtns .wide{flex-basis:100%}
+.duel .top{justify-content:space-between}
+.score{display:flex;gap:4px;font-size:24px}.score i{font-style:normal;filter:grayscale(1);opacity:.35;transition:all .3s}.score i.won{filter:none;opacity:1;transform:scale(1.15)}
+.timer{height:12px;border:2.5px solid var(--ink);border-radius:8px;background:var(--paper);overflow:hidden;margin-top:12px}
+.timer i{display:block;height:100%;background:var(--left);animation:drain linear forwards}
+@keyframes drain{from{width:100%}to{width:0}}
+.arena{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10px 0}
+.bac{display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.bac .bacph{width:84px;height:84px;border-radius:50%;border:3px solid var(--ink);background:#FFE3F0;display:grid;place-items:center;font-size:48px;box-shadow:3px 4px 0 var(--ink)}
+.bac .bacimg{width:96px;height:96px;object-fit:contain}
+.dres{margin:0;font-size:15px;font-weight:700;text-align:center;text-wrap:balance}
+.dres.w{color:#13744F}.dres.l{color:#B3261E}
+.kid{height:120px;display:flex;justify-content:center;position:relative}
+.kid .sgburst{top:50%}
+.sgburst.art{background:none;border:0;width:46px;height:46px}.sgburst.art .zgi{width:46px;height:46px;vertical-align:0}
+.sigfloat .zgi{width:40px;height:40px;vertical-align:0}.kid img{height:100%;width:auto}
+.dopts{display:grid;gap:10px;padding-bottom:6px}
+.dopts .opt span{font-size:20px}
+.opt.right{background:var(--good);color:#fff}.opt.wrong{background:var(--left);color:#fff}
+.opt:disabled{cursor:default}
+.big2{font-size:28px}
+.signbtn{margin-top:8px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 14px;border:2.5px solid var(--ink);border-radius:14px;background:var(--paper);font-size:15px;font-weight:700}
+.signbtn small{font-size:12px;color:var(--muted);font-weight:600}
+.splash .signline{max-width:300px;font-size:15px;font-weight:600;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:8px 12px;line-height:1.35;box-shadow:3px 4px 0 var(--ink);margin-top:8px}
+.signbadge{margin:8px 0 0;font-size:13px;line-height:1.35;text-align:center;border-radius:12px;padding:6px 10px;border:2px solid var(--ink)}
+.signbadge.like{background:#DDF7EC}.signbadge.dislike{background:#FFE0E8}
+.signbadge b{white-space:nowrap}
+.share .signtag{font-size:12px;font-weight:700;opacity:.85;margin-top:2px;letter-spacing:.02em}
+.share .signq{margin:8px 0 0;font-size:13px;line-height:1.35;opacity:.95;text-wrap:balance}
+.share .signq b{color:var(--stage)}
+.signgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.signgrid span{display:flex;flex-direction:column;align-items:center;font-size:11px;font-weight:600;border:2px solid var(--ink);border-radius:12px;padding:5px 2px;background:var(--paper);opacity:.45}
+.signgrid span.got{opacity:1;box-shadow:2px 2px 0 var(--ink)}
+.signgrid i{font-style:normal;font-size:20px}
+.kidq{margin:8px 0 0;font-size:15px;line-height:1.35;text-align:center;font-style:italic;text-wrap:balance}
+.kidq b{font-style:normal;font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:3px}
+.zg{font-family:"Noto Sans Symbols","Segoe UI Symbol","Apple Symbols",sans-serif;font-style:normal;font-weight:400;line-height:1}
+.card.sigfx{border-color:var(--el);box-shadow:5px 6px 0 var(--el);transition:border-color .3s,box-shadow .3s}
+.sigfx .who{border-color:var(--el)}
+.sigfloat{position:absolute;top:12px;right:14px;font-size:28px;color:var(--el);z-index:2;animation:sgpop .5s cubic-bezier(.2,1.8,.4,1) both,sgbob 1.6s ease-in-out .5s infinite}
+@keyframes sgpop{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes sgbob{50%{transform:translateY(-5px)}}
+.sgburst{position:absolute;left:50%;top:42%;width:38px;height:38px;display:grid;place-items:center;font-size:22px;color:var(--el);background:var(--paper);border:2.5px solid var(--el);border-radius:50%;opacity:0;pointer-events:none;z-index:2;animation:sgfly 1.4s cubic-bezier(.15,.7,.3,1) forwards}
+@keyframes sgfly{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}12%{opacity:1}70%{opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.05) rotate(var(--rot));opacity:0}}
+.signgrid i .zg{font-size:20px}
+.duelsign{font-size:12px;font-weight:700;background:var(--paper);border:2.5px solid var(--el);border-radius:999px;padding:3px 12px;margin-bottom:-2px}
+.duelsign .zg{color:var(--el);font-size:15px}
+.zgi{height:1.25em;width:auto;vertical-align:-.28em}
+.score img.lant{width:28px;height:28px;object-fit:contain;filter:grayscale(1);opacity:.4}.score img.lant.won{filter:none;opacity:1}
+img.achi{width:26px;height:26px;object-fit:contain;vertical-align:middle}
+.sndbtn{margin:0 auto 0 4px;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:50%;background:var(--paper);padding:0;flex:none}
+.sndbtn[aria-pressed=true]{opacity:.55}
+.duel .sndbtn{display:none}
+.sndrow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.pill{font-size:12px;font-weight:700;border:2px solid var(--ink);border-radius:999px;background:var(--paper);padding:5px 12px}
+.pill[aria-pressed=false]{opacity:.55}
+.tag b{color:var(--ink);font-size:18px}
+input{font:inherit;font-size:16px;color:var(--ink);user-select:text;-webkit-user-select:text}
+.resume{display:flex;align-items:center;gap:10px;padding:10px 10px 10px 14px;margin:6px 0 2px}
+.resume .rinfo{min-width:0;flex:1}
+.resume b{display:block;font-family:var(--display);font-size:21px;line-height:1.1}
+.resume small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.rbtn{flex:none;font-size:15px;font-weight:700;padding:10px 14px;border:3px solid var(--ink);border-radius:14px;background:var(--ink);color:var(--paper)}
+.acct{margin-top:10px;width:100%;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 12px;border:2.5px solid var(--ink);border-radius:16px;background:var(--paper);font-size:14px}
+.acct small{font-size:12px;color:var(--muted)}
+.cld{vertical-align:-4px;margin-right:1px;color:var(--ink)}
+.sheet{position:absolute;inset:0;z-index:30;background:rgba(90,42,74,.5);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;animation:in .2s ease-out}
+.sheet .box{position:relative;width:100%;max-width:380px;max-height:100%;overflow-y:auto;padding:18px 16px 16px;box-sizing:border-box}
+.sheet h2{font-size:28px;margin:0 40px 12px 0}
+.sheet .x{position:absolute;top:12px;right:12px;width:34px;height:34px;border:2px solid var(--ink);border-radius:50%;background:var(--paper);font-size:14px;padding:0}
+.sheet .tabs button{font-size:14px;padding:9px 6px;border-width:2.5px;border-radius:12px}
+.sheet .sub{font-size:14px;color:var(--muted);line-height:1.4;margin:12px 0 0}
+.sheet .sub b{color:var(--ink)}
+.field{display:block;margin-top:12px}
+.field span{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.field input{width:100%;box-sizing:border-box;padding:11px 12px;border:2.5px solid var(--ink);border-radius:12px;background:#fff}
+.field input:focus{outline:3px solid var(--right);outline-offset:1px}
+.fnote{font-size:12.5px;color:var(--muted);line-height:1.4;margin:8px 0 0}
+.ferr{color:#B3261E;font-size:13px;font-weight:700;line-height:1.35;margin:8px 0 0;min-height:1em}
+.act{width:100%;margin-top:10px;font-size:16px;font-weight:700;padding:12px;border:3px solid var(--ink);border-radius:16px;background:var(--paper);box-shadow:3px 4px 0 var(--ink)}
+.act.main{background:var(--ink);color:var(--paper)}
+.act.danger{background:var(--left);color:#fff}
+.act:disabled{opacity:.6;cursor:default}
+.bmini{margin-top:10px;width:100%;display:block;text-align:left;padding:10px 14px 12px;font-size:14px}
+.bm-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.bm-h b{font-size:20px}.bm-h .go{font-size:12.5px;font-weight:700;text-decoration:underline}
+.bm-body{display:grid;gap:5px}
+.bm-row{display:flex;align-items:center;gap:8px;min-width:0}
+.bm-row b{flex:none;max-width:42%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bm-row small{flex:1;min-width:0;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bm-row em{font-style:normal;font-weight:800;font-variant-numeric:tabular-nums}
+.bm-row.me b{text-decoration:underline}
+.bm-me,.bm-empty{font-size:12.5px;color:var(--muted);margin-top:2px}
+.brank{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12.5px;font-weight:800;border:2px solid var(--ink);background:var(--paper)}
+.brank.r1{background:#FFD23F}.brank.r2{background:#E3E1EA}.brank.r3{background:#F2B48A}
+.btabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 2px}
+.btabs.duo small{flex-basis:100%;font-size:12px;font-weight:800;color:var(--muted);margin-top:4px}
+.bnote{color:var(--muted);font-size:13px}
+.blist{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.brow{display:flex;gap:10px;align-items:flex-start;border:2.5px solid var(--ink);border-radius:14px;padding:9px 10px;background:var(--paper)}
+.brow.me{box-shadow:3px 3px 0 var(--ink);background:#FFF0F6}
+.bmain{flex:1;min-width:0}
+.bname{display:flex;align-items:baseline;gap:6px}
+.bname b{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bname .you{font-size:10.5px;font-weight:700;background:var(--ink);color:var(--paper);border-radius:999px;padding:1px 7px}
+.bval{margin-left:auto;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bchild{font-size:13px;margin-top:2px}
+.bstats{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+.bstats span{white-space:nowrap}
+.bbadges{display:flex;flex-wrap:wrap;gap:2px;margin-top:5px}
+.bbadges img.achi{width:20px;height:20px}
+.bload{color:var(--muted);font-size:14px;padding:8px 2px}
+.bme-h{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:16px 0 0}
+.tut{position:absolute;inset:0;z-index:25;background:var(--stage);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;animation:in .25s ease-out}
+.tbox{position:relative;width:100%;max-width:400px;max-height:100%;overflow-y:auto;padding:16px 16px 12px;box-sizing:border-box}
+.tbox h2{font-size:28px;margin:6px 40px 10px 0;line-height:1.05}
+.tbox .x{position:absolute;top:12px;right:12px;width:34px;height:34px;border:2px solid var(--ink);border-radius:50%;background:var(--paper);font-size:14px;padding:0}
+.tdots{display:flex;gap:6px}.tdots i{width:8px;height:8px;border-radius:50%;background:rgba(90,42,74,.2)}.tdots i.on{background:var(--ink);width:22px;border-radius:4px}
+.tbody{font-size:15px;line-height:1.45}
+.tlist{margin:0;padding:0 0 0 18px;display:grid;gap:8px}
+.tlist .zgi{height:1.3em}
+.tdemo{display:flex;align-items:center;justify-content:center;gap:12px;margin:2px 0 14px}
+.tcard{border:2.5px solid var(--ink);border-radius:14px;padding:18px 14px;background:#fff;font-weight:700;font-size:13px;box-shadow:3px 4px 0 var(--ink);animation:tswing 2.6s ease-in-out infinite}
+.tarr{font-family:var(--display);font-size:28px;font-weight:800}.tarr.l{color:var(--left)}.tarr.r{color:var(--right)}
+@keyframes tswing{25%{transform:translateX(-14px) rotate(-7deg)}75%{transform:translateX(14px) rotate(7deg)}}
+.tmeters{display:grid;gap:10px}
+.tm{display:flex;gap:10px;align-items:flex-start}
+.tmi .mi{width:30px;height:30px}
+.tm b{font-size:15px}.tm small{margin-left:6px;font-size:12px;font-weight:700;color:var(--muted)}
+.tm p{margin:2px 0 0;font-size:13.5px;line-height:1.4}
+.trule{margin:12px 0 0;padding:8px 10px;border:2px solid var(--ink);border-radius:12px;background:#FFF0F6;font-size:14px}
+.ttip{margin:8px 0 0;font-size:12.5px;color:var(--muted)}
+.tnav{display:flex;align-items:center;gap:10px;margin-top:14px}
+.tnav .linkbtn{margin:0;flex:none}
+.tnav .act{margin:0;flex:1}
+.duel .kid{height:104px}
+.case{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:#FFD23F;border-radius:8px;padding:4px 12px;transform:rotate(-2deg)}
+.dlg{position:relative;width:100%;box-sizing:border-box;margin-top:8px;background:#C2336B;color:#fff;border:3px solid var(--ink);border-radius:16px;padding:20px 16px 14px;font-size:18px;font-weight:600;line-height:1.4;box-shadow:4px 5px 0 var(--ink);text-wrap:pretty}
+.dlg p{margin:0}
+.dlg-name{position:absolute;top:-15px;left:12px;background:#FFD23F;color:var(--ink);border:2.5px solid var(--ink);border-radius:8px;padding:1px 12px;font-size:13px;font-weight:800;letter-spacing:.04em}
+.dlg.sgq{border-color:var(--el);box-shadow:4px 5px 0 var(--el)}
+.dlg.sgq .dlg-name{background:var(--el);color:#fff}
+.stamp{position:absolute;right:-6px;top:-48px;border:3.5px solid #E8274B;color:#E8274B;background:rgba(255,255,255,.95);border-radius:10px;padding:4px 10px;font-family:var(--display);font-weight:800;font-size:17px;line-height:1.05;text-transform:uppercase;text-align:center;transform:rotate(-12deg);animation:stampin .35s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stampin{from{transform:rotate(-12deg) scale(2.2);opacity:0}to{transform:rotate(-12deg) scale(1);opacity:1}}
+.objn{position:absolute;left:0;right:0;z-index:20;display:flex;justify-content:center;pointer-events:none;filter:drop-shadow(3px 4px 0 var(--ink));animation:objfade 1.15s ease-in forwards}
+.objn.bac{top:15%}.objn.me{top:47%}
+.objn b{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-weight:800;font-size:clamp(30px,10vw,42px);line-height:1;padding:18px 28px;background:#fff;color:var(--left);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;clip-path:polygon(0% 18%,9% 22%,6% 0%,22% 14%,31% 2%,40% 16%,52% 0%,60% 15%,72% 3%,78% 18%,94% 6%,90% 26%,100% 30%,92% 46%,100% 62%,90% 70%,97% 92%,80% 82%,70% 100%,60% 84%,48% 98%,40% 84%,28% 100%,22% 82%,6% 94%,9% 72%,0% 64%,7% 48%);transform:rotate(-8deg);animation:objpop .3s cubic-bezier(.2,1.8,.4,1) both}
+.objn.me b{color:var(--right)}
+.objn i{font-style:normal;font-size:.85em;-webkit-text-stroke:0}
+@keyframes objpop{from{transform:rotate(-8deg) scale(.3)}to{transform:rotate(-8deg) scale(1)}}
+@keyframes objfade{0%,75%{opacity:1}100%{opacity:0}}
+.shake{animation:shk .35s}
+@keyframes shk{20%{transform:translate(-6px,2px)}40%{transform:translate(5px,-3px)}60%{transform:translate(-4px,1px)}80%{transform:translate(3px,0)}}
+.collect{text-align:center;font-size:13px;color:var(--muted);margin:14px 0 0}
+.collect b{color:var(--ink)}
+.warn{margin:8px 0 0;text-align:center;font-size:13px;font-weight:700;color:var(--left);animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{50%{opacity:.45}}
+.bar.low,.bar.high{animation:shake .6s ease-in-out infinite}
+@keyframes shake{25%{transform:translateX(-1.5px)}75%{transform:translateX(1.5px)}}
+.share .new{background:var(--stage);color:var(--ink);padding:1px 7px;border-radius:999px}
+/* năng khiếu, nghề, gia phả, bằng chứng, lì xì kéo co (owner 04/10/2026, học theo Chinese Parents) */
+.opt .kb{font-style:normal;flex:none;margin-left:auto;font-size:15px;line-height:1;padding:3px 5px;border:2px solid currentColor;border-radius:999px;background:rgba(255,255,255,.55)}
+.opt.r .kb{margin-left:0;margin-right:auto}
+.kup{position:absolute;top:12px;right:14px;z-index:2;font-weight:800;font-size:14px;background:#FFF0F6;border:2.5px solid var(--ink);border-radius:999px;padding:3px 10px;box-shadow:2px 3px 0 var(--ink);animation:sgpop .5s cubic-bezier(.2,1.8,.4,1) both}
+.kup.sh{top:54px}
+.splash .sklbl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:4px 0 0}
+.skrow{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:330px}
+.skrow .sk{display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:800;background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:3px 9px;opacity:.45}
+.skrow .sk.on{opacity:1}.skrow .sk.top{background:#FFF0F6;box-shadow:2px 3px 0 var(--ink)}
+.share .job{margin:8px 0 0;width:100%;box-sizing:border-box;background:var(--stage);color:var(--ink);border-radius:14px;padding:6px 10px 7px;line-height:1.25}
+.share .job small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.share .job b{display:block;font-family:var(--display);font-size:20px;line-height:1.1;margin-top:2px}
+.share .job span{display:block;font-size:12px;margin-top:2px}
+.genbtn{display:inline-block;margin-top:6px;background:none;border:0;padding:0;color:inherit;font-size:13px;font-weight:700;text-decoration:underline}
+.tree{list-style:none;margin:4px 0 0;padding:0;position:relative}
+.tree:before{content:'';position:absolute;left:14px;top:12px;bottom:18px;width:3px;border-radius:2px;background:var(--ink);opacity:.2}
+.tree li{position:relative;padding:0 0 12px 40px;font-size:14px}
+.tree .tn{position:absolute;left:2px;top:0;width:25px;height:25px;border-radius:50%;background:var(--paper);border:2.5px solid var(--ink);display:grid;place-items:center;font-size:12px;font-weight:800}
+.tree li.now .tn{background:var(--ink);color:var(--paper)}
+.tree b{font-size:16px}.tree small{display:block;color:var(--muted);font-size:12.5px;line-height:1.4;margin-top:1px}
+.tree .tj{display:inline-block;margin-top:4px;font-size:13px;font-weight:700;background:#FFF0F6;border:2px solid var(--ink);border-radius:999px;padding:2px 9px}
+.dlg.proof{border-color:#22B07D;box-shadow:4px 5px 0 #22B07D}
+.dlg.proof .dlg-name{background:#22B07D;color:#fff}
+.opt .evb{font-style:normal;flex:none;margin-left:auto;font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:#22B07D;color:#fff;border-radius:8px;padding:3px 7px;white-space:nowrap}
+.evcard{position:absolute;right:10px;top:12%;z-index:21;width:min(44%,180px);box-sizing:border-box;transform:rotate(4deg);background:#FFF0F6;border:3px solid var(--ink);border-radius:14px;padding:9px 16px;font-weight:800;font-size:17px;line-height:1.25;text-align:center;box-shadow:5px 6px 0 var(--ink);pointer-events:none;animation:evin .45s .25s cubic-bezier(.2,1.6,.4,1) both}
+.evcard small{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+@keyframes evin{from{transform:rotate(4deg) scale(.3);opacity:0}to{transform:rotate(4deg) scale(1);opacity:1}}
+.lixi .arena{gap:8px}
+.lixi .envl{font-size:60px;line-height:1;filter:drop-shadow(3px 4px 0 rgba(90,42,74,.3));animation:envin .45s cubic-bezier(.2,1.5,.4,1) both}
+.lixi .envl.back{transition:transform .35s,opacity .35s;transform:translateY(-90px) scale(.6) rotate(-15deg);opacity:.2;animation:none}
+.lixi .envl.got{transition:transform .35s;transform:translateY(40px) scale(.8) rotate(8deg);animation:none}
+@keyframes envin{from{transform:translateY(-90px) scale(.6) rotate(-15deg);opacity:.3}to{transform:none;opacity:1}}
+.lixi .bac.mad .bacimg,.lixi .bac.mad .bacph{animation:shk .35s 2}
+.lixi .dlg.mad{background:#B02452}
+.lixi .kid{height:92px}
+.lixi .rule{margin:0 0 8px;font-size:12.5px;font-weight:700;text-align:center;color:var(--ink);opacity:.75}
+/* hình đấu khẩu kiểu tòa án (Codex, 04/10/2026): bố/mẹ chỉ tay khi hét, bà nội chủ tọa, hình tùy chọn cho lì xì và bằng chứng */
+.objn.cut{justify-content:flex-end;padding-right:4px;padding-top:30px}
+.objn.cut b{font-size:clamp(26px,8.4vw,38px);padding:16px 22px}
+.objn .objp{position:absolute;left:-6px;top:0;width:min(42%,170px);height:auto;animation:cutin .32s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes cutin{from{transform:translateX(-90%)}to{transform:none}}
+.splash .splpic{width:min(44vw,180px);height:auto;transform:rotate(-4deg);filter:drop-shadow(3px 4px 0 rgba(90,42,74,.3))}
+@media (min-height:700px){.duel .bac .bacimg{width:112px;height:112px}}
+.judge{position:absolute;top:38px;right:4px;width:34%;max-width:140px;transform:rotate(6deg);filter:drop-shadow(2px 3px 0 rgba(90,42,74,.25));pointer-events:none}
+.lixi .envl img{display:block;width:76px;height:auto}
+.score img.envi{width:28px;height:28px;object-fit:contain}
+.evcard img{display:block;width:64px;height:64px;object-fit:contain;margin:0 auto 4px}  /* cố định khung để tính vị trí thẻ trước khi ảnh tải xong */
+.duel .dres{background:rgba(255,255,255,.86);border-radius:12px;padding:6px 12px}  /* dòng kết quả đọc rõ trên nền phòng khách */
+/* gia cảnh (owner 05/10/2026): 13 nhà có luật riêng, bốc thăm, biến cố gia đình, kết riêng */
+.fams{grid-template-columns:1fr 1fr}
+.fam{flex-direction:column;align-items:flex-start;gap:3px;padding:10px 11px;font-size:13px;position:relative;min-width:0}
+.fam .fh{display:flex;align-items:center;gap:6px;width:100%}
+.fam i{font-size:24px;line-height:1}
+.fam img.ico{width:28px;height:28px;margin:0}
+.fam .lean{margin-left:auto;font-style:normal;font-size:13px;letter-spacing:1px}
+.fam b{font-size:14.5px;line-height:1.15}
+.fam small{font-size:12px;line-height:1.3}
+.fam .sug{position:absolute;top:-10px;right:8px;font-size:10.5px;font-weight:800;text-decoration:none;background:var(--ink);color:var(--paper);border-radius:999px;padding:2px 8px}
+.fam.sugd{background:#FFF0F6}
+.lucky{margin-top:10px;width:100%;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:2px 8px;padding:11px 12px;border:3px dashed var(--ink);border-radius:18px;background:#FFF0F6;font-size:16px;font-weight:800}
+.lucky small{font-weight:600;color:var(--muted);font-size:12px}
+.fbig{display:flex;align-items:center;gap:12px;margin:0 40px 4px 0}
+.fbig>i{font-style:normal;font-size:44px;line-height:1}
+.fbig img.ico{width:52px;height:52px;margin:0}
+.fbig b{display:block;font-family:var(--display);font-size:25px;line-height:1.05}
+.fbig small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+.fbig .rare{display:inline-block;font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:#E8274B;color:#fff;border-radius:999px;padding:2px 9px;margin-bottom:4px}
+.frule{margin:10px 0 0;padding:9px 11px;border:2px solid var(--ink);border-radius:12px;background:#FFF0F6;font-size:14px;line-height:1.4}
+.frow{margin:8px 0 0;font-size:13.5px;line-height:1.45}
+.roll{font-size:64px;line-height:1;text-align:center;margin:22px 0 10px}
+.rollh{text-align:center;font-weight:700;color:var(--muted);margin:0 0 14px}
+.splash{justify-content:flex-start;overflow-y:auto;padding-block:16px}
+.splash>:first-child{margin-top:auto}.splash>:last-child{margin-bottom:auto}
+.evbox{max-width:320px;box-sizing:border-box;background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:4px 5px 0 var(--ink);padding:9px 14px;text-align:center;transform:rotate(-1.5deg);animation:sgpop .5s .2s cubic-bezier(.2,1.8,.4,1) both}
+.evbox small{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--left)}
+.evbox b{display:block;font-family:var(--display);font-size:22px;line-height:1.1;margin-top:2px}
+.evbox p{margin:4px 0 0;font-size:13.5px;color:var(--ink);line-height:1.35}
+.splash .fnote{font-size:13px;color:var(--ink);margin:0;max-width:320px}
+.share .famend{margin:6px 0 0;width:100%;box-sizing:border-box;border:2px dashed var(--stage);border-radius:14px;padding:5px 10px 6px;line-height:1.25}
+.share .famend small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.share .famend b{display:block;font-family:var(--display);font-size:18px;color:var(--stage)}
+.share .famend span{display:block;font-size:11.5px;opacity:.9}
+.famgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.famgrid span{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;font-weight:600;text-align:center;line-height:1.15;border:2px solid var(--ink);border-radius:12px;padding:6px 3px;background:var(--paper);opacity:.45}
+.famgrid span.got{opacity:1;box-shadow:2px 2px 0 var(--ink)}
+.famgrid i{font-style:normal;font-size:20px;line-height:1}.famgrid img.ico{width:24px;height:24px}
+/* nuôi chung (owner 05/10/2026): tạo phòng, link mời, chờ lượt, họp gia đình, con chọn tình huống, màn kết hai người */
+.duobtn{margin-top:10px;width:100%;display:flex;flex-direction:column;align-items:center;gap:2px;padding:11px 12px;border:3px solid var(--ink);border-radius:18px;background:var(--ink);color:var(--paper);font-size:16px;font-weight:800;box-shadow:3px 4px 0 rgba(90,42,74,.35)}
+.duobtn small{font-weight:600;font-size:12px;opacity:.85}
+.duosheet .modes{display:grid;gap:8px}
+.duosheet .mode{text-align:left;border:3px solid var(--ink);border-radius:16px;background:var(--paper);padding:10px 12px;box-shadow:3px 4px 0 var(--ink)}
+.duosheet .mode b{display:block;font-size:16px}.duosheet .mode small{display:block;font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:2px}
+.duosheet .mhead{margin:6px 0 0;font-size:17px}
+.duosheet .back{margin:0;display:inline-block}
+.fchips{display:flex;flex-wrap:wrap;gap:6px}
+.fchip{font-size:12.5px;font-weight:700;border:2px solid var(--ink);border-radius:999px;background:var(--paper);padding:5px 10px}
+.fchip.on{background:var(--ink);color:var(--paper)}
+.rlist{display:grid;gap:6px}
+.rrow{display:flex;gap:6px;align-items:stretch}
+.rgo{flex:1;min-width:0;text-align:left;border:2.5px solid var(--ink);border-radius:14px;background:var(--paper);padding:7px 10px}
+.rgo b{display:block;font-size:14.5px}.rgo small{font-size:12px;color:var(--muted)}
+.rst.hot{color:var(--left);font-weight:800}
+.rdel{flex:none;width:34px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);font-size:12px}
+.sel{user-select:all;-webkit-user-select:all;word-break:break-all}
+.duohero{padding:14px 16px;text-align:center;margin-top:6px}
+.duohero .face{height:150px}.duohero h2{font-size:26px;margin:6px 0 4px}
+.duohero p{margin:4px 0 0;font-size:14.5px;line-height:1.4}.duohero .sub2{color:var(--muted);font-size:13px}
+.duotag{display:inline-block;font-size:12px;font-weight:800;background:var(--stage);border:2px solid var(--ink);border-radius:999px;padding:2px 10px}
+.duojoin .act{margin-top:14px}
+.duowait,.recap,.kidpick{gap:8px}
+.duowait h1,.recap h1,.kidpick h1{font-size:32px;margin:4px 0 0}
+.duowait .evbox{margin:0 auto;transform:none}
+.wface{height:140px;flex:none}
+.dmeters{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.dmeters span{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:700;border:2px solid var(--ink);border-radius:999px;background:var(--paper);padding:3px 9px}
+.dmeters span.me{background:#FFF0F6}
+.dmeters em{font-style:normal;margin-right:2px}.dmeters .mi{width:16px;height:16px}
+.sub3{font-family:var(--display);font-size:18px;margin:6px 0 0}
+.moments.light p{background:var(--paper);border:2px solid var(--ink);color:var(--ink)}
+.moments.light b{color:var(--left)}
+.votecard .votehint,.react .votehint{font-size:12.5px;color:var(--muted);margin:6px 0 0;text-align:center;line-height:1.35}
+.votebox{padding:12px 14px;text-align:center;margin:0 auto;width:100%;box-sizing:border-box}
+.votebox small{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--left)}
+.votebox .vq{font-weight:700;font-size:16px;margin:6px 0}
+.vrow{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.vrow span{font-size:12.5px;border:2px solid var(--ink);border-radius:12px;padding:4px 8px;background:#FFF0F6}
+.votebox p{margin:6px 0 0;font-size:14px;line-height:1.4}.votebox .vr{font-style:italic}
+.table.reveal{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.table.reveal .tap{font-size:13px;font-weight:700;color:var(--muted)}
+.react .vrow{margin:8px 0 0}
+.pline{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;font-weight:700;color:var(--muted);margin-top:6px}
+.pline .mi{display:inline-block;width:14px;height:14px;vertical-align:-2px}
+.pline span{white-space:nowrap}
+.cchip{align-self:center;font-size:11.5px;font-weight:800;background:#FFF0F6;border:2px solid var(--ink);border-radius:999px;padding:2px 9px;margin-top:4px}
+.nho{margin:0 auto 6px;display:block;background:none;border:0;font-size:13px;font-weight:700;color:var(--ink);text-decoration:underline}
+.mission{padding:10px 12px;text-align:left;background:#6B2D52;color:var(--paper);border:3px solid var(--ink);border-radius:16px}
+.mission small{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#FFD23F}
+.mission b{display:block;font-size:16px;margin-top:3px}.mission span{display:block;font-size:12px;opacity:.8;margin-top:3px}
+.mission.end{margin-top:8px;width:100%;box-sizing:border-box}.mission.end.ok{border-color:#22B07D}.mission.end.no{border-color:#E8274B}
+.kh{font-size:13px;color:var(--muted);margin:2px 0 0}
+.kpair{display:grid;gap:6px;border-top:2px dashed rgba(90,42,74,.25);padding-top:8px}
+.kpair small{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kc{position:relative;text-align:left;border:2.5px solid var(--ink);border-radius:14px;background:var(--paper);padding:8px 10px;display:flex;flex-direction:column;gap:3px;opacity:.75}
+.kc.on{opacity:1;background:#FFF0F6;box-shadow:3px 4px 0 var(--ink)}
+.kc .who{align-self:flex-start;font-size:10.5px;padding:1px 8px}
+.kc .kt{font-size:14px;font-weight:600;line-height:1.35}.kc .ko{font-size:11.5px;color:var(--muted)}
+.avb{align-self:flex-start;font-style:normal;font-size:12px;font-weight:800;border:2px solid var(--ink);border-radius:999px;padding:2px 9px;background:var(--paper)}
+.avb.on{background:var(--left);color:#fff}
+.kidnote .evbox{margin:0 auto}
+.duoshare{aspect-ratio:auto;max-height:none}
+.duostyles{display:flex;gap:6px;width:100%;margin-top:8px}
+.duostyles span{flex:1;font-size:12px;font-weight:700;background:rgba(255,255,255,.1);border-radius:12px;padding:5px 6px;line-height:1.25}
+.duostyles small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.duostat{font-size:13px;margin:8px 0 0;line-height:1.4}.duostat b{color:var(--stage)}
+.share .stats.duo{flex-wrap:wrap;justify-content:center;gap:6px 12px;font-size:13px}
+.share .stats.duo small{font-size:10.5px;opacity:.75;margin-right:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}
+ .duel:not(.lixi) .timer i{animation:drain 7.5s linear forwards!important} /* thanh giờ đấu khẩu vẫn phải chạy (E.DUEL_SECONDS = 7.5) */
+ .lixi .timer i{animation:drain 4s linear forwards!important} /* lì xì: E.LIXI_SECONDS = 4 */
+ .meter .delta.show{opacity:1}}
+.svgface{height:100%;max-height:300px;width:auto;max-width:100%;filter:drop-shadow(0 4px 0 rgba(90,42,74,.18))}.npc.emo{width:auto;font-size:46px;line-height:1;top:40px}
+/* ===== Hello Kitty skin ===== */
+.logo span{position:relative;background:#E8274B;color:#fff}
+.logo span::after{content:'🎀';position:absolute;right:-18px;top:-20px;font-size:.55em;transform:rotate(18deg)}
+.sticker{border-radius:30px}
+.sticker,.fam,.opt,.act,.endbtns button{border-color:var(--ink)}
+.opt.l.hot,.act.danger{background:#E8274B}
+.opt.r.hot{background:#4C9BE8}
+.seg button[aria-pressed=true],.fchip.on,.act.main,.rbtn,.duobtn,.endbtns button.main,.share,.gen{background:#E8274B;color:#fff;border-color:var(--ink)}
+.share .ttl,.share .nm,.moments b,.share .signq b,.share .duostat b{color:#FFE3F0}
+.bar i{background:#FF6FA5}.progress i{background:#E8274B}.tdots i.on{background:#E8274B}
+.card::after{content:'🎀';position:absolute;left:10px;bottom:8px;font-size:18px;opacity:.9;pointer-events:none}
+.splash::before{content:'🎀  ♡  🎀';letter-spacing:.2em;font-size:18px}
+.case{color:#FFD23F}
+
+.kfx{position:absolute;bottom:32%;pointer-events:none;z-index:40;opacity:0;animation:kfloat 1.3s ease-out forwards}
+@keyframes kfloat{0%{transform:translate(0,0) scale(.4);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),-200px) scale(1.15) rotate(var(--r));opacity:0}}
+.logo span::after{animation:kwig 2.4s ease-in-out infinite;transform-origin:50% 80%}
+@keyframes kwig{0%,100%{transform:rotate(18deg)}50%{transform:rotate(-2deg) scale(1.08)}}
+
+.codebox{font-family:var(--display);font-weight:800;font-size:36px;letter-spacing:.14em;text-align:center;padding:12px 8px;margin:10px 0 4px;background:#FFF0F6;border:3px dashed var(--ink);border-radius:18px;color:#E8274B}
+.joinrow{display:flex;gap:8px;align-items:stretch}.joinrow .act{margin:0;width:auto;flex:none;padding:10px 16px}
+.codein{flex:1;min-width:0;font-family:var(--display);font-size:24px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:8px;border:2.5px solid var(--ink);border-radius:14px;background:#fff}
+</style></head><body><div id="app"></div>
+<script src="cards.js" charset="utf-8"></script>
+<script src="engine.js" charset="utf-8"></script>
+<script>
+// ---------- art (web/art/ + manifest.json; ảnh tùy chọn nào thiếu thì dùng emoji / ký hiệu) ----------
+let ART=new Set();
+const STAGE_KEYS=['baby','preschool','primary','middle','high','adult18'];
+async function loadArt(){try{const r=await fetch('art/manifest.json',{cache:'no-cache'});if(r.ok){const j=await r.json();ART=new Set(j.files||[])}}catch(e){}}
+const _GM={};
+function genArt(k){if(k in _GM)return _GM[k];let s=null,m;
+ if(m=k.match(/^duel_bac_(trai|gai)(?:_(shock|mad))?$/))s=bacSvg(m[1],m[2]||'ok');
+ else if(k==='duel_ba_chu_toa')s=bacSvg('gai','ok',1);
+ else if(m=k.match(/^duel_parent_(bo|me)$/))s=parSvg(m[1]=='bo');
+ else if(m=k.match(/^bg_stage_(\d)$/))s=bgSvg(+m[1]);
+ else if(k==='scene_tet')s=sceneSvg(1);else if(k==='scene_hanhlang')s=sceneSvg(0);
+ else if(m=k.match(/^end_(.+)$/)){const e={banthan:'🤝',binhthuong:'⚖️',chieu:'🎀',chill:'😎',hai:'🤡',hetpin:'🪫',kiluat:'📋',lo:'☂️',pin0:'🔋',pin100:'🛋️',song:'📱',than0:'🧊',than100:'🧲',vui0:'😢',vui100:'👑'}[m[1]];if(e)s=badge(e)}
+ else if(m=k.match(/^ev_(.+)$/)){const e={hoc:'📜',nghe:'🖼️',the:'🏅',giao:'🎤',tech:'🤖'}[m[1]];if(e)s=badge(e,1)}
+ return _GM[k]=s?'data:image/svg+xml;utf8,'+encodeURIComponent(s):null}
+function badge(e,sq){return `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><${sq?'rect x="8" y="8" width="104" height="104" rx="22"':'circle cx="60" cy="60" r="52"'} fill="#FFF0F6" stroke="#5A2A4A" stroke-width="5"/><text x="60" y="80" font-size="58" text-anchor="middle">${e}</text></svg>`}
+function bacSvg(g,mood,judge){const I='#5A2A4A',sk='#F2C7A0',gr=judge?'#fff':'#D9D9E3',gl=g=='gai',st=(f)=>`fill="${f}" stroke="${I}" stroke-width="4" stroke-linejoin="round"`;
+ let h=`<path d="M24 240Q24 168 100 168Q176 168 176 240Z" ${st(judge?'#8B6CF0':gl?'#E8274B':'#4C9BE8')}/>`;
+ if(gl)h+=`<circle cx="100" cy="34" r="24" ${st(gr)}/>`;
+ h+=`<ellipse cx="42" cy="104" rx="14" ry="22" ${st(gr)}/><ellipse cx="158" cy="104" rx="14" ry="22" ${st(gr)}/><circle cx="100" cy="104" r="60" ${st(sk)}/>`;
+ h+=gl?`<path d="M42 92Q44 46 100 44Q156 46 158 92Q130 62 100 62Q70 62 42 92Z" ${st(gr)}/><circle cx="40" cy="128" r="6" ${st('#FFD23F')}/><circle cx="160" cy="128" r="6" ${st('#FFD23F')}/>`:`<path d="M82 52Q100 40 118 52M90 60Q100 54 110 60" fill="none" stroke="${I}" stroke-width="3" stroke-linecap="round"/>`;
+ h+=`<path d="M52 128q6 6 12 0M136 128q6 6 12 0" fill="none" stroke="#C99A78" stroke-width="3"/><ellipse cx="62" cy="122" rx="9" ry="6" fill="${mood=='mad'?'#E8274B':'#FF8FA3'}" opacity="${mood=='mad'?.8:.5}"/><ellipse cx="138" cy="122" rx="9" ry="6" fill="${mood=='mad'?'#E8274B':'#FF8FA3'}" opacity="${mood=='mad'?.8:.5}"/>`;
+ const L=(d,w=4)=>`<path d="${d}" fill="none" stroke="${I}" stroke-width="${w}" stroke-linecap="round"/>`;
+ h+=`<circle cx="76" cy="100" r="15" fill="#fff" fill-opacity=".6" stroke="${I}" stroke-width="3"/><circle cx="124" cy="100" r="15" fill="#fff" fill-opacity=".6" stroke="${I}" stroke-width="3"/>`+L('M91 100H109',3);
+ if(mood=='shock')h+=`<circle cx="76" cy="100" r="7" fill="${I}"/><circle cx="124" cy="100" r="7" fill="${I}"/>`+L('M62 76Q76 66 90 76M110 76Q124 66 138 76',3)+`<ellipse cx="100" cy="146" rx="9" ry="13" fill="#9B2D3A" stroke="${I}" stroke-width="3"/>`;
+ else if(mood=='mad')h+=`<circle cx="78" cy="102" r="5" fill="${I}"/><circle cx="122" cy="102" r="5" fill="${I}"/>`+L('M60 80L90 90M140 80L110 90',5)+L('M80 152Q100 134 120 152');
+ else h+=`<circle cx="76" cy="102" r="5" fill="${I}"/><circle cx="124" cy="102" r="5" fill="${I}"/>`+L('M80 140Q100 158 120 140');
+ if(judge)h+=`<rect x="128" y="196" width="56" height="16" rx="5" fill="#8A5A2B" stroke="${I}" stroke-width="3" transform="rotate(-20 156 204)"/><rect x="146" y="206" width="10" height="34" rx="4" fill="#8A5A2B" stroke="${I}" stroke-width="3" transform="rotate(-20 150 222)"/>`;
+ return `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="240" viewBox="0 0 200 240">${h}</svg>`}
+function parSvg(bo){const I='#5A2A4A',sk='#FFD2B3',hc='#3B2A20',st=f=>`fill="${f}" stroke="${I}" stroke-width="4" stroke-linejoin="round"`,L=(d,w=4)=>`<path d="${d}" fill="none" stroke="${I}" stroke-width="${w}" stroke-linecap="round"/>`;
+ let h=`<path d="M10 240Q10 172 80 172Q150 172 150 240Z" ${st(bo?'#4C9BE8':'#FF6FA5')}/><path d="M120 196L204 150" stroke="${I}" stroke-width="30" stroke-linecap="round"/><path d="M120 196L204 150" stroke="${sk}" stroke-width="22" stroke-linecap="round"/><path d="M204 150L236 134" stroke="${I}" stroke-width="12" stroke-linecap="round"/><path d="M204 150L236 134" stroke="${sk}" stroke-width="6" stroke-linecap="round"/>`;
+ if(!bo)h+=`<ellipse cx="22" cy="130" rx="16" ry="44" ${st(hc)}/><ellipse cx="138" cy="130" rx="16" ry="44" ${st(hc)}/>`;
+ h+=`<circle cx="80" cy="108" r="58" ${st(sk)}/><path d="M24 98Q26 48 80 46Q134 48 136 98Q108 66 80 66Q52 66 24 98Z" ${st(hc)}/>`+L('M52 92L74 100M108 92L86 100',5)+`<circle cx="62" cy="108" r="5" fill="${I}"/><circle cx="98" cy="108" r="5" fill="${I}"/><ellipse cx="80" cy="144" rx="14" ry="12" fill="#9B2D3A" stroke="${I}" stroke-width="3"/>`;
+ return `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">${h}</svg>`}
+function bgSvg(i){const c=['#FF6FA5','#FFB020','#22B07D','#4C9BE8','#8B6CF0','#E8274B'][i],sh=[`<circle cx="40" cy="40" r="12"/><path d="M170 60c-10-14-26 0-10 14l10 8 10-8c16-14 0-28-10-14z"/>`,`<path d="M40 30l6 14 15 1-11 10 4 15-14-8-14 8 4-15-11-10 15-1z"/><circle cx="180" cy="70" r="8"/>`,`<rect x="30" y="30" width="12" height="46" rx="3" transform="rotate(35 36 53)"/><rect x="170" y="150" width="12" height="46" rx="3" transform="rotate(-30 176 173)"/>`,`<path d="M40 40l20 36H20z"/><circle cx="180" cy="60" r="9"/>`,`<rect x="30" y="30" width="26" height="26" rx="5" transform="rotate(20 43 43)"/><path d="M180 50l10 10-10 10-10-10z"/>`,`<circle cx="40" cy="40" r="7"/><rect x="170" y="50" width="22" height="8" rx="3" transform="rotate(40 181 54)"/><path d="M100 150l8 14-16 0z"/>`][i];
+ return `<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><g fill="${c}" opacity=".16">${sh}<g transform="translate(128 128)">${sh}</g></g></svg>`}
+function sceneSvg(t){const o=t?`<rect width="400" height="700" fill="#FF9B85"/><path d="M0 560H400V700H0Z" fill="#C9553E"/><path d="M-10 120C80 90 140 130 230 90S340 80 420 110" fill="none" stroke="#6B3A2A" stroke-width="10"/>${[60,150,250,340,110,300].map((x,i)=>`<circle cx="${x}" cy="${100+i*14%60}" r="14" fill="#FFB7C5" stroke="#5A2A4A" stroke-width="3"/>`).join('')}${[70,330].map(x=>`<g><path d="M${x} 0V70" stroke="#5A2A4A" stroke-width="3"/><ellipse cx="${x}" cy="100" rx="30" ry="38" fill="#E8274B" stroke="#5A2A4A" stroke-width="4"/><path d="M${x} 138v26" stroke="#FFD23F" stroke-width="5"/></g>`).join('')}`:`<rect width="400" height="700" fill="#D9D3C7"/><path d="M0 0L130 200V520L0 700Z M400 0L270 200V520L400 700Z" fill="#C4BCAE"/><rect x="130" y="200" width="140" height="320" fill="#EFEAE0" stroke="#5A2A4A" stroke-width="3"/><path d="M0 700L130 520H270L400 700Z" fill="#B5AC9D"/>`;
+ return `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="700" viewBox="0 0 400 700">${o}</svg>`}
+function art(base){for(const x of ['webp','png'])if(ART.has(base+'.'+x))return 'art/'+base+'.'+x;return genArt(base)}
+function img(src,cls){return `<img class="${cls||'art'}" src="${src}" alt="" draggable="false">`}
+// mặt con: đủ 84 hình (6 tuổi × 2 kiểu × 7 biểu cảm); danh sách ảnh chưa tải được thì vẫn dùng đúng đường dẫn
+const NPCE={bac_ho:'🧓',bac_si:'🧑‍⚕️',shipper:'🛵',ong_ba:'👵',sep:'👔',me_bin:'👩',khung_long:'🦖',chao:'🍳',ca_vang:'🐟',co_giao:'👩‍🏫',ga_con:'🐥',ga_trong:'🐓',cho_con:'🐶',cho_lon:'🐕',cho_gia:'🐕‍🦺',bac_tet:'🧓',hacam:'😈',kenh:'🎬',dan:'🎸',hoi_ban:'👯',ban_than:'🧒',crush:'💌',bao_ve:'💂',ong:'👴',heo_dat:'🐷',mam_dau:'🌱',gian_dau:'🌿',quan_ly:'🧑‍💼',hang_xom:'🚪',ong_rau_trang:'🎅',ba:'👵'};
+function svgFace(stage,mood,style){const I='#5A2A4A',sk=style?'#E8B48A':'#FFD2B3',hc=style?'#3B2A20':'#5A2A4A',r=[60,62,64,66,68,70][stage]||64,cy=96,EY=cy-4,MY=cy+30,sh=['#FF9BB5','#FFD23F','#8EDDB0','#4C9BE8','#B58CF0','#E8274B'][stage]||'#4D96FF';
+ const L=(d,w=4,f='none')=>`<path d="${d}" fill="${f}" stroke="${I}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`,C=(x,y,rr,f)=>`<circle cx="${x}" cy="${y}" r="${rr}" fill="${f}" stroke="${I}" stroke-width="3"/>`;
+ let h=L(`M36 220Q36 ${cy+r-8} 100 ${cy+r-8}Q164 ${cy+r-8} 164 220Z`,4,sh);
+ if(stage==2)h+=L(`M70 ${cy+r-6}V220M130 ${cy+r-6}V220`,8);
+ if(style)h+=C(100-r-4,cy+6,15,hc)+C(100+r+4,cy+6,15,hc);
+ h+=`<path d="M${100-r*.86} ${cy-r*.4}L${100-r*.8} ${cy-r-16}L${100-r*.2} ${cy-r+2}Z" fill="${sk}" stroke="${I}" stroke-width="4" stroke-linejoin="round"/><path d="M${100+r*.86} ${cy-r*.4}L${100+r*.8} ${cy-r-16}L${100+r*.2} ${cy-r+2}Z" fill="${sk}" stroke="${I}" stroke-width="4" stroke-linejoin="round"/><path d="M${100-r*.7} ${cy-r*.62}L${100-r*.68} ${cy-r-4}L${100-r*.38} ${cy-r+4}Z" fill="#FFB3CF"/>`;
+ h+=`<circle cx="100" cy="${cy}" r="${r}" fill="${sk}" stroke="${I}" stroke-width="4"/>`;
+ h+=L(`M${100-r+2} ${cy-8}Q${100-r+6} ${cy-r-6} 100 ${cy-r-4}Q${100+r-6} ${cy-r-6} ${100+r-2} ${cy-8}Q100 ${cy-r+24} ${100-r+2} ${cy-8}Z`,4,hc);
+ h+=`<g transform="translate(${100+r*.55} ${cy-r+4}) rotate(14)"><path d="M0 0L-24 -15Q-30 0 -24 15Z" fill="#E8274B" stroke="${I}" stroke-width="3" stroke-linejoin="round"/><path d="M0 0L24 -15Q30 0 24 15Z" fill="#E8274B" stroke="${I}" stroke-width="3" stroke-linejoin="round"/><circle r="7" fill="#FF6FA5" stroke="${I}" stroke-width="3"/></g>`;
+ if(stage==0)h+=L(`M100 ${cy-r-2}q-8 -18 8 -22q12 4 -2 14`,4);
+ if(stage==1)h+=C(138,cy-r+10,10,'#FF6FA5')+C(122,cy-r+8,8,'#FF6FA5');
+ if(stage==4)h+=L(`M${100-r-2} ${cy}A${r+2} ${r+2} 0 0 1 ${100+r+2} ${cy}`,7)+`<rect x="${100-r-10}" y="${cy-8}" width="16" height="30" rx="7" fill="#FFD23F" stroke="${I}" stroke-width="3"/><rect x="${100+r-6}" y="${cy-8}" width="16" height="30" rx="7" fill="#FFD23F" stroke="${I}" stroke-width="3"/>`;
+ if(stage==5)h+=L(`M44 ${cy-r+8}L100 ${cy-r-20}L156 ${cy-r+8}L100 ${cy-r+34}Z`,4,I)+L(`M148 ${cy-r+10}V${cy-r+40}`,4);
+ h+=`<ellipse cx="100" cy="${cy+13}" rx="6.5" ry="4.5" fill="#FFD23F" stroke="${I}" stroke-width="2.5"/>`;
+ h+=L(`M${100-r-6} ${cy+10}H${100-r+14}M${100-r-4} ${cy+22}L${100-r+14} ${cy+20}M${100+r+6} ${cy+10}H${100+r-14}M${100+r+4} ${cy+22}L${100+r-14} ${cy+20}`,3);
+ h+=`<ellipse cx="64" cy="${cy+16}" rx="10" ry="6" fill="#FF8FA3" opacity=".6"/><ellipse cx="136" cy="${cy+16}" rx="10" ry="6" fill="#FF8FA3" opacity=".6"/>`;
+ const dot=(x,y)=>`<circle cx="${x}" cy="${y}" r="5.5" fill="${I}"/>`,drop=(x,y)=>L(`M${x} ${y}q-6 12 0 18q8 -6 0 -18Z`,2.5,'#6EC6FF');
+ const M={neutral:dot(78,EY)+dot(122,EY)+L(`M88 ${MY}H112`),
+  happy:L(`M68 ${EY+4}Q78 ${EY-10} 88 ${EY+4}`)+L(`M112 ${EY+4}Q122 ${EY-10} 132 ${EY+4}`)+L(`M82 ${MY-4}Q100 ${MY+24} 118 ${MY-4}Z`,3,'#9B2D3A'),
+  sulky:L(`M66 ${EY-14}L90 ${EY-6}M134 ${EY-14}L110 ${EY-6}`)+dot(78,EY)+dot(122,EY)+L(`M86 ${MY+6}Q100 ${MY-8} 114 ${MY+6}`),
+  cry:L(`M68 ${EY}Q78 ${EY+8} 88 ${EY}`)+L(`M112 ${EY}Q122 ${EY+8} 132 ${EY}`)+drop(74,EY+8)+drop(126,EY+8)+`<ellipse cx="100" cy="${MY+4}" rx="12" ry="10" fill="#9B2D3A" stroke="${I}" stroke-width="3"/>`,
+  cringe:L(`M68 ${EY-7}L88 ${EY}L68 ${EY+7}`)+L(`M132 ${EY-7}L112 ${EY}L132 ${EY+7}`)+L(`M80 ${MY}L90 ${MY-6}L100 ${MY+5}L110 ${MY-6}L120 ${MY}`,3.5)+drop(152,cy-34),
+  shock:L(`M66 ${EY-18}Q78 ${EY-26} 90 ${EY-18}M110 ${EY-18}Q122 ${EY-26} 134 ${EY-18}`,3)+C(78,EY,11,'#fff')+dot(78,EY)+C(122,EY,11,'#fff')+dot(122,EY)+`<ellipse cx="100" cy="${MY+4}" rx="9" ry="13" fill="#9B2D3A" stroke="${I}" stroke-width="3"/>`,
+  sly:L(`M68 ${EY}H88M112 ${EY}H132`,5)+dot(80,EY+5)+dot(124,EY+5)+L(`M112 ${EY-14}L134 ${EY-20}`)+L(`M84 ${MY}Q104 ${MY+14} 118 ${MY-8}`)};
+ return `<svg class="svgface" viewBox="0 0 200 220" aria-hidden="true">${h}${M[mood]||M.neutral}</svg>`}
+function faceArt(stage,mood,style){const f=art(`child_${STAGE_KEYS[stage]}_${'ab'[style]}_${mood}`);return f?img(f):svgFace(stage,mood,style)}
+function npcArt(c){let f=c.npc&&art('npc_'+c.npc);
+ if(!f){const n=[].concat(c.need||[]).find(x=>String(x).startsWith('cung:'));if(n)f=art('sign_'+n.slice(5))}
+ return f?img(f,'npc'):(c.npc&&NPCE[c.npc]?`<span class="npc emo">${NPCE[c.npc]}</span>`:'')}
+// đèn lồng điểm đấu khẩu và huy hiệu mục tiêu: dùng hình nếu có, không thì emoji
+function lantern(on){const f=art(on?'lantern_on':'lantern_off');return f?img(f,'lant'+(on?' won':'')):`<i class="${on?'won':''}">🏮</i>`}
+function achIcon(id,got){const f=got?(art('ach_'+id)||art('ach_got')):art('ach_lock');return f?img(f,'achi'):(got?'🏅':'🔒')}
+function stageTile(si){const f=art('bg_stage_'+si),b=document.body.style;b.backgroundImage=f?`url("${f}")`:'none';b.backgroundSize=b.backgroundPosition=b.backgroundRepeat=''}
+// nền cảnh: ảnh rộng phủ kín màn, phủ thêm một lớp màu (tint) để lùi ra sau chữ; chưa có ảnh thì dùng họa tiết giai đoạn si
+function sceneBg(base,tint,si){const f=art(base);if(!f)return stageTile(si);const b=document.body.style;
+ b.backgroundImage=`linear-gradient(${tint},${tint}),url("${f}")`;b.backgroundSize='100% 100%,auto 100%';b.backgroundPosition='center';b.backgroundRepeat='no-repeat'}
+function hexA(h,a){const n=parseInt(h.slice(1),16);return `rgba(${n>>16},${n>>8&255},${n&255},${a})`}
+
+// ---------- âm thanh (tự tổng hợp, CC0 — tools/make_web_sounds.py) ----------
+// Chỉ tạo AudioContext sau lần chạm đầu tiên (trình duyệt chặn tự phát). Tải file dần, file nào chưa có thì im lặng.
+const SND={ctx:null,master:null,buf:{},on:true,music:true,cur:null,curName:'',want:null};
+try{const s=JSON.parse(localStorage.getItem('ld-sound')||'{}');if(s.on===false)SND.on=false;if(s.music===false)SND.music=false}catch(e){}
+const SFX_NAMES=['tap','swipe','good','bad','shock','sign_up','sign_down','stage','duel_start','tick','duel_win','duel_lose','ach','end','end_early'];
+function sndSave(){try{localStorage.setItem('ld-sound',JSON.stringify({on:SND.on,music:SND.music}))}catch(e){}}
+function audioInit(){
+ if(!SND.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+  SND.ctx=new C();SND.master=SND.ctx.createGain();SND.master.gain.value=SND.on?1:0;SND.master.connect(SND.ctx.destination);
+  ['music_calm','music_tet',...SFX_NAMES].forEach(loadSnd)}
+ if(SND.ctx.state==='suspended')SND.ctx.resume();
+}
+async function loadSnd(n){try{const r=await fetch('sfx/'+n+'.wav');if(!r.ok)return;SND.buf[n]=await SND.ctx.decodeAudioData(await r.arrayBuffer());if(SND.want===n&&SND.curName!==n)music(n)}catch(e){}}
+
+// ---- âm thanh kiểu Kitty: chuông nhỏ + hộp nhạc, tự tổng hợp bằng WebAudio (dùng khi chưa có file sfx/*.wav) ----
+const _mf=m=>440*Math.pow(2,(m-69)/12);
+function tone(t,f,d,vol,type,glide){const c=SND.ctx,o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);
+ if(glide)o.frequency.exponentialRampToValueAtTime(glide,t+d);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(vol,.0002),t+.012);
+ g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(SND.master);o.start(t);o.stop(t+d+.05)}
+function bell(t,m,d,v,dest){const c=SND.ctx,f=_mf(m);
+ [[1,1],[2,.32],[3.01,.1]].forEach(([k,a])=>{const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=f*k;
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(v*a,.0002),t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+d/k**.5);
+  o.connect(g);g.connect(dest||SND.master);o.start(t);o.stop(t+d+.05)})}
+const run=(t,ms,step,d,v)=>ms.forEach((m,i)=>bell(t+i*step,m,d,v));
+const SYN={
+ tap:(t,v)=>tone(t,1000,.08,.2*v,'sine',1600),
+ swipe:(t,v)=>{tone(t,500,.14,.16*v,'triangle',1000);tone(t+.05,800,.12,.1*v,'sine',1400)},
+ good:(t,v)=>run(t,[76,80,83,88],.07,.5,.22*v),
+ bad:(t,v)=>{tone(t,420,.35,.22*v,'sine',260);tone(t+.18,330,.35,.18*v,'sine',200)},
+ shock:(t,v)=>{tone(t,700,.08,.18*v,'triangle',1500);tone(t+.08,1500,.12,.18*v,'triangle',600)},
+ sign_up:(t,v)=>run(t,[79,83,86,91],.06,.5,.2*v),
+ sign_down:(t,v)=>run(t,[86,79,74],.1,.5,.18*v),
+ stage:(t,v)=>run(t,[72,76,79,84,88],.1,.8,.24*v),
+ duel_start:(t,v)=>run(t,[76,81],.12,.5,.22*v),
+ tick:(t,v)=>tone(t,1800,.03,.05*v,'square'),
+ duel_win:(t,v)=>run(t,[72,76,79,84,88,91],.07,.6,.22*v),
+ duel_lose:(t,v)=>{[67,64,60].forEach((m,i)=>tone(t+i*.16,_mf(m),.4,.2*v,'triangle'))},
+ ach:(t,v)=>run(t,[88,91,95,100],.05,.7,.18*v),
+ end:(t,v)=>run(t,[72,76,79,76,72,67,72],.2,.9,.22*v),
+ end_early:(t,v)=>run(t,[69,65,62],.22,.8,.2*v)};
+function synthSfx(n,vol,delay){const f=SYN[n];if(f)try{f(SND.ctx.currentTime+(delay||0),vol)}catch(e){}}
+// nhạc nền hộp nhạc: lặp vô hạn, không cần file
+const MB={music_calm:{bpm:.42,m:[84,0,79,0,76,0,79,0,81,0,77,0,74,0,77,0,79,0,76,0,72,0,76,0,74,0,71,0,72,0,0,0],b:[48,0,0,0,52,0,0,0,53,0,0,0,50,0,0,0]},
+ music_tet:{bpm:.27,m:[84,88,91,88,84,88,91,0,86,89,93,89,86,89,93,0,88,91,95,91,88,91,84,0,86,91,89,86,84,0,0,0],b:[48,0,52,0,53,0,50,0]}};
+function synthMusic(n){const P=MB[n];if(!P)return null;const c=SND.ctx,g=c.createGain();g.gain.value=0;g.gain.setTargetAtTime(.5,c.currentTime,.9);g.connect(SND.master);
+ let i=0,next=c.currentTime+.1;
+ const id=setInterval(()=>{while(next<c.currentTime+.4){const m=P.m[i%P.m.length],b=P.b[i%P.b.length];
+  if(m)bell(next,m,1.1,.05,g);if(b&&i%2===0)bell(next,b,1.4,.06,g);next+=P.bpm/2;i++}},120);
+ return{s:{stop(){clearInterval(id)}},g}}
+
+// hiệu ứng nhỏ: trái tim bay khi chọn đúng, nơ bay khi lên giai đoạn / đạt mục tiêu
+function kittyFx(n,delay){
+ const em={good:'💗',sign_up:'💖',duel_win:'🎀',stage:'🎀',ach:'✨',end:'🎀'}[n];if(!em)return;
+ const k=n==='stage'||n==='end'?9:n==='duel_win'?7:5;
+ setTimeout(()=>{const host=document.getElementById('app');if(!host)return;
+  for(let i=0;i<k;i++){const e=document.createElement('span');e.className='kfx';e.textContent=em;
+   e.style.left=(15+Math.random()*70)+'%';e.style.setProperty('--dx',(Math.random()*80-40)+'px');e.style.setProperty('--r',(Math.random()*50-25)+'deg');
+   e.style.animationDelay=(i*70)+'ms';e.style.fontSize=(18+Math.random()*14)+'px';host.appendChild(e);setTimeout(()=>e.remove(),1800)}},(delay||0)*1000)}
+function sfx(n,vol=1,delay=0){kittyFx(n,delay);if(!SND.ctx||!SND.on)return;const b=SND.buf[n];if(!b){synthSfx(n,vol,delay);return}
+ const s=SND.ctx.createBufferSource(),g=SND.ctx.createGain();s.buffer=b;g.gain.value=vol;s.connect(g);g.connect(SND.master);s.start(SND.ctx.currentTime+delay)}
+// nhạc nền: 'music_calm' khi chơi, 'music_tet' khi đấu khẩu, null để tắt dần
+function music(n){SND.want=n;if(!SND.ctx)return;if(SND.curName===n&&SND.cur)return;
+ if(SND.cur){const old=SND.cur;old.g.gain.setTargetAtTime(0,SND.ctx.currentTime,.35);setTimeout(()=>{try{old.s.stop()}catch(e){}},1600);SND.cur=null;SND.curName=''}
+ if(!n||!SND.music)return;
+ if(!SND.buf[n]){const y=synthMusic(n);if(y){SND.cur=y;SND.curName=n}return}
+ const s=SND.ctx.createBufferSource(),g=SND.ctx.createGain();s.buffer=SND.buf[n];s.loop=true;g.gain.value=0;g.gain.setTargetAtTime(.2,SND.ctx.currentTime,.9);
+ s.connect(g);g.connect(SND.master);s.start();SND.cur={s,g};SND.curName=n}
+function setSound(on){SND.on=on;sndSave();if(SND.master)SND.master.gain.setTargetAtTime(on?1:0,SND.ctx.currentTime,.05);document.querySelectorAll('.sndbtn').forEach(b=>{b.innerHTML=spk(on);b.setAttribute('aria-pressed',String(!on))})}
+function setMusic(on){SND.music=on;sndSave();const w=SND.want;if(on){SND.curName='';music(w)}else{music(null);SND.want=w}}
+function spk(on){return `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>${on?'<path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>':'<path d="M16.5 9.5l5 5M21.5 9.5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'}</svg>`}
+document.addEventListener('pointerdown',audioInit,true);
+document.addEventListener('keydown',audioInit,true);
+document.addEventListener('visibilitychange',()=>{if(!SND.ctx)return;document.hidden?SND.ctx.suspend():SND.ctx.resume()});
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.classList.contains('sndbtn')){setSound(!SND.on);if(SND.on)sfx('tap',.6);return}
+ if(!b.closest('.opts')&&!b.closest('.dopts'))sfx('tap',.55)});
+const MOOD_SND={happy:'good',sly:'good',sulky:'bad',cry:'bad',cringe:'bad',shock:'shock'};
+
+// ---------- state ----------
+const app=document.getElementById('app');
+const E=LD.engine, STAGES=LD.STAGES;
+const CLOUD='<svg class="cld" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 18.5h10.2a4.3 4.3 0 0 0 .5-8.57A6.2 6.2 0 0 0 5.9 9.2 4.7 4.7 0 0 0 7 18.5z" fill="#fff" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
+const MNAMES=['Con vui','Pin của bạn','Thân nhau'], MSHORT=['Con vui','Pin','Thân'];
+// Icon 3 thanh: mặt con cười (con vui), cục pin (sức của bạn), trái tim (hai người thân nhau). Cùng nét sticker với hình nhân vật.
+const MICON=[
+ `<svg viewBox="0 0 32 32" class="mi" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="#FFD23F" stroke="#5A2A4A" stroke-width="2.5"/><path d="M14.5 6.2q1.5-4 5-1.6" fill="none" stroke="#5A2A4A" stroke-width="2.2" stroke-linecap="round"/><path d="M10 16.5q2-2.6 4 0M18 16.5q2-2.6 4 0" fill="none" stroke="#5A2A4A" stroke-width="2.2" stroke-linecap="round"/><path d="M11 20.5q5 6.5 10 0Z" fill="#9B2D3A" stroke="#5A2A4A" stroke-width="2" stroke-linejoin="round"/><ellipse cx="9" cy="20" rx="2" ry="1.3" fill="#FF8FA3" opacity=".7"/><ellipse cx="23" cy="20" rx="2" ry="1.3" fill="#FF8FA3" opacity=".7"/></svg>`,
+ `<svg viewBox="0 0 32 32" class="mi" aria-hidden="true"><rect x="3.5" y="9" width="22" height="14" rx="3.5" fill="#FFFFFF" stroke="#5A2A4A" stroke-width="2.5"/><rect x="25.5" y="13" width="4" height="6" rx="1.3" fill="#5A2A4A"/><rect x="6.5" y="12" width="12" height="8" rx="1.6" fill="#22B07D"/><path d="M16.5 10.5l-4.5 6h3.6l-2 5 5.4-6.6h-3.6z" fill="#FFD23F" stroke="#5A2A4A" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+ `<svg viewBox="0 0 32 32" class="mi" aria-hidden="true"><path d="M16 27.5C6.5 21 3.5 16 3.5 11.5a6.3 6.3 0 0 1 12.5-2.4 6.3 6.3 0 0 1 12.5 2.4c0 4.5-3 9.5-12.5 16Z" fill="#FF6FA5" stroke="#5A2A4A" stroke-width="2.5" stroke-linejoin="round"/><path d="M8.6 10.6a3 3 0 0 1 3-2.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".85"/></svg>`
+];
+
+const WARN={vui:['Con buồn tới mức sắp bỏ đi rồi','Con sắp được chiều hư'],pin:['Bạn sắp hết pin','Bạn rảnh quá mức'],than:['Con đang xa dần','Hai người hơi dính nhau quá']};
+const TET_BG='#FF9EB8',TET_TINT='rgba(255,158,184,.5)';
+let S=null, busy=false, onKey=null, pick={role:'mẹ',name:rand(LD.NAMES),style:Math.random()<.5?0:1,gen:{n:1}};
+let ROOM=null;   // phòng nuôi chung đang mở trên máy này (xem phần "nuôi chung qua link")
+function newSign(id){pick.sign=id||E.randomSign();pick.bday=E.birthday(pick.sign)}
+newSign();
+// ký hiệu cung luôn hiện dạng nét chữ (\uFE0E) bằng font ký hiệu, tô màu theo nguyên tố được
+const EL_COLOR={fire:'#E8274B',earth:'#2FB98A',air:'#A66CF0',water:'#4C9BE8'};
+function zg(g){const f=art('sign_'+g.id);return f?`<img class="zgi" src="${f}" alt="" draggable="false">`:`<span class="zg">${g.sym}\uFE0E</span>`}
+function signTxt(id){const g=E.signById(id);return g?`${zg(g)} ${g.name}`:''}
+function rand(a){return a[Math.floor(Math.random()*a.length)]}
+function role(){if(S&&S.duo&&ROOM&&S.duo.mode!=='con')return S.duo.seats[ROOM.seat].role;return S?S.role:pick.role}
+const cap=s=>s.replace(/^./,c=>c.toUpperCase());
+function fill(t){const r=role(),q=r==='bố'?'mẹ':'bố';return t.replace(/\{ten\}/g,S?S.name:pick.name).replace(/\{nt\}/g,S&&S.rival?S.rival:'Bông').replace(/\{p\}/g,r).replace(/\{P\}/g,cap(r)).replace(/\{q\}/g,q).replace(/\{Q\}/g,cap(q))}
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function kittyBg(c){const m=/^#?([0-9a-f]{6})$/i.exec(String(c||''));if(!m)return '#FFCFE2';const n=parseInt(m[1],16),k=[255,207,226],o=[n>>16,n>>8&255,n&255];
+ return '#'+o.map((v,i)=>Math.round(v*.28+k[i]*.72).toString(16).padStart(2,'0')).join('')}
+function setBg(c){c=kittyBg(c);document.body.style.backgroundColor=c;document.documentElement.style.setProperty('--stage',c)}
+function ageTxt(a){return a===0?'Sơ sinh':a+' tuổi'}
+function deltaTxt(d){return d.map((v,k)=>v?`<span class="dt">${MICON[k]}${v>0?'+':''}${v}</span>`:'').filter(Boolean).join(' ')||'không đổi'}
+// năng khiếu (LD.SKILLS) và nghề lúc 18 (LD.JOBS)
+function skIco(id){const s=E.skillById(id);return s?s.ico:''}
+function kBadge(o){return E.kList(o.k).map(id=>`<i class="kb" title="Nuôi năng khiếu ${E.skillById(id).name.toLowerCase()}">${skIco(id)}</i>`).join('')}
+function kHint(o){const k=E.kList(o.k);return k.length?' '+k.map(skIco).join(''):''}
+function skillRow(st,lbl){if(!E.topSkill(st))return '';const top=E.topSkill(st).id;
+ return `<p class="sklbl">${lbl}</p><div class="skrow">${LD.SKILLS.map(s=>{const n=st.k[s.id]||0;return `<span class="sk${n?' on':''}${s.id===top?' top':''}" title="${s.name}">${s.ico} ${n}</span>`}).join('')}</div>`}
+function jobOf(id){return typeof id==='string'&&own(LD.JOBS,id)?LD.JOBS[id]:null}
+function jobTxt(id){const j=jobOf(id);return j?`${j.k?skIco(j.k)+' ':''}${esc(j.name)}`:''}
+const G_TXT={nghiem:'kỷ luật hoặc lo xa',vui:'hài hước hoặc chill',trend:'bắt trend hoặc chiều con'};
+function jobHint(j){return j.k?`${skIco(j.k)} ${E.skillById(j.k).name} + nuôi kiểu ${G_TXT[j.g]}`:'Không nuôi năng khiếu nào đủ mạnh'}
+// mẹo một lần trên máy này (chỉ là tiện ích, mất cũng không sao)
+function tipSeen(k){try{return localStorage.getItem('ld-tip-'+k)==='1'}catch(e){return true}}
+function tipDone(k){try{localStorage.setItem('ld-tip-'+k,'1')}catch(e){}}
+function newName(not){let n;do n=rand(LD.NAMES);while(n===not||n===pick.name);return n}
+// tên con đặt gần nhất: nhớ trên máy này, mở lại game hay nuôi lại vẫn giữ tên đã đặt (chỉ đời sau mới gợi ý tên mới)
+function setName(n){pick.name=n;try{localStorage.setItem('ld-name',n)}catch(e){}}
+// tên con người chơi tự đặt (hiện trên bảng xếp hạng công khai): 1–14 ký tự, chữ có dấu, số, khoảng trắng, - ' .
+// Chặn vài từ tục phổ biến (so từng chữ, giữ dấu, để "Long", "Lợn" vẫn đặt được). worker/index.js kiểm lại y hệt.
+const KID_MAX=14;
+const KID_BAD=new Set(['lồn','cặc','buồi','địt','đụ','đéo','đĩ','dái','đù','đm','dm','đmm','dmm','đcm','dcm','đmcs','dmcs','vcl','vkl','vl','clm','cmm','đume','dume','djt','đjt','loz','dit','cac','lon','deo','duma']);
+function cleanKidName(raw){return String(raw||'').normalize('NFC').replace(/\s+/g,' ').trim().slice(0,KID_MAX)}
+function kidNameErr(s){
+ if(!s)return 'Đặt tên cho con đã nha.';
+ if(!/^[\p{L}\p{M}\p{N}][\p{L}\p{M}\p{N} '.-]*$/u.test(s))return 'Tên chỉ gồm chữ, số và khoảng trắng thôi nha.';
+ if(s.toLowerCase().split(/[ '.-]+/).some(t=>KID_BAD.has(t)))return 'Tên này hơi gắt, chọn tên khác nha.';
+ return ''}
+
+// ---------- lưu tiến độ: luôn lưu trên máy; có tài khoản thì đồng bộ lên máy chủ (worker/index.js) ----------
+// SAVE = { t, endings[], cards[], ach[], famDone[], signsDone[], jobs[], gen (đời đang chơi), run (ván đang dở), tree (gia phả), duo (kết quả nuôi chung) }
+const CARD_IDS=new Set(LD.CARDS.map(E.cardId)),CARD_BY_ID=new Map(LD.CARDS.map(c=>[E.cardId(c),c]));
+const LISTS=['endings','cards','ach','famDone','signsDone','jobs'];
+function normSave(s){s=s&&typeof s==='object'&&!Array.isArray(s)?s:{};for(const k of LISTS)if(!Array.isArray(s[k]))s[k]=[];s.t=+s.t||0;s.gen=cleanGen(s.gen);s.run=s.run&&typeof s.run==='object'?s.run:null;
+ s.best=cleanBest(s.best);s.n18=Math.max(0,Math.floor(+s.n18)||0);s.runs=Math.max(0,Math.floor(+s.runs)||0);s.tut=s.tut?1:0;s.tree=cleanTree(s.tree);s.duo=cleanDuo(s.duo);return s}
+// kết quả nuôi chung (bảng xếp hạng, giống worker/index.js): ca = số ván chia ca tới 18, cung = độ hợp cao nhất (%) và cn = số ván cùng vuốt tới 18,
+// ck / cp = số ván thắng ở kiểu một người làm con (khi làm con / khi làm bố mẹ)
+const DUO_N=['ca','cn','ck','cp'];
+function cleanDuo(d){d=d&&typeof d==='object'&&!Array.isArray(d)?d:{};const o={};for(const k of DUO_N)o[k]=Math.max(0,Math.floor(+d[k])||0);o.cung=o.cn?Math.max(0,Math.min(100,Math.floor(+d.cung)||0)):0;return o}
+const maxDuo=(a,b)=>Object.fromEntries([...DUO_N,'cung'].map(k=>[k,Math.max(a[k],b[k])]));
+// gia phả của dòng họ đang chơi: mỗi đời một dòng { n, name, sign, fam, role, end, job, t } (đứa con nuôi tới 18 gần nhất của đời đó)
+function cleanTree(t){if(!Array.isArray(t))return[];const seen=new Set();
+ return t.filter(e=>e&&typeof e==='object'&&typeof e.name==='string').map(e=>({n:Math.max(1,Math.min(999,Math.floor(+e.n)||1)),name:e.name.slice(0,20),
+  sign:E.signById(e.sign)?e.sign:null,fam:LD.FAMS.some(f=>f.id===e.fam)?e.fam:null,role:e.role==='bố'?'bố':'mẹ',end:E.ALL_ENDS.includes(e.end)?e.end:null,job:jobOf(e.job)?e.job:null,t:+e.t||0}))
+  .filter(e=>!seen.has(e.n)&&seen.add(e.n)).sort((a,b)=>a.n-b.n).slice(-60)}
+// đứa con nuôi được xa nhất: { name, age, sign, end, gen, job, t } (hiện trên bảng xếp hạng)
+function cleanBest(b){if(!b||typeof b!=='object'||typeof b.name!=='string')return null;const age=Math.floor(+b.age);if(!(age>=0&&age<=18))return null;
+ return{name:b.name.slice(0,20),age,sign:E.signById(b.sign)?b.sign:null,end:typeof b.end==='string'?b.end:null,gen:Math.max(1,Math.floor(+b.gen)||1),job:jobOf(b.job)?b.job:null,t:+b.t||0}}
+const betterBest=(a,b)=>!a?b:!b?a:(b.age>a.age||(b.age===a.age&&b.t>=a.t))?b:a;
+const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
+function cleanGen(g){const n=g&&Math.floor(+g.n);if(!(n>=1))return null;
+ return{n:Math.min(n,999),parent:typeof g.parent==='string'?g.parent.slice(0,20):'',parentSign:E.signById(g.parentSign)?g.parentSign:undefined,trait:own(LD.TRAITS,g.trait)?g.trait:undefined,
+  traits:Array.isArray(g.traits)?g.traits.filter(id=>typeof id==='string'&&own(LD.TRAITS,id)).slice(0,E.HEIR_MAX):undefined,job:jobOf(g.job)?g.job:undefined}}
+// gộp hai bản lưu: danh sách cộng dồn (không bao giờ mất), đời, gia phả và ván đang dở lấy theo bản mới hơn
+// (gia phả: bản mới hơn chưa có mà vẫn đang ở đời sau, tức là lưu từ bản game cũ, thì giữ gia phả của bản kia)
+function mergeSave(a,b){const n=b.t>a.t?b:a,o={t:Math.max(a.t,b.t),gen:n.gen,run:n.run,tree:n.tree.length||!(n.gen&&n.gen.n>1)?n.tree:(n===a?b:a).tree,best:betterBest(a.best,b.best),n18:Math.max(a.n18,b.n18),runs:Math.max(a.runs,b.runs),tut:a.tut||b.tut?1:0,duo:maxDuo(a.duo,b.duo)};
+ for(const k of LISTS)o[k]=[...new Set([...a[k],...b[k]])];return o}
+function loadSave(){try{return normSave(JSON.parse(localStorage.getItem('ld-save')||'{}'))}catch(e){return normSave({})}}
+let SAVE=loadSave();
+if(SAVE.gen)pick.gen=SAVE.gen;
+try{const n=cleanKidName(localStorage.getItem('ld-name'));if(n&&!kidNameErr(n)&&n!==(pick.gen.parent||''))pick.name=n}catch(e){}
+function persistLocal(){try{localStorage.setItem('ld-save',JSON.stringify(SAVE))}catch(e){}}
+function persist(){SAVE.t=Date.now();persistLocal();cloudPush()}
+function setGen(g){pick.gen=g;SAVE.gen=g.n>1?g:null;persist()}
+function counts(){return{ends:SAVE.endings.filter(id=>E.ALL_ENDS.includes(id)).length,jobs:SAVE.jobs.filter(id=>E.ALL_JOBS.includes(id)).length,cards:SAVE.cards.filter(id=>CARD_IDS.has(id)).length,ach:SAVE.ach.length}}
+
+// ván đang dở: lưu sau mỗi lựa chọn, đóng trang mở lại vẫn chơi tiếp (thẻ lưu bằng mã E.cardId)
+function packRun(s){return{fam:s.fam.id,role:s.role,name:s.name,style:s.style,gen:s.gen,sign:s.sign,bday:s.bday,m:s.m,tags:s.tags,flags:s.flags,offered:s.offered,
+ used:[...s.used].map(E.cardId),log:s.log,i:s.i,stage:s.stage,lastD:s.lastD,
+ deck:s.deck.map(x=>x.duel?{duel:x.duel===2?2:1,part:x.part||0,age:x.age}:x.vote?{vote:1,v:x.v,age:x.age}:{id:E.cardId(x.c),age:x.age,x:x.x?1:0,from:x.from||0,av:x.av?1:0}),
+ whoStage:s.whoStage,minM:s.minM,moods:[...s.moods],npcAt:s.npcAt,whos:[...s.whos],seen:[...s.seen],lastAge:s.lastAge,duelStage:s.duelStage,duel:s.duel,duelState:s.duelState||null,
+ k:s.k,kt:s.kt,kseq:s.kseq,cmp:s.cmp,rival:s.rival,lixi:s.lixi,lixiRes:s.lixiRes,bac:s.bac||null,
+ famStart:s.famStart,fsBy:s.fsBy,ov:s.ov,perm:s.perm,evs:s.evs,lucky:s.lucky,famN:s.famN||0,cryN:s.cryN||0,duo:s.duo||null}}
+const arr=a=>Array.isArray(a)?a:[],obj=o=>o&&typeof o==='object'&&!Array.isArray(o)?o:{};
+const num3=a=>Array.isArray(a)&&a.length===3&&a.every(Number.isFinite);
+const kObj=o=>{const x={};if(o&&typeof o==='object')for(const s of LD.SKILLS){const v=Math.floor(+o[s.id]);if(v>0)x[s.id]=Math.min(v,999)}return x};
+const nat=v=>Math.max(0,Math.floor(+v)||0);
+const famCount=o=>{const x={};if(o&&typeof o==='object')for(const f of LD.FAMS){const v=nat(o[f.id]);if(v)x[f.id]=Math.min(v,99)}return x};
+const okOv=o=>o&&E.eventById(o.id)&&typeof o.pool==='string'&&Number.isInteger(o.until)?{id:o.id,pool:o.pool,until:o.until,solo:o.solo?1:0}:null;
+const okStep=x=>x&&typeof x.q==='string'&&Array.isArray(x.opts)&&x.opts.length===2&&x.opts.every(o=>o&&typeof o.l==='string');
+const okDuel=d=>d&&Array.isArray(d.rounds)&&d.rounds.length&&d.rounds.every(x=>x&&Array.isArray(x.steps)&&x.steps.length&&x.steps.every(okStep))&&(d.stop===undefined||Number.isInteger(d.stop))
+ &&Number.isInteger(d.r)&&d.r>=0&&d.r<=d.rounds.length&&Number.isInteger(d.wins)&&d.wins>=0&&d.wins<=d.r
+ &&(d.st===undefined||(Number.isInteger(d.st)&&d.st>=0&&(d.r>=d.rounds.length||d.st<d.rounds[d.r].steps.length)));
+function unpackRun(r){try{
+ const fam=E.famById(r.fam),card=id=>{const c=CARD_BY_ID.get(id);if(!c)throw new Error('thẻ đã đổi');return c};
+ // ván nuôi chung vừa tạo chưa vào giai đoạn nào (stage -1)
+ if(!fam||!E.signById(r.sign)||!(STAGES[r.stage]||(r.duo&&r.stage===-1))||!num3(r.m)||!num3(r.minM)||!Array.isArray(r.deck)||!Number.isInteger(r.i)||r.i<0||r.i>r.deck.length)return null;
+ const base=E.newRun(fam,r.role==='bố'?'bố':'mẹ',String(r.name).slice(0,20),r.style?1:0,cleanGen(r.gen)||{n:1},r.sign),hasK=r.k&&typeof r.k==='object';
+ return Object.assign(base,{k:hasK?kObj(r.k):base.k,kt:hasK?kObj(r.kt):base.kt,kseq:hasK?nat(r.kseq):base.kseq,cmp:nat(r.cmp),rival:typeof r.rival==='string'&&r.rival?r.rival.slice(0,20):base.rival,
+  lixi:r.lixi&&Number.isInteger(r.lixi.n)&&r.lixi.n>=2&&r.lixi.n<=6?{n:r.lixi.n}:null,lixiRes:['chuan','vo','cat'].includes(r.lixiRes)?r.lixiRes:null,bac:r.bac==='gai'||r.bac==='trai'?r.bac:null,bday:/^\d\d\/\d\d$/.test(r.bday)?r.bday:'',m:r.m,tags:obj(r.tags),flags:obj(r.flags),offered:obj(r.offered),
+  used:new Set(arr(r.used).map(card)),log:arr(r.log).filter(x=>x&&typeof x.r==='string'),i:r.i,stage:r.stage,lastD:num3(r.lastD)?r.lastD:[0,0,0],
+  deck:r.deck.map(x=>x.duel?{duel:x.duel===2?2:x.part===1?1:true,part:x.part===1||x.part===2?x.part:0,age:x.age}:x.vote?{vote:1,v:nat(x.v),age:x.age}
+   :Object.assign({c:card(x.id),age:x.age},x.x?{x:1}:{},x.from==='a'||x.from==='b'?{from:x.from}:{},x.av?{av:1}:{})),
+  whoStage:obj(r.whoStage),minM:r.minM,moods:new Set(arr(r.moods)),npcAt:obj(r.npcAt),whos:new Set(arr(r.whos)),seen:new Set(arr(r.seen)),lastAge:+r.lastAge||0,duelStage:r.duelStage,duel:r.duel,duelState:okDuel(r.duelState)?r.duelState:null,
+  famStart:E.famById(r.famStart)?r.famStart:fam.id,fsBy:famCount(r.fsBy),ov:okOv(r.ov),perm:arr(r.perm).filter(p=>typeof p==='string'&&(E.famById(p)||p.startsWith('ev:'))),
+  evs:arr(r.evs).filter(id=>E.eventById(id)),lucky:r.lucky?1:0,famN:nat(r.famN),cryN:nat(r.cryN),duo:r.duo&&typeof r.duo==='object'&&r.duo.seats?r.duo:null});
+}catch(e){return null}}
+function saveRun(now){if(ROOM)return roomSave(now);SAVE.run=S?packRun(S):null;persist()}
+function resume(){
+ const s=unpackRun(SAVE.run);
+ if(!s){SAVE.run=null;persist();return intro()}
+ S=s;badgeQ={like:[],dislike:[]};voiceQ={};music('music_calm');
+ const early=E.earlyEnd(S);
+ if(early)return end(early,S.lastAge);
+ render();
+}
+
+// ---------- tài khoản (tùy chọn): tên + mật khẩu, không email ----------
+const ACC={api:false,rooms:false,token:'',name:'',timer:0,pending:false,sync:'',hidden:false};
+try{const a=JSON.parse(localStorage.getItem('ld-auth')||'null');if(a&&a.token){ACC.token=a.token;ACC.name=a.name||''}}catch(e){}
+const NAME_RE=/^[a-z0-9_.]{3,20}$/;
+const ACC_ERR={bad_name:'Tên cần 3–20 ký tự: chữ không dấu, số, dấu _ hoặc dấu chấm.',bad_pass:'Mật khẩu cần từ 6 tới 72 ký tự.',
+ name_taken:'Tên này có người lấy rồi. Thử tên khác nha.',wrong_login:'Sai tên hoặc mật khẩu.',locked:'Sai nhiều lần quá. Đợi 15 phút rồi thử lại nha.',
+ rate_limited:'Bấm nhanh quá. Đợi một phút rồi thử lại nha.',net:'Mất mạng rồi. Kiểm tra mạng rồi thử lại nha.',server:'Máy chủ đang dỗi. Thử lại sau nha.'};
+async function api(path,method,body,keepalive){
+ const h={};if(body)h['content-type']='application/json';if(ACC.token)h.authorization='Bearer '+ACC.token;
+ let r;try{r=await fetch('/api/'+path,{method:method||'GET',headers:h,body:body?JSON.stringify(body):undefined,keepalive:!!keepalive,cache:'no-store'})}
+ catch(e){throw Object.assign(new Error('net'),{code:'net'})}
+ let j={};try{j=await r.json()}catch(e){}
+ if(!r.ok)throw Object.assign(new Error(j.error||'server'),{code:j.error||'server',status:r.status});
+ return j}
+function accSet(token,name){ACC.token=token||'';ACC.name=name||'';try{token?localStorage.setItem('ld-auth',JSON.stringify({token,name})):localStorage.removeItem('ld-auth')}catch(e){}}
+// mở bằng python http.server (không có API) thì ẩn hết phần tài khoản, game vẫn lưu trên máy như thường
+async function apiCheck(){try{const r=await fetch('/api/health',{cache:'no-store'}),j=r.ok?await r.json():{};ACC.api=j.ok===true&&j.accounts!==false;ACC.rooms=j.ok===true&&j.rooms!==false}catch(e){ACC.api=false;ACC.rooms=false}}
+function setSync(t){ACC.sync=t;document.querySelectorAll('.syncst').forEach(el=>el.textContent=t)}
+// gửi lên sau 2,5 giây yên lặng: nhiều lượt vuốt liên tiếp gộp thành một lần gửi
+function cloudPush(){if(!ACC.token||!ACC.api)return;ACC.pending=true;clearTimeout(ACC.timer);ACC.timer=setTimeout(cloudSend,2500)}
+async function cloudSend(keepalive){
+ if(!ACC.token||!ACC.api)return;clearTimeout(ACC.timer);ACC.pending=false;setSync('Đang lưu…');
+ const tok=ACC.token;
+ try{const j=await api('save','PUT',{save:SAVE},keepalive===true);
+  if(ACC.token!==tok)return;
+  // nhận thêm bộ sưu tập từ máy khác; đời và ván đang chơi giữ như trên máy này
+  if(j.save){const c=normSave(j.save);for(const k of LISTS)SAVE[k]=[...new Set([...SAVE[k],...c[k]])];
+   SAVE.best=betterBest(SAVE.best,c.best);SAVE.n18=Math.max(SAVE.n18,c.n18);SAVE.runs=Math.max(SAVE.runs,c.runs);SAVE.tut=SAVE.tut||c.tut?1:0;SAVE.duo=maxDuo(SAVE.duo,c.duo);persistLocal()}
+  setSync('Đã lưu lên tài khoản')}
+ catch(e){if(ACC.token!==tok)return;if(e.status===401){accSet('');setSync('')}else{ACC.pending=true;setSync('Chưa lưu được, sẽ thử lại');ACC.timer=setTimeout(cloudSend,15000)}}}
+// lúc mở trang: lấy bản trên máy chủ về, gộp với bản trên máy
+async function cloudPull(){
+ const tok=ACC.token;
+ try{const j=await api('save');if(ACC.token!==tok)return false;if(j.name)ACC.name=j.name;ACC.hidden=!!j.hidden;
+  if(j.save){SAVE=mergeSave(SAVE,normSave(j.save));persistLocal()}
+  if(!S)pick.gen=SAVE.gen||{n:1};
+  cloudSend();return true}
+ catch(e){if(e.status===401)accSet('');return false}}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&ACC.pending)cloudSend(true)});
+window.addEventListener('pagehide',()=>{if(ACC.pending)cloudSend(true)});
+
+function accountSheet(onClose){
+ const el=document.createElement('div');el.className='sheet';app.appendChild(el);
+ let mode=ACC.token?'me':'register',sure=false;
+ const close=()=>{el.remove();if(onClose)onClose()};
+ el.onclick=e=>{if(e.target===el)close()};
+ el.onkeydown=e=>{if(e.key==='Escape')close()};
+ const draw=msg=>{
+  const head=`<button class="x" aria-label="Đóng">✕</button>`;
+  if(mode==='me'){
+   el.innerHTML=`<div class="box sticker" role="dialog" aria-modal="true" aria-labelledby="acc-h">${head}
+    <h2 class="disp" id="acc-h">Tài khoản</h2>
+    <p class="sub">Đang đăng nhập: <b>${esc(ACC.name)}</b><br><span class="syncst">${esc(ACC.sync||'Tiến độ tự lưu sau mỗi lượt vuốt.')}</span></p>
+    <button class="act main" id="a-sync">Lưu ngay</button>
+    <button class="act" id="a-hide">${ACC.hidden?'Hiện tên tôi trên bảng xếp hạng':'Ẩn tên tôi khỏi bảng xếp hạng'}</button>
+    <button class="act" id="a-out">${sure?'Chắc chưa? Bấm lần nữa':'Đăng xuất'}</button>
+    ${sure?'<p class="fnote">Máy này sẽ về trạng thái mới. Tiến độ vẫn nằm trong tài khoản, đăng nhập lại là có.</p>':''}
+    <button class="linkbtn" id="a-del">Xóa tài khoản</button>
+    <p class="ferr" role="alert">${msg||''}</p></div>`;
+   el.querySelector('#a-sync').onclick=()=>{persist();cloudSend()};
+   el.querySelector('#a-hide').onclick=async()=>{
+    try{const j=await api('board/hide','POST',{hidden:!ACC.hidden});ACC.hidden=!!j.hidden;BOARD={};draw()}catch(e){draw(ACC_ERR[e.code]||ACC_ERR.server)}};
+   el.querySelector('#a-out').onclick=async()=>{
+    if(!sure){sure=true;return draw()}
+    el.querySelector('#a-out').disabled=true;
+    if(ACC.pending){await cloudSend();if(ACC.pending){sure=false;return draw('Chưa lưu được lên tài khoản. Kiểm tra mạng rồi thử lại nha.')}}
+    try{await api('logout','POST')}catch(e){}
+    clearTimeout(ACC.timer);ACC.pending=false;accSet('');setSync('');ACC.hidden=false;BOARD={};
+    // máy về trạng thái mới, kể cả dòng họ đang chơi: người dùng sau trên cùng máy không thấy gì của tài khoản cũ
+    SAVE=normSave({});persistLocal();pick.gen={n:1};el.remove();intro()};
+   el.querySelector('#a-del').onclick=()=>{mode='del';draw()};
+  }else if(mode==='del'){
+   el.innerHTML=`<div class="box sticker" role="dialog" aria-modal="true" aria-labelledby="acc-h">${head}
+    <h2 class="disp" id="acc-h">Xóa tài khoản?</h2>
+    <p class="sub">Xóa luôn tiến độ đã lưu trên máy chủ của <b>${esc(ACC.name)}</b>. Không lấy lại được. Bộ sưu tập trên máy này vẫn giữ.</p>
+    <form id="a-form" novalidate>
+     <label class="field"><span>Nhập mật khẩu để xác nhận</span><input id="a-pass" type="password" autocomplete="current-password" maxlength="72"></label>
+     <p class="ferr" role="alert">${msg||''}</p>
+     <button class="act danger" type="submit">Xóa vĩnh viễn</button>
+    </form>
+    <button class="linkbtn" id="a-back">Thôi, giữ lại</button></div>`;
+   el.querySelector('#a-back').onclick=()=>{mode='me';draw()};
+   el.querySelector('#a-form').onsubmit=async e=>{e.preventDefault();
+    const btn=el.querySelector('#a-form .act');btn.disabled=true;
+    try{await api('delete','POST',{pass:el.querySelector('#a-pass').value});
+     clearTimeout(ACC.timer);ACC.pending=false;accSet('');setSync('');close()}
+    catch(err){btn.disabled=false;el.querySelector('.ferr').textContent=ACC_ERR[err.code]||ACC_ERR.server}};
+  }else{
+   const reg=mode==='register';
+   el.innerHTML=`<div class="box sticker" role="dialog" aria-modal="true" aria-labelledby="acc-h">${head}
+    <h2 class="disp" id="acc-h">Lưu tiến độ</h2>
+    <div class="seg tabs"><button data-m="register" aria-pressed="${reg}">Tạo tài khoản</button><button data-m="login" aria-pressed="${!reg}">Đăng nhập</button></div>
+    <p class="sub">${reg?'Không cần email hay số điện thoại. Đổi máy vẫn nuôi tiếp, bộ sưu tập không bay màu.':'Đăng nhập để lấy lại tiến độ đã lưu. Tiến độ trên máy này được gộp vào.'}</p>
+    <form id="a-form" novalidate>
+     <label class="field"><span>Tên đăng nhập</span><input id="a-name" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="20" placeholder="vd: me_cua_bin"></label>
+     <label class="field"><span>Mật khẩu</span><input id="a-pass" type="password" autocomplete="${reg?'new-password':'current-password'}" maxlength="72" placeholder="ít nhất 6 ký tự"></label>
+     ${reg?'<p class="fnote">Tên: 3–20 ký tự, chữ không dấu, số, dấu _ hoặc dấu chấm. Không có email nên quên mật khẩu là mất luôn, nhớ kỹ nha. Tên đăng nhập sẽ hiện trên bảng xếp hạng (ẩn được trong Tài khoản).</p>':''}
+     <p class="ferr" role="alert">${msg||''}</p>
+     <button class="act main" type="submit">${reg?'Tạo tài khoản và lưu':'Đăng nhập'}</button>
+    </form></div>`;
+   el.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{mode=b.dataset.m;draw()});
+   el.querySelector('#a-form').onsubmit=async e=>{e.preventDefault();
+    const name=el.querySelector('#a-name').value.trim().toLowerCase(),pass=el.querySelector('#a-pass').value,er=el.querySelector('.ferr'),btn=el.querySelector('#a-form .act');
+    if(!NAME_RE.test(name)){er.textContent=ACC_ERR.bad_name;return}
+    if(pass.length<6||pass.length>72){er.textContent=ACC_ERR.bad_pass;return}
+    btn.disabled=true;btn.textContent='Đợi xíu…';er.textContent='';
+    try{const j=await api(mode,'POST',reg?{name,pass,save:SAVE}:{name,pass});
+     accSet(j.token,j.name);ACC.hidden=!!j.hidden;BOARD={};
+     if(reg){setSync('Đã lưu lên tài khoản')}
+     else{if(j.save)SAVE=mergeSave(SAVE,normSave(j.save));if(!S)pick.gen=SAVE.gen||{n:1};persist();cloudSend()}
+     close()}
+    catch(err){btn.disabled=false;btn.textContent=reg?'Tạo tài khoản và lưu':'Đăng nhập';er.textContent=ACC_ERR[err.code]||ACC_ERR.server}};
+  }
+  el.querySelector('.x').onclick=close;
+ };
+ draw();
+}
+
+// ---------- intro ----------
+function intro(){
+ if(ROOM){clearTimeout(ROOM.timer);if(ROOM.ctl)ROOM.ctl.abort();ROOM=null;try{history.replaceState(null,'','/')}catch(e){}}
+ S=null;onKey=null;badgeQ={like:[],dislike:[]};voiceQ={};setBg(STAGES[0].bg);stageTile(0);music('music_calm');
+ const n=counts(),g=pick.gen,hs=E.heirs(g),pj=jobOf(g.job),rv=SAVE.run,rg=rv&&cleanGen(rv.gen);
+ // đời sau: con thành nghề nào thì gợi ý gia cảnh đó (vẫn chọn nhà khác được)
+ const sugF=g.n>1&&g.job&&LD.JOB_FAM?E.famById(LD.JOB_FAM[g.job]):null;
+ const fl=LD.FAMS.filter(f=>!f.rare).sort((a,b)=>(b===sugF)-(a===sugF));
+ app.innerHTML=`<div class="screen scroll">
+  <h1 class="logo">Con nhà <span>mình</span></h1>
+  ${g.n>1?`<div class="gen"><b>Đời ${g.n}</b> · ${esc(g.parent)}${g.parentSign?` (${signTxt(g.parentSign)})`:''} giờ làm phụ huynh.${hs.length?`<br>Gia truyền: ${hs.map(id=>`<b>${esc(LD.TRAITS[id][0])}</b>`).join(' · ')} <small>(${deltaTxt(E.heirBonus(g))})</small>`:''}${pj&&pj.k?`<br>${esc(g.parent)} làm ${jobTxt(g.job)}: con sinh ra đã có khiếu ${skIco(pj.k)}.`:''}${sugF?` Gợi ý gia cảnh: <b>${esc(sugF.name)}</b>.`:''}<br><button class="genbtn" id="tree">Xem gia phả →</button></div>`
+   :`<p class="tag"><b>Vuốt một cái, con lớn một chút.</b><br>Chưa đẻ hả? Thử nuôi đi.</p>`}
+  ${rv?`<div class="resume sticker"><div class="rinfo"><b>Đang nuôi ${esc(rv.name)}</b><small>${ageTxt(+rv.lastAge||0)} · ${STAGES[rv.stage]?STAGES[rv.stage].name:''}${E.signById(rv.sign)?' · '+signTxt(rv.sign):''}${rg&&rg.n>1?' · Đời '+rg.n:''}</small></div><button class="rbtn" id="resume">Chơi tiếp →</button></div>`:''}
+  <div class="lbl">${g.n>1?esc(g.parent)+' là':'Bạn là'}</div>
+  <div class="seg"><button id="r-bo" aria-pressed="${pick.role==='bố'}">Bố</button><button id="r-me" aria-pressed="${pick.role==='mẹ'}">Mẹ</button></div>
+  <div class="lbl">Con tên <small>chạm vào tên để tự đặt</small></div>
+  <div class="namebox sticker"><input id="nm" class="nmin" value="${esc(pick.name)}" maxlength="${KID_MAX}" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" enterkeyhint="done" placeholder="Nhập tên con" aria-label="Tên con"><button id="reroll" aria-label="Gợi ý tên khác">Gợi ý</button></div>
+  <p class="ferr nmerr" id="nmerr" role="alert"></p>
+  <button class="signbtn" id="sign" aria-label="Đổi cung hoàng đạo"><span id="sg">${signTxt(pick.sign)} · sinh ${pick.bday}</span><small>Đổi cung ↻</small></button>
+  <div class="lbl">${rv?'Hoặc nuôi bé mới: chọn gia cảnh':'Chọn gia cảnh để bắt đầu'}</div>
+  <div class="fams">${fl.map(f=>famTile(f,f===sugF)).join('')}</div>
+  <button class="lucky" id="lucky">🎲 Để số phận chọn <small>có khi ra gia cảnh hiếm</small></button>
+  <button class="duobtn" id="duo">👫 Nuôi chung với người khác<small>Gửi link: chia ca, cùng vuốt, hoặc một người làm con</small></button>
+  <button class="collbtn" id="coll"><span>Kết <b>${n.ends}/${E.ALL_ENDS.length}</b></span><span>Nghề <b>${n.jobs}/${E.ALL_JOBS.length}</b></span><span>Thẻ <b>${n.cards}/${CARD_IDS.size}</b></span><span>Mục tiêu <b>${n.ach}/${E.ACH.length}</b></span><span class="go">Bộ sưu tập →</span></button>
+  ${ACC.api?`<button class="bmini sticker" id="bmini"><span class="bm-h"><b class="disp">Bảng xếp hạng</b><span class="go">Xem cả bảng →</span></span><span class="bm-body">Đang tải…</span></button>
+  <a class="linkbtn" href="thong-ke">📢 Bảng tin tổ dân phố: cả xóm nuôi con thế nào?</a>`:''}
+  ${ACC.api?(ACC.token?`<button class="acct in" id="acct"><span>${CLOUD} <b>${esc(ACC.name)}</b></span><small class="syncst">${esc(ACC.sync||'Tự lưu sau mỗi lượt vuốt')}</small></button>`
+   :`<button class="acct" id="acct"><span>${CLOUD} <b>Lưu tiến độ</b></span><small>Tạo tài khoản hoặc đăng nhập, đổi máy vẫn chơi tiếp</small></button>`):''}
+  <div class="sndrow"><button class="pill" id="t-how">Cách chơi</button><button class="pill" id="t-snd" aria-pressed="${SND.on}">Âm thanh: ${SND.on?'bật':'tắt'}</button><button class="pill" id="t-mus" aria-pressed="${SND.music}">Nhạc nền: ${SND.music?'bật':'tắt'}</button></div>
+  ${g.n>1?'<button class="linkbtn" id="gen1">Bắt đầu lại từ đời 1</button>':''}
+ </div>`;
+ app.querySelector('#r-bo').onclick=()=>{pick.role='bố';intro()};
+ app.querySelector('#r-me').onclick=()=>{pick.role='mẹ';intro()};
+ const nm=app.querySelector('#nm'),nmerr=app.querySelector('#nmerr');
+ nm.oninput=()=>{setName(nm.value);nmerr.textContent=''};
+ nm.onkeydown=e=>{if(e.key==='Enter')nm.blur()};
+ nm.onblur=()=>{const c=cleanKidName(nm.value);if(c&&!kidNameErr(c)){setName(c);nm.value=c}};
+ app.querySelector('#reroll').onclick=()=>{setName(newName(g.parent));pick.style=Math.random()<.5?0:1;nm.value=pick.name;nmerr.textContent=''};
+ app.querySelector('#sign').onclick=()=>{const i=LD.SIGNS.findIndex(x=>x.id===pick.sign);newSign(LD.SIGNS[(i+1)%LD.SIGNS.length].id);app.querySelector('#sg').innerHTML=`${signTxt(pick.sign)} · sinh ${pick.bday}`};
+ app.querySelector('#coll').onclick=collection;
+ const rb=app.querySelector('#resume');if(rb)rb.onclick=resume;
+ const ab=app.querySelector('#acct');if(ab)ab.onclick=()=>accountSheet(intro);
+ const bm=app.querySelector('#bmini');if(bm){bm.onclick=()=>boardScreen('score');loadBoard('score',3).then(boardMini)}
+ app.querySelector('#t-snd').onclick=e=>{setSound(!SND.on);e.target.textContent='Âm thanh: '+(SND.on?'bật':'tắt');e.target.setAttribute('aria-pressed',SND.on)};
+ app.querySelector('#t-mus').onclick=e=>{setMusic(!SND.music);e.target.textContent='Nhạc nền: '+(SND.music?'bật':'tắt');e.target.setAttribute('aria-pressed',SND.music)};
+ const g1=app.querySelector('#gen1');if(g1)g1.onclick=()=>{SAVE.tree=[];setGen({n:1});intro()};
+ const tb=app.querySelector('#tree');if(tb)tb.onclick=treeSheet;
+ app.querySelector('#t-how').onclick=()=>tutorial(()=>{},{sign:pick.sign,name:cleanKidName(nm.value)});
+ const nameOk=()=>{const name=cleanKidName(nm.value),err=kidNameErr(name);
+  if(err){nmerr.textContent=err;nm.focus();nm.scrollIntoView({block:'center',behavior:'smooth'});return null}
+  setName(name);return name};
+ app.querySelectorAll('.fam').forEach(b=>b.onclick=()=>{const name=nameOk();if(name)famSheet(E.famById(b.dataset.f),name,false)});
+ app.querySelector('#lucky').onclick=()=>{const name=nameOk();if(name)famSheet(drawFam(),name,true)};
+ app.querySelector('#duo').onclick=()=>{setName(cleanKidName(nm.value)||pick.name);if(!ACC.rooms){tinyToast('Nuôi chung cần máy chủ chạy cùng game. Mở file trực tiếp thì chưa dùng được nha.');return}duoSheet()};
+}
+// ---------- gia cảnh: ô chọn, thẻ chi tiết (luật riêng), bốc thăm ----------
+function famIco(f){const a=art('fam_'+f.id);return `<i>${a?img(a,'ico'):f.ico}</i>`}
+function famLean(f){return E.famLean(f.id).map(skIco).join('')}
+function famTile(f,sug){return `<button class="fam${sug?' sugd':''}" data-f="${f.id}">${sug?'<u class="sug">Gợi ý</u>':''}<span class="fh">${famIco(f)}<em class="lean" title="Nhà này hay nuôi khiếu">${famLean(f)}</em></span><b>${esc(f.name)}</b><small>${esc(f.sub)}</small></button>`}
+// bốc thăm: mỗi gia cảnh một phần như nhau, gia cảnh hiếm chỉ ra ở đây
+function drawFam(){const rare=LD.FAMS.filter(f=>f.rare),norm=LD.FAMS.filter(f=>!f.rare);return rare.length&&Math.random()<rare.length/LD.FAMS.length?rand(rare):rand(norm)}
+function famSheet(f,name,lucky){
+ const el=document.createElement('div');el.className='sheet';app.appendChild(el);
+ const prevKey=onKey;onKey=null;let spin=0,ready=!lucky;
+ const close=()=>{clearInterval(spin);el.remove();onKey=prevKey};
+ const go=()=>{if(!ready)return;clearInterval(spin);el.remove();onKey=prevKey;startRun(f,name,lucky)};
+ const lean=E.famLean(f.id).map(id=>{const s=E.skillById(id);return `${s.ico} ${s.name.toLowerCase()}`}).join(', ');
+ const draw=()=>{el.innerHTML=`<div class="box sticker fsheet" role="dialog" aria-modal="true" aria-labelledby="fam-h"><button class="x" aria-label="Đóng">✕</button>
+  ${lucky?'<p class="rollh">Số phận đã chọn!</p>':''}
+  <div class="fbig">${famIco(f)}<span>${f.rare?'<em class="rare">Gia cảnh hiếm</em>':''}<b id="fam-h">${esc(f.name)}</b><small>${esc(f.sub)}</small></span></div>
+  <p class="frule"><b>Luật nhà này:</b> ${esc(fill(f.rule))}</p>
+  <p class="frow"><b>Lúc đầu:</b> ${f.m.map((v,k)=>`<span class="dt">${MICON[k]}${v}</span>`).join(' ')}</p>
+  ${lean?`<p class="frow"><b>Nhà này hay nuôi khiếu:</b> ${lean}</p>`:''}
+  <p class="frow">Có 5 tình huống chỉ nhà này gặp, câu hỏi Tết riêng và một <b>cái kết riêng</b>.</p>
+  <button class="act main" id="f-go">Bắt đầu nuôi ${esc(name)} →</button>
+  ${lucky?'':'<button class="linkbtn" id="f-back">Chọn nhà khác</button>'}</div>`;
+  el.querySelector('.x').onclick=close;el.querySelector('#f-go').onclick=go;
+  const bk=el.querySelector('#f-back');if(bk)bk.onclick=close;
+  onKey=k=>{if(k==='Enter'||k===' ')go()}};
+ el.onclick=e=>{if(e.target===el)close()};
+ el.onkeydown=e=>{if(e.key==='Escape')close()};
+ if(!lucky)return draw();
+ // bốc thăm: các nhà lướt qua rồi dừng ở nhà được chọn
+ el.innerHTML=`<div class="box sticker" role="dialog" aria-modal="true" aria-label="Đang bốc thăm gia cảnh"><div class="roll" id="roll">🎲</div><p class="rollh">Đang bốc thăm gia cảnh…</p></div>`;
+ const all=LD.FAMS,t0=Date.now();let i=0;
+ spin=setInterval(()=>{const r=el.querySelector('#roll');if(!r)return clearInterval(spin);
+  if(Date.now()-t0>1300){clearInterval(spin);ready=true;sfx(f.rare?'ach':'sign_up',.7);draw();return}
+  r.textContent=all[i++%all.length].ico;sfx('tick',.25)},90);
+}
+function startRun(fam,name,lucky){
+ S=E.newRun(fam,pick.role,name,pick.style,pick.gen,pick.sign,lucky);S.bday=pick.bday;
+ // lần đầu chơi: cảnh hướng dẫn trước khi con chào đời
+ if(SAVE.tut)nextStage();else tutorial(()=>{SAVE.tut=1;persist();nextStage()},{fam,m:S.m,sign:S.sign,name});
+}
+
+// ---------- cảnh hướng dẫn: luật chơi, ý nghĩa 3 thanh, cá tính theo cung ----------
+// Tự hiện một lần sau khi chọn gia cảnh (SAVE.tut); nút "Cách chơi" ở màn đầu mở lại bất cứ lúc nào.
+const STYLE_TXT={chill:'thả lỏng, hệ chill',hai:'pha trò, chuyện gì cũng thành hài',kiluat:'kỷ luật, có kế hoạch',chieu:'chiều con',song:'bắt trend, sống ảo',lo:'lo xa, chu đáo'};
+const METER_MEAN=[
+ ['Con vui','Con có vui không.','Về 0: con buồn, dọn đi ở với dì.','Lên 100: con được chiều hư.'],
+ ['Pin của bạn','Sức của bạn: thời gian, tiền, giấc ngủ.','Về 0: bạn gục.','Lên 100: bạn rảnh quá, buông con.'],
+ ['Thân nhau','Hai người gần nhau cỡ nào.','Về 0: thành người dưng chung nhà.','Lên 100: dính nhau như sam.']];
+function tutorial(done,ctx){
+ const g=E.signById(ctx.sign),gk=g&&E.skillById(g.k),fam=ctx.fam,m=ctx.m,who=ctx.name?esc(ctx.name):'Con';
+ const steps=[
+  ['Luật chơi siêu gọn',`<div class="tdemo" aria-hidden="true"><span class="tarr l">←</span><span class="tcard">Thẻ tình huống</span><span class="tarr r">→</span></div>
+   <ul class="tlist">
+    <li>Mỗi thẻ là một tình huống nuôi con. <b>Vuốt trái hoặc phải</b>, hoặc bấm nút, để chọn cách xử lý.</li>
+    <li>Đọc hậu quả xong thì <b>chạm để đi tiếp</b>.</li>
+    <li>6 giai đoạn, từ lọt lòng tới 18 tuổi, chừng 6 phút.</li>
+    <li>${fam?`Gia cảnh <b>${esc(fam.name)}</b>: ${esc(fill(fam.rule))} Nhà bạn còn có vài tình huống, câu hỏi Tết và một cái kết riêng.`:'Mỗi gia cảnh có luật riêng, vài tình huống, câu hỏi Tết và một cái kết riêng.'}</li>
+    <li>Giữa chừng có thể gặp <b>biến cố gia đình</b>: ông bà lên ở cùng, thêm em bé, có khi cả nhà đổi đời.</li>
+   </ul>`],
+  ['3 thanh sống còn',`<div class="tmeters">${METER_MEAN.map(([n,a,lo,hi],k)=>`<div class="tm"><span class="tmi">${MICON[k]}</span><div><b>${n}</b>${m?`<small>lúc đầu ${m[k]}</small>`:''}<p>${a} ${lo} ${hi}</p></div></div>`).join('')}</div>
+   <p class="trule"><b>Giữ cả 3 thanh ở khoảng giữa.</b> Chạm 0 hay 100 là ván kết thúc sớm. Thanh đổi màu và rung là sắp toang.</p>
+   <p class="ttip">Mẹo: kéo thẻ từ từ, chấm đen hiện trên thanh nào thì thanh đó sẽ đổi, chấm to là đổi nhiều.</p>`],
+  [`${who} có cá tính riêng`,`<ul class="tlist">
+    ${g?`<li style="--el:${EL_COLOR[g.el]}">${zg(g)} Cung <b>${g.name}</b>: thích khi bạn <b>${STYLE_TXT[g.like]}</b> (+5 vui), ghét khi bạn <b>${STYLE_TXT[g.dislike]}</b> (−5 vui).</li>`:''}
+    <li>Mỗi lựa chọn là một kiểu phụ huynh. Tới 18 tuổi, kiểu bạn chọn nhiều nhất quyết định <b>cái kết</b>. Có ${E.ALL_ENDS.length} cái kết để sưu tập.</li>
+    <li>Giữa chừng có <b>đấu khẩu ngày Tết</b>: bác hỏi xoáy, bạn có ${secTxt(E.DUEL_SECONDS)} giây để đáp khéo. Gặp "vụ tranh cãi" thì đáp hay bác còn phản pháo, phải thắng mọi hiệp. Cãi xong còn màn <b>lì xì kéo co</b>.</li>
+    <li>Nuôi xong, ${who==='Con'?'con':who} lớn lên làm phụ huynh ở <b>đời sau</b>, mang theo nét gia truyền và nghề của mình.</li>
+   </ul>`],
+  [`${who} sẽ thành ai?`,`<ul class="tlist">
+    <li>Nút có biểu tượng ${LD.SKILLS.map(s=>s.ico).join(' ')} là nuôi <b>năng khiếu</b> của con: ${LD.SKILLS.map(s=>s.name.toLowerCase()).join(', ')}.${gk?` Cung ${g.name} sinh ra đã có khiếu ${gk.ico}.`:''}</li>
+    <li>Tới 18 tuổi, năng khiếu mạnh nhất cộng với kiểu phụ huynh quyết định <b>nghề của con</b>. Có ${E.ALL_JOBS.length} nghề để sưu tập.</li>
+    <li>Mỗi giai đoạn có một lần bị so với <b>con nhà người ta</b>. Đua theo thì con thêm năng khiếu nhưng buồn hơn.</li>
+    <li>Năng khiếu đủ mạnh thì ngày Tết có <b>bằng chứng</b> để cãi thắng bác.</li>
+   </ul>`]];
+ const el=document.createElement('div');el.className='tut';app.appendChild(el);
+ const prevKey=onKey;let i=0;
+ const finish=()=>{el.remove();onKey=prevKey;tipDone('k');done()};
+ const draw=()=>{
+  const last=i===steps.length-1;
+  el.innerHTML=`<div class="tbox sticker" role="dialog" aria-modal="true" aria-labelledby="tut-h">
+   <button class="x" aria-label="Đóng hướng dẫn">✕</button>
+   <div class="tdots">${steps.map((s,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>
+   <h2 class="disp" id="tut-h">${steps[i][0]}</h2>
+   <div class="tbody">${steps[i][1]}</div>
+   <div class="tnav"><button class="linkbtn" id="t-prev">${i?'← Lùi':'Bỏ qua'}</button><button class="act main" id="t-next">${last?(fam?`Bắt đầu nuôi ${who} →`:'Đã hiểu'):'Tiếp →'}</button></div>
+  </div>`;
+  el.querySelector('.x').onclick=finish;
+  el.querySelector('#t-prev').onclick=()=>{if(i){i--;draw()}else finish()};
+  el.querySelector('#t-next').onclick=()=>{if(last)finish();else{i++;draw()}};
+ };
+ onKey=k=>{if(k==='ArrowLeft'){if(i){i--;draw()}}else if(i===steps.length-1)finish();else{i++;draw()}};
+ draw();
+}
+
+// ---------- bảng xếp hạng (chỉ người có tài khoản; worker/index.js tính điểm khi lưu) ----------
+let BOARD={};   // nhớ 30 giây để mỗi lần vẽ lại màn đầu không phải tải lại
+async function loadBoard(by,limit){const k=by+'/'+limit,c=BOARD[k];if(c&&Date.now()-c.t<30000)return c.d;
+ try{const d=await api(`board?by=${by}&limit=${limit}`);BOARD[k]={t:Date.now(),d};return d}catch(e){return null}}
+const B_TABS=[['score','Điểm'],['ach','Mục tiêu'],['ends','Cái kết'],['jobs','Nghề'],['n18','Nuôi tới 18'],['cards','Thẻ']];
+const B_DUO=[['ca','🔁 Chia ca'],['cung','🤝 Cùng vuốt'],['con','😈 Làm con']],isDuoTab=by=>B_DUO.some(t=>t[0]===by);
+const B_NOTE={score:'Điểm = số thẻ đã gặp + 10 × mỗi cái kết + 10 × mỗi nghề + 15 × mỗi mục tiêu.',ach:'Ai đạt nhiều mục tiêu nhất.',ends:'Ai mở nhiều cái kết nhất.',jobs:'Ai nuôi con thành nhiều nghề nhất.',n18:'Ai nuôi con tới 18 tuổi nhiều lần nhất.',cards:'Ai gặp nhiều thẻ nhất.',
+ ca:'Nuôi chung kiểu chia ca: ai nuôi con tới 18 tuổi nhiều lần nhất.',cung:'Cùng vuốt: độ hợp nhau cao nhất trong một ván nuôi tới 18. Bằng nhau thì ai chơi nhiều ván hơn đứng trên.',
+ con:'Một người làm con: số ván thắng. Làm con thì xong nhiệm vụ bí mật, làm bố mẹ thì nuôi tới 18 mà con không xong nhiệm vụ.'};
+const B_VAL={score:r=>`${r.score} điểm`,ach:r=>`${r.ach}/${E.ACH.length}`,ends:r=>`${r.ends}/${E.ALL_ENDS.length}`,jobs:r=>`${r.jobs||0}/${E.ALL_JOBS.length}`,n18:r=>`${r.n18} lần`,cards:r=>`${r.cards}/${CARD_IDS.size}`,
+ ca:r=>`${r.duo.ca} lần`,cung:r=>`${r.duo.cung}%`,con:r=>`${r.duo.ck+r.duo.cp} ván`};
+// dòng kết quả nuôi chung trên bảng (tab nuôi chung)
+function bDuo(d,by){return by==='ca'?`Chia ca, nuôi tới 18: <b>${d.ca}</b> lần`:by==='cung'?`Hợp nhau cao nhất <b>${d.cung}%</b> · ${d.cn} ván cùng vuốt tới 18`
+ :`Làm con thắng <b>${d.ck}</b> ván · làm bố mẹ thắng <b>${d.cp}</b> ván`}
+function bChild(b){if(!b)return 'Chưa nuôi xong ván nào';const g=b.sign&&E.signById(b.sign);
+ return `Con${b.child?`: <b>${esc(b.child)}</b>`:''} · ${b.age>=18?'nuôi tới 18 tuổi':'dừng ở '+ageTxt(b.age).toLowerCase()}${g?` · ${zg(g)} ${g.name}`:''}${jobOf(b.job)?` · ${jobTxt(b.job)}`:''}`}
+function bRow(r,by,me){
+ const badges=(r.achs||[]).map(id=>{const a=E.ACH.find(x=>x.id===id);return a?`<span title="${esc(a.name)}">${achIcon(id,true)}</span>`:''}).join('');
+ return `<li class="brow${me?' me':''}"><i class="brank r${r.rank||0}">${r.rank||'–'}</i><div class="bmain">
+  <div class="bname"><b>${esc(r.name)}</b>${me?'<small class="you">bạn</small>':''}<span class="bval">${B_VAL[by](r)}</span></div>
+  <div class="bchild">${isDuoTab(by)?bDuo(r.duo,by):bChild(r.best)}</div>
+  <div class="bstats">${isDuoTab(by)?[`🔁 Chia ca ${r.duo.ca} lần`,`🤝 Cùng vuốt ${r.duo.cn} ván${r.duo.cn?`, hợp nhất ${r.duo.cung}%`:''}`,`😈 Làm con thắng ${r.duo.ck+r.duo.cp} ván`].map(x=>`<span>${x}</span>`).join(' · '):[`Mục tiêu ${r.ach}/${E.ACH.length}`,`Kết ${r.ends}/${E.ALL_ENDS.length}`,`Nghề ${r.jobs||0}/${E.ALL_JOBS.length}`,`Thẻ ${r.cards}/${CARD_IDS.size}`,`Tới 18: ${r.n18} lần`,`Cung ${r.signs}/${LD.SIGNS.length}`].map(x=>`<span>${x}</span>`).join(' · ')}</div>
+  ${badges?`<div class="bbadges">${badges}</div>`:''}</div></li>`}
+// mục nhỏ ở màn đầu: 3 người đứng đầu + hạng của mình
+function boardMini(d){const el=app.querySelector('#bmini .bm-body');if(!el)return;
+ if(!d){el.textContent='Chưa tải được bảng xếp hạng. Thử lại sau nha.';return}
+ const rows=d.rows.slice(0,3).map(r=>`<span class="bm-row${r.name===ACC.name?' me':''}"><i class="brank r${r.rank}">${r.rank}</i><b>${esc(r.name)}</b><small>${r.best?(r.best.child?esc(r.best.child)+' · ':'')+(r.best.age>=18?'18 tuổi':ageTxt(r.best.age).toLowerCase()):''}</small><em>${r.score}</em></span>`).join('');
+ const me=!ACC.token?'Tạo tài khoản để có tên trên bảng.':!d.me?'':d.me.hidden?'Bạn đang ẩn tên khỏi bảng.':d.me.rank?`Bạn: hạng ${d.me.rank}/${d.total} · ${d.me.score} điểm`:'Nuôi xong một ván để lên bảng.';
+ el.innerHTML=(rows||'<span class="bm-empty">Chưa ai lên bảng. Nuôi xong một ván để mở hàng!</span>')+(me?`<span class="bm-me">${me}</span>`:'')}
+async function boardScreen(by){
+ S=null;onKey=null;
+ app.innerHTML=`<div class="screen scroll coll board">
+  <h1 class="disp">Bảng xếp hạng</h1>
+  <div class="btabs">${B_TABS.map(([k,l])=>`<button class="pill" data-by="${k}" aria-pressed="${k===by}">${l}</button>`).join('')}</div>
+  <div class="btabs duo"><small>Nuôi chung</small>${B_DUO.map(([k,l])=>`<button class="pill" data-by="${k}" aria-pressed="${k===by}">${l}</button>`).join('')}</div>
+  <p class="cl bnote">${B_NOTE[by]}</p>
+  <ol class="blist"><li class="bload">Đang tải…</li></ol>
+  <div class="bme"></div>
+  <a class="linkbtn" href="thong-ke">📢 Xem thống kê cả xóm: nghề nào hiếm nhất?</a>
+  <div class="endbtns"><button class="main" id="back">Quay lại</button></div>
+ </div>`;
+ app.querySelector('#back').onclick=intro;
+ app.querySelectorAll('.btabs .pill').forEach(b=>b.onclick=()=>boardScreen(b.dataset.by));
+ const d=await loadBoard(by,50);
+ const list=app.querySelector('.blist');
+ if(!list||!app.querySelector(`.btabs [data-by="${by}"][aria-pressed="true"]`))return;   // đã sang màn hoặc tab khác
+ if(!d){list.innerHTML='<li class="bload">Chưa tải được bảng xếp hạng. Kiểm tra mạng rồi thử lại nha.</li>';return}
+ app.querySelector('.bnote').textContent=`${B_NOTE[by]} ${d.total} người chơi trên bảng.`;
+ const duo=isDuoTab(by);
+ list.innerHTML=d.rows.length?d.rows.map(r=>bRow(r,by,ACC.token&&r.name===ACC.name)).join(''):`<li class="bload">${duo?'Chưa ai lên bảng này. Rủ người nhà nuôi chung qua link để mở hàng!':'Chưa ai lên bảng. Nuôi xong một ván để mở hàng!'}</li>`;
+ const box=app.querySelector('.bme');
+ if(!ACC.token){box.innerHTML=`<button class="act main" id="b-acc">${CLOUD} Tạo tài khoản để lên bảng</button>`;
+  box.querySelector('#b-acc').onclick=()=>accountSheet(()=>{BOARD={};boardScreen(by)});return}
+ const me=d.me;
+ if(!me)return;
+ if(me.hidden)box.innerHTML='<p class="note">Bạn đang ẩn tên khỏi bảng xếp hạng. Bật lại trong Tài khoản ở màn đầu.</p>';
+ else if(!me.rank)box.innerHTML=`<p class="note">${duo?`Bạn chưa có ván ${by==='con'?'thắng ở kiểu một người làm con':by==='cung'?'cùng vuốt nào nuôi tới 18':'chia ca nào nuôi tới 18'}. Bấm 👫 Nuôi chung ở màn đầu, gửi link cho người kia.`:'Bạn chưa có điểm. Nuôi xong một ván để lên bảng.'}</p>`;
+ else if(!d.rows.some(r=>r.name===me.name))box.innerHTML=`<p class="bme-h">Hạng của bạn</p><ol class="blist">${bRow(me,by,true)}</ol>`;
+}
+
+// ---------- bộ sưu tập ----------
+function endChip(id){const t=LD.ENDS[id]||LD.TITLES[id],got=SAVE.endings.includes(id);
+ return got?`<div class="chip got"><b>${esc(fill(t[0]))}</b><small>${esc(fill(t[1]))}</small></div>`:`<div class="chip"><b>???</b><small>${esc(LD.HINTS[id]||'')}</small></div>`}
+function collection(){
+ const n=counts();
+ app.innerHTML=`<div class="screen scroll coll">
+  <h1 class="disp">Bộ sưu tập</h1>
+  <p class="cl">Đã gặp <b>${n.cards}/${CARD_IDS.size}</b> thẻ</p>
+  <div class="progress"><i style="width:${Math.round(n.cards/CARD_IDS.size*100)}%"></i></div>
+  <h2>Cái kết <small>${SAVE.endings.filter(id=>!id.startsWith('f_')&&E.ALL_ENDS.includes(id)).length}/${E.ALL_ENDS.filter(id=>!id.startsWith('f_')).length}</small></h2>
+  <div class="grid2">${E.ALL_ENDS.filter(id=>!id.startsWith('f_')).map(endChip).join('')}</div>
+  <h2>Kết riêng của gia cảnh <small>${SAVE.endings.filter(id=>id.startsWith('f_')&&E.ALL_ENDS.includes(id)).length}/${E.ALL_ENDS.filter(id=>id.startsWith('f_')).length}</small></h2>
+  <div class="grid2">${E.ALL_ENDS.filter(id=>id.startsWith('f_')).map(endChip).join('')}</div>
+  <h2>Gia cảnh đã nuôi tới 18 <small>${LD.FAMS.filter(f=>SAVE.famDone.includes(f.id)).length}/${LD.FAMS.length}</small></h2>
+  <div class="famgrid">${LD.FAMS.map(f=>{const got=SAVE.famDone.includes(f.id),hide=f.rare&&!got;
+   return `<span class="${got?'got':''}" title="${hide?'Gia cảnh hiếm':esc(f.name)}">${hide?'<i>❔</i>':famIco(f)}${hide?'Gia cảnh hiếm':esc(f.name)}</span>`}).join('')}</div>
+  <h2>Nghề của con <small>${n.jobs}/${E.ALL_JOBS.length}</small></h2>
+  <div class="grid2">${E.ALL_JOBS.map(id=>{const j=LD.JOBS[id],got=SAVE.jobs.includes(id);
+   return got?`<div class="chip got"><b>${jobTxt(id)}</b><small>${esc(fill(j.sub))}</small></div>`:`<div class="chip"><b>???</b><small>${esc(jobHint(j))}</small></div>`}).join('')}</div>
+  <h2>Cung đã nuôi tới 18 <small>${SAVE.signsDone.length}/${LD.SIGNS.length}</small></h2>
+  <div class="signgrid">${LD.SIGNS.map(g=>`<span class="${SAVE.signsDone.includes(g.id)?'got':''}" title="${g.name}"><i style="color:${EL_COLOR[g.el]}">${zg(g)}</i>${g.name}</span>`).join('')}</div>
+  <h2>Mục tiêu <small>${n.ach}/${E.ACH.length}</small></h2>
+  <div class="achlist">${E.ACH.map(a=>`<div class="ach ${SAVE.ach.includes(a.id)?'got':''}"><i>${achIcon(a.id,SAVE.ach.includes(a.id))}</i><span><b>${esc(a.name)}</b><small>${esc(a.desc)}</small></span></div>`).join('')}</div>
+  <div class="endbtns"><button class="main" id="back">Quay lại</button></div>
+ </div>`;
+ app.querySelector('#back').onclick=intro;
+}
+
+// ---------- game ----------
+// Màn có chữ để đọc (chào giai đoạn, phản ứng của con, kết quả đấu khẩu) chỉ sang tiếp khi người chơi chạm hoặc bấm phím.
+// Bỏ qua cú chạm trong TAP_GUARD ms đầu: bấm đúp lúc chọn phương án không làm trôi mất câu phản ứng.
+const TAP_GUARD=450;
+function waitTap(el,next){
+ const t0=Date.now();let done=false;
+ const go=()=>{if(done||Date.now()-t0<TAP_GUARD)return;done=true;el.onclick=null;onKey=null;next()};
+ el.onclick=e=>{if(e.target.closest('button:not(:disabled)'))return;go()};
+ onKey=()=>go();
+}
+function nextStage(){
+ const si=S.stage+1;
+ if(si>=STAGES.length)return end(null,18);
+ E.startStage(S,si);
+ if(!S.deck.length)return nextStage();
+ saveRun();
+ const g=E.sign(S);
+ music('music_calm');sfx('stage',.8);
+ if(S.note&&(S.note.ev||S.note.back))sfx('shock',.5,.25);
+ splash(STAGES[si],render,g?`<span style="color:${EL_COLOR[g.el]}">${zg(g)}</span> ${esc(g.name+': '+fill(g.stages[si]))}`:'',
+  famNote(S.note)+skillRow(S,si?`Năng khiếu của ${esc(S.name)}`:'Năng khiếu bẩm sinh'));
+}
+// biến cố vừa xảy ra / vừa kết thúc, luật trôi của gia cảnh (E.startStage ghi vào S.note)
+function famNote(n){if(!n)return '';let h='';
+ if(n.back){const e=E.eventById(n.back);if(e&&e.back)h+=`<div class="evbox"><small>Biến cố kết thúc</small><p>${esc(fill(e.back))}</p>${e.backD?`<p>${deltaTxt(e.backD)}</p>`:''}</div>`}
+ if(n.ev){const e=E.eventById(n.ev);if(e)h+=`<div class="evbox"><small>${e.change?'Đổi đời!':'Biến cố gia đình'}</small><b>${e.ico} ${esc(fill(e.name))}</b><p>${esc(fill(e.sub))}</p>${e.d?`<p>${deltaTxt(e.d)}</p>`:''}</div>`}
+ const df=n.drift&&E.famById(n.df);
+ if(df&&S&&S.duo&&S.duo.mode!=='con'&&df.duoDrift)h+=`<p class="fnote">${esc(df.ico)} ${esc(cap(S.duo.seats.a.role))} (đi làm xa): ${deltaTxt(df.duoDrift.a)} · ${esc(cap(S.duo.seats.b.role))} (ở nhà): ${deltaTxt(df.duoDrift.b)}</p>`;
+ else if(df)h+=`<p class="fnote">${esc(df.ico)} ${esc(df.name)}: ${deltaTxt(n.drift)}</p>`;
+ return h}
+function splash(st,done,extra,more){
+ if(st.bg){setBg(st.bg);stageTile(STAGES.indexOf(st))}
+ const el=document.createElement('div');el.className='splash';
+ el.innerHTML=`${st.pic||''}<div class="big disp">${st.big}</div><p>${st.sub}</p>${extra?`<p class="signline">${extra}</p>`:''}${more||''}<p class="tapn">Chạm để tiếp</p>`;
+ app.appendChild(el);
+ if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+ waitTap(el,()=>{el.remove();done()});
+}
+function warning(){
+ const mm=myM(),k=mm.findIndex(v=>v<=15||v>=85);
+ if(k<0)return '';
+ return `<p class="warn">${WARN[['vui','pin','than'][k]][mm[k]<=15?0:1]}</p>`;
+}
+function topbar(age){
+ const mm=myM(),dl=ROOM&&S.duo&&S.duo.mode!=='con'?duoLine():ROOM&&S.duo?conLine():'';
+ return `<div class="top"><div class="age">${ageTxt(age)}<small>${STAGES[S.stage].name}${E.sign(S)?' · '+zg(E.sign(S)):''}${S.gen.n>1?' · Đời '+S.gen.n:''}</small></div>
+  <button class="sndbtn" aria-label="Âm thanh" aria-pressed="${!SND.on}">${spk(SND.on)}</button>
+  <div class="meters">${mm.map((v,k)=>`<div class="meter" title="${MNAMES[k]}" aria-label="${MNAMES[k]} ${v}"><span class="dot" id="dot${k}"></span><div class="ico">${MICON[k]}</div><div class="bar ${v<=15?'low':v>=85?'high':''}"><i style="height:${v}%"></i></div><span class="mlabel">${MSHORT[k]}</span><span class="delta" id="dl${k}"></span></div>`).join('')}</div></div>
+  <div class="progress"><i style="width:${Math.round((S.stage+S.i/Math.max(1,S.deck.length))/STAGES.length*100)}%"></i></div>${dl}${warning()}`;
+}
+// dòng nhỏ dưới thanh tiến độ khi chơi chung: thanh của người kia, còn bao nhiêu thẻ trong ca
+function duoLine(){const p=partner(),m=E.duoM(S,p),d=S.duo,left=d.mode==='ca'?(d.ph==='ca1'?d.split:S.deck.length)-S.i:0;
+ return `<div class="pline"><span>${esc(cap(seatRole(p)))}: ${MICON[1]}${m[0]} ${MICON[2]}${m[1]}</span><span>${d.mode==='ca'?(d.ph==='vote'?'🗳️ Họp gia đình':`Ca của bạn còn ${Math.max(0,left)} thẻ`):`🤝 Hợp nhau ${d.n?Math.round(d.agree/d.n*100):0}%`}</span></div>`}
+function conLine(){return `<div class="pline"><span>😈 ${isKid()?'Bạn là con':'Con đang theo dõi'}</span><span>Thẻ ${Math.min(S.i+1,S.deck.length)}/${S.deck.length}</span></div>`}
+function refreshTop(age,before){
+ const tmp=document.createElement('div');tmp.innerHTML=topbar(age);
+ app.querySelector('.top').replaceWith(tmp.querySelector('.top'));
+ app.querySelector('.progress').replaceWith(tmp.querySelector('.progress'));
+ const ow=app.querySelector('.warn'),nw=tmp.querySelector('.warn');
+ if(ow)ow.remove();if(nw)app.querySelector('.progress').after(nw);
+ myM().forEach((v,k)=>{const d=v-before[k];if(!d)return;const el=document.getElementById('dl'+k);if(!el)return;el.textContent=(d>0?'+':'')+d;el.style.color=d>0?'var(--good)':'var(--left)';el.classList.add('show')});
+}
+function render(){
+ onKey=null;
+ if(S.lixi)return lixiIntro();
+ if(ROOM&&S.duo&&S.duo.mode==='ca'&&E.duoCaEnd(S))return duoNext();
+ if(E.stageDone(S))return ROOM?duoNext():nextStage();
+ const it=E.current(S);
+ if(it.duel)return S.duelState?duelResume():duelIntro();
+ music('music_calm');
+ const {c,age}=it;
+ setBg(STAGES[S.stage].bg);
+ if(c.rv)sceneBg('scene_hanhlang',hexA(STAGES[S.stage].bg,.6),S.stage);else stageTile(S.stage);
+ const tip=S.stage===0&&S.i<2&&S.gen.n===1?'<p class="swipehint">Vuốt thẻ hoặc bấm nút. Chấm đen cho biết thanh nào sẽ đổi.</p>'
+  :(c.L.k||c.R.k)&&!tipSeen('k')?`<p class="swipehint">Mới: nút có biểu tượng như ${LD.SKILLS[0].ico} là nuôi năng khiếu của con. 18 tuổi, năng khiếu mạnh nhất quyết định nghề.</p>`:'';
+ app.innerHTML=`<div class="screen">${topbar(age)}
+  <div class="table"><div class="back sticker"></div>
+   <div class="card sticker" id="card"><span class="who">${esc(fill(c.who))}</span>${duoChip(it)}
+    <div class="face">${faceArt(S.stage,c.m||'neutral',S.style)}</div>${npcArt(c)}
+    <p class="say">${esc(fill(c.t))}</p>
+    <div class="hint l" id="hl">${esc(fill(c.L.l))}${kHint(c.L)}</div><div class="hint r" id="hr">${esc(fill(c.R.l))}${kHint(c.R)}</div>
+   </div></div>
+  ${tip}
+  <div class="opts"><button class="opt l" id="bl"><span>←</span>${esc(fill(c.L.l))}${kBadge(c.L)}</button><button class="opt r" id="br"><span>→</span>${esc(fill(c.R.l))}${kBadge(c.R)}</button></div>
+  ${ROOM&&S.duo&&E.duoCanPass(S)?`<button class="nho" id="nho">🙏 Nhờ ${esc(seatRole(partner()))} làm thay (+${E.NHO_PIN} Pin, 1 lần mỗi giai đoạn)</button>`:''}
+ </div>`;
+ const nh=app.querySelector('#nho');
+ if(nh)nh.onclick=()=>{if(busy||!E.duoPass(S))return;sfx('swipe',.6);saveRun();tinyToast(`Đã nhờ ${seatRole(partner())}. Thẻ này sang ca của ${seatRole(partner())}.`);duoNext()};
+ const card=app.querySelector('#card'),hl=app.querySelector('#hl'),hr=app.querySelector('#hr'),bl=app.querySelector('#bl'),br=app.querySelector('#br');
+ let x0=null,dx=0;
+ const preview=side=>{for(let k=0;k<3;k++){const d=side?c[side].d[k]:0,el=document.getElementById('dot'+k);el.className='dot'+(d?' on':'')+(Math.abs(d)>=10?' big':'')}
+  bl.classList.toggle('hot',side==='L');br.classList.toggle('hot',side==='R')};
+ card.addEventListener('pointerdown',e=>{x0=e.clientX;dx=0;card.classList.add('drag');card.setPointerCapture(e.pointerId)});
+ card.addEventListener('pointermove',e=>{if(x0===null)return;dx=e.clientX-x0;
+  card.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;
+  const side=dx<-25?'L':dx>25?'R':null;hl.style.opacity=side==='L'?Math.min(1,(-dx-25)/60):0;hr.style.opacity=side==='R'?Math.min(1,(dx-25)/60):0;preview(side)});
+ const up=()=>{if(x0===null)return;x0=null;card.classList.remove('drag');
+  if(Math.abs(dx)>90)return choose(dx<0?'L':'R');
+  card.style.transform='';hl.style.opacity=hr.style.opacity=0;preview(null)};
+ card.addEventListener('pointerup',up);card.addEventListener('pointercancel',up);
+ [['L',bl],['R',br]].forEach(([s,b])=>{b.onclick=()=>choose(s);b.onmouseenter=()=>preview(s);b.onmouseleave=()=>preview(null)});
+ onKey=k=>{if(k==='ArrowLeft')choose('L');if(k==='ArrowRight')choose('R')};
+}
+// nhãn nhỏ trên thẻ khi chơi chung: việc được nhờ, hậu quả chéo, con đang ăn vạ
+function duoChip(it){if(!ROOM||!it)return '';
+ if(it.from)return `<span class="cchip">🙏 ${esc(cap(seatRole(it.from)))} nhờ bạn</span>`;
+ if(it.x)return `<span class="cchip">↪ Hậu quả từ ca của ${esc(seatRole(partner()))}</span>`;
+ if(it.av)return `<span class="cchip">😭 Con đang ăn vạ: Con vui ×2</span>`;
+ if(S.duo&&S.duo.mode==='con')return `<span class="cchip">😈 Con chọn ném vào bạn</span>`;
+ return ''}
+function choose(side){
+ if(ROOM&&S.duo&&S.duo.mode==='cung')return cungChoose(side);
+ if(busy)return;busy=true;onKey=null;
+ const {c,age}=E.current(S),card=app.querySelector('#card');
+ card.style.transform=`translateX(${side==='L'?-140:140}%) rotate(${side==='L'?-25:25}deg)`;card.style.opacity='0';
+ const before=myM().slice(),o=E.choose(S,side);
+ sfx('swipe',.7);
+ const id=E.cardId(c);if(!SAVE.cards.includes(id))SAVE.cards.push(id);
+ saveRun();
+ setTimeout(()=>{
+  refreshTop(age,before);
+  if(MOOD_SND[o.m])sfx(MOOD_SND[o.m],.6);
+  if(S.lastReact)sfx(S.lastReact==='like'?'sign_up':'sign_down',.55,.12);
+  const t=app.querySelector('.table');
+  const sline=signBadge()||kidQuote(o.m||'neutral'),sg=E.sign(S),fx=sline&&sg?signFx(sg,S.lastReact):'';
+  const kup=S.lastK.length?`<span class="kup${fx?' sh':''}" title="Năng khiếu">${S.lastK.map(id=>skIco(id)+' +1').join(' ')}</span>`:'';
+  if(S.lastK.length){tipDone('k');if(!S.lastReact)sfx('sign_up',.35,.15)}
+  t.innerHTML=`<div class="card sticker react${fx?' sigfx':''}" id="react"${fx?` style="--el:${EL_COLOR[sg.el]}"`:''}>${fx}${kup}<span class="who">${esc(fill(o.l))}</span><div class="face">${faceArt(S.stage,o.m||'neutral',S.style)}</div><p class="say">${esc(fill(o.r))}</p>${sline}<div class="tap">Chạm để tiếp</div></div>`;
+  app.querySelector('.opts').style.visibility='hidden';
+  const sh=app.querySelector('.swipehint');if(sh)sh.remove();
+  afterReact(t.closest('.screen'),age);
+ },230);
+}
+// câu nhận xét theo cung: xào bài, dùng hết mới quay lại (không lặp nhàm)
+let badgeQ={like:[],dislike:[]},lastBadge='';
+function signBadge(){const g=E.sign(S);if(!g||!S.lastReact)return '';const like=S.lastReact==='like',k=like?'like':'dislike';
+ if(!badgeQ[k].length){badgeQ[k]=E.shuffle(like?g.likes:g.dislikes);if(badgeQ[k][0]===lastBadge)badgeQ[k].push(badgeQ[k].shift())}
+ lastBadge=badgeQ[k].shift();
+ return `<p class="signbadge ${like?'like':'dislike'}">${zg(g)} ${esc(fill(lastBadge))} <b>${like?'+':'−'}${E.SIGN_BONUS} vui</b></p>`}
+// giọng con theo cung: câu con nói, chọn theo biểu cảm; xào bài để không lặp; không phải lần nào cũng nói.
+// Em bé (0–2 tuổi) chưa biết nói nên không hiện.
+const VOICE_P=0.65;let voiceQ={};
+function kidQuote(mood){const v=LD.SIGN_VOICE&&LD.SIGN_VOICE[S.sign];if(S.stage===0||!v||!v[mood]||Math.random()>VOICE_P)return '';
+ if(!voiceQ[mood]||!voiceQ[mood].length)voiceQ[mood]=E.shuffle(v[mood]);
+ return `<p class="kidq"><b>Con:</b> “${esc(fill(voiceQ[mood].shift()))}”</p>`}
+// D: viền + bóng thẻ theo màu nguyên tố, ký hiệu lơ lửng ở góc. C: khi con thích/ghét, ký hiệu bay quanh mặt (thích bay lên, ghét rơi xuống)
+// k < 1: bay thấp và tỏa ngang (màn đấu khẩu, để không che chữ)
+function sgBursts(g,up,k=1){let s='';
+ {[[-120,-95],[-60,-150],[0,-175],[60,-150],[120,-95],[-140,-15],[140,-15]].forEach(([x,y],i)=>{
+  s+=`<span class="sgburst${art('sign_'+g.id)?' art':''}" style="--dx:${up?Math.round(x*(k<1?1.3:1)):Math.round(x*1.2)}px;--dy:${up?Math.round(y*k):Math.round(Math.abs(y)*0.25+35)}px;--rot:${(i%2?1:-1)*(20+i*8)}deg;animation-delay:${i*45}ms">${zg(g)}</span>`})}
+ return s}
+function signFx(g,react){return `<span class="sigfloat">${zg(g)}</span>`+(react?sgBursts(g,react==='like'):'')}
+// chạm chỗ nào trên màn cũng được (trừ nút âm thanh), không cần đúng vào thẻ
+function afterReact(scr,age){
+ waitTap(scr,()=>{busy=false;
+  if(ROOM)return duoNext();
+  const early=E.earlyEnd(S);
+  if(early)return end(early,age);
+  render()});
+}
+
+// ---------- đấu khẩu ngày Tết, kiểu meme tòa án: PHẢN ĐỐI! · ĐỢI ĐÃ! · NHẬN LẤY! · PHẢN ĐỐI BỊ BÁC BỎ! ----------
+const secTxt=s=>String(s).replace('.',',');
+// bác ngày Tết: bác trai hoặc bác gái, chọn ngẫu nhiên mỗi ván lúc vào đấu khẩu (S.bac). mood: 'shock' (cứng họng), 'mad' (dọa giận)
+// dùng hình duel_bac_<trai|gai>_<mood> nếu có, không thì hình thường của bác đó
+function bacArt(mood){const g=S&&S.bac==='gai'?'gai':'trai',f=(mood&&art(`duel_bac_${g}_${mood}`))||art('duel_bac_'+g)||(g==='trai'&&art('npc_bac_tet'));
+ return f?img(f,'bacimg'):'<span class="bacph" aria-hidden="true">🧓</span>'}
+function bacMood(mood){const b=app.querySelector('.bac');if(b&&S&&art(`duel_bac_${S.bac==='gai'?'gai':'trai'}_${mood}`))b.innerHTML=bacArt(mood)}
+function judgeArt(cls){const f=art('duel_ba_chu_toa');return f?img(f,cls):''}
+// chữ to bật lên giữa màn rồi tắt; side 'me' = bạn (chỉ tay), 'bac' = bác
+function objection(text,side){
+ const el=document.createElement('div');el.className='objn '+side;el.setAttribute('aria-hidden','true');
+ // bạn hét: hình bố / mẹ chỉ tay trượt vào từ trái (chưa có hình của vai đang chơi thì giữ ngón tay emoji)
+ const p=side==='me'&&S&&art('duel_parent_'+(S.role==='bố'?'bo':'me'));
+ if(p)el.classList.add('cut');
+ el.innerHTML=`${p?img(p,'objp'):''}<b>${side==='me'&&!p?'<i>👉</i>':''}${text}</b>`;
+ app.appendChild(el);placeObj(el,side);
+ const scr=app.querySelector('.screen');if(scr){scr.classList.remove('shake');void scr.offsetWidth;scr.classList.add('shake')}
+ setTimeout(()=>el.remove(),1150);
+}
+// không che lời thoại: chữ của bác nằm ngay trên hộp thoại; chữ và hình bố / mẹ nằm dưới dòng kết quả (gọi sau khi đã chèn dòng đó)
+function placeObj(el,side){const d=app.querySelector('.dlg');if(!d)return;
+ const A=app.getBoundingClientRect(),D=d.getBoundingClientRect(),R=(app.querySelector('.dres')||d).getBoundingClientRect();
+ el.style.top=(side==='bac'?Math.max(4,D.top-A.top-el.offsetHeight-6):R.bottom-A.top+4)+'px'}
+// thẻ bằng chứng: gọn, bên phải bác, nằm trên nhãn "có bằng chứng" và hộp thoại
+function evCard(ev,skill){const ei=art('ev_'+skill),c=document.createElement('div');c.className='evcard';
+ c.innerHTML=`${ei?img(ei,'evi'):''}<small>Bằng chứng</small>${esc(ei?ev.replace(/^[^\p{L}\p{N}]+/u,''):ev)}`;app.appendChild(c);
+ const A=app.getBoundingClientRect(),D=(app.querySelector('.duelsign')||app.querySelector('.dlg')).getBoundingClientRect(),b=app.querySelector('.bac'),B=b?b.getBoundingClientRect():D;
+ c.style.top=Math.max(4,Math.min(B.top-A.top,D.top-A.top-c.offsetHeight-10))+'px'}
+function duelIntro(){
+ music('music_tet');sfx('duel_start',.8);
+ setBg(TET_BG);sceneBg('scene_tet',TET_TINT,-1);
+ if(!S.bac)S.bac=art('duel_bac_gai')&&Math.random()<.5?'gai':'trai';
+ const rounds=E.duelRounds(S),it=E.current(S),half=ROOM&&it&&it.part===1?Math.floor(rounds.length/2):0;
+ S.duelState=half?{rounds,r:0,st:0,wins:0,stop:half}:{rounds,r:0,st:0,wins:0};saveRun();
+ const judge=judgeArt('splpic');
+ splash({pic:judge,big:'Đấu khẩu ngày Tết!',sub:`${judge?'Chủ tọa: bà nội. ':''}Bác hỏi xoáy, bạn đáp xoay. ${half?`Bạn đỡ ${half} vòng đầu, ${seatRole(partner())} đỡ nốt ${rounds.length-half} vòng ở ca sau.`:`${rounds.length} vòng.`} Mỗi câu ${secTxt(E.DUEL_SECONDS)} giây. Có vụ bác cãi tới cùng!`},()=>duel(rounds,0,0,0));
+}
+function duelResume(){const d=S.duelState,it=E.current(S);music('music_tet');setBg(TET_BG);sceneBg('scene_tet',TET_TINT,-1);
+ // chia ca: phần 2 của trận, người ca 2 vào đỡ tiếp
+ if(ROOM&&it&&it.part===2&&d.stop&&d.r===d.stop&&!ROOM.splashed['d2'+S.stage]){ROOM.splashed['d2'+S.stage]=1;
+  return splash({big:'Bác phản pháo tiếp!',sub:`${cap(seatRole(partner()))} đã đỡ ${d.stop} vòng đầu, thắng ${d.wins}. Tới lượt bạn đỡ nốt.`},duelResume)}
+ return d.r>=d.rounds.length?duelEnd(d.wins):duel(d.rounds,d.r,d.wins,d.st||0)}
+// một hiệp: bác nói, bạn chọn câu đáp. Vụ tranh cãi (nhiều hiệp): đáp khéo thì bác phản pháo tiếp, đáp yếu là thua cả vụ.
+function duel(rounds,r,wins,st){
+ const {age}=E.current(S),rd=rounds[r],step=rd.steps[st],qs=rd.sign&&E.signById(rd.sign),qf=rd.fam&&E.famById(rd.fam),multi=rd.steps.length>1;
+ const sk=rd.skill&&E.skillById(rd.skill),ev=sk&&typeof step.ev==='string'?step.ev:'',pf=()=>S.duelState&&S.duelState.proof?1:0;
+ const lead=st>0?900:0;   // bác phản pháo: để chữ "ĐỢI ĐÃ!" hiện xong rồi mới tính giờ
+ app.innerHTML=`<div class="screen duel">
+  <div class="top"><div class="age">Tết năm con ${age} tuổi<small>Vòng ${r+1}/${rounds.length}${multi?` · Hiệp ${st+1}/${rd.steps.length}`:''}</small></div>
+   <div class="score" aria-label="Thắng ${wins} vòng">${rounds.map((x,i)=>lantern(i<wins)).join('')}</div></div>
+  <div class="timer"><i style="animation-duration:${E.DUEL_SECONDS}s;animation-delay:${lead}ms"></i></div>
+  <div class="arena"${qs?` style="--el:${EL_COLOR[qs.el]}"`:''}>
+   ${rd.title?`<span class="case">⚖️ ${esc(rd.title)}</span>`:''}
+   <div class="bac">${bacArt()}</div>
+   ${qs?`<span class="duelsign">${zg(qs)} Câu theo cung ${qs.name}</span>`:''}
+   ${qf&&!rd.title?`<span class="duelsign" style="--el:var(--ink)">${qf.ico} Câu theo gia cảnh: ${esc(qf.name)}</span>`:''}
+   ${sk?`<span class="duelsign" style="--el:#22B07D">${sk.ico} ${esc(S.name)} giỏi ${sk.name.toLowerCase()}: có bằng chứng!</span>`:''}
+   <div class="dlg${qs?' sgq':''}${sk?' proof':''}"><span class="dlg-name">Bác</span><p>${esc(fill(step.q))}</p></div>
+   <div class="kid">${faceArt(S.stage,st>0?'shock':'neutral',S.style)}</div>
+  </div>
+  <div class="dopts">${step.opts.map((o,i)=>`<button class="opt" data-i="${i}"><span>${i?'→':'←'}</span>${esc(fill(o.l))}${ev&&o.win?'<i class="evb">Bằng chứng</i>':''}</button>`).join('')}</div>
+ </div>`;
+ if(st>0){objection('ĐỢI ĐÃ!','bac');sfx('shock',.6)}
+ let done=false;
+ const answer=i=>{if(done)return;done=true;clearTimeout(timer);ticks.forEach(clearTimeout);onKey=null;
+  const win=i!=null&&step.opts[i].win===1,slow=i==null,more=win&&st+1<rd.steps.length;
+  app.querySelectorAll('.dopts .opt').forEach((b,j)=>{b.disabled=true;if(j===i)b.classList.add(win?'right':'wrong')});
+  app.querySelector('.dopts').classList.add('done');
+  app.querySelector('.timer i').style.animationPlayState='paused';
+  const kid=app.querySelector('.kid'),dlg=app.querySelector('.dlg');
+  if(more){   // thắng hiệp này nhưng bác chưa chịu: chạm để nghe bác phản pháo
+   sfx('duel_win',.6);bacMood('shock');
+   kid.innerHTML=faceArt(S.stage,'sly',S.style);
+   dlg.insertAdjacentHTML('afterend',`<p class="dres w">Bác cứng họng 1 giây… rồi xắn tay áo.<span class="tapn">Chạm để nghe bác phản pháo</span></p>`);
+   objection('PHẢN ĐỐI!','me');
+   S.duelState={rounds,r,st:st+1,wins,proof:pf(),stop:S.duelState&&S.duelState.stop};saveRun();
+   waitTap(app.querySelector('.screen'),()=>duel(rounds,r,wins,st+1));
+   return;
+  }
+  const line=rand(slow?LD.DUEL_OUT.slow:win&&ev&&LD.DUEL_OUT.proof?LD.DUEL_OUT.proof:win?LD.DUEL_OUT.win:LD.DUEL_OUT.lose);
+  if(win){sfx('duel_win',.7);if(qs)sfx('sign_up',.5,.15);bacMood('shock')}
+  else{sfx('duel_lose',.7);dlg.insertAdjacentHTML('beforeend',`<span class="stamp">${slow?'Hết giờ!<br>Bị bác bỏ':'Phản đối<br>bị bác bỏ!'}</span>`)}
+  kid.innerHTML=faceArt(S.stage,win?'sly':'cringe',S.style)+(qs&&win?sgBursts(qs,true,.3):'');
+  dlg.insertAdjacentHTML('afterend',`<p class="dres ${win?'w':'l'}">${win?(multi?'Thắng cả vụ!':'Thắng!'):slow?'Hết giờ!':'Thua!'} ${esc(line)}<span class="tapn">${r+1<rounds.length?'Chạm để sang vòng sau':'Chạm để xem kết quả'}</span></p>`);
+  if(win)objection(multi||ev?'NHẬN LẤY!':'PHẢN ĐỐI!','me');
+  if(win&&ev)evCard(ev,rd.skill);
+  const w=wins+(win?1:0);
+  S.duelState={rounds,r:r+1,st:0,wins:w,proof:pf()||(win&&ev?1:0),stop:S.duelState&&S.duelState.stop};saveRun();
+  waitTap(app.querySelector('.screen'),()=>{
+   // chia ca: đỡ xong phần của mình thì nhường người ca sau
+   const ds=S.duelState,it=E.current(S);
+   if(ROOM&&ds&&ds.stop&&r+1===ds.stop&&it&&it.part===1){E.duoDuelPause(S);saveRun();
+    return splash({big:'Tới lượt người kia!',sub:`Bạn đã đỡ ${ds.stop} vòng, thắng ${w}. ${cap(seatRole(partner()))} sẽ đỡ nốt ở ca sau.`},duoNext)}
+   r+1<rounds.length?duel(rounds,r+1,w,0):duelEnd(w)});
+ };
+ const ms=lead+E.DUEL_SECONDS*1000;
+ const timer=setTimeout(()=>answer(null),ms);
+ const ticks=[3,2,1].map(s=>setTimeout(()=>sfx('tick',.8),ms-s*1000));
+ app.querySelectorAll('.dopts .opt').forEach(b=>b.onclick=()=>answer(+b.dataset.i));
+ onKey=k=>{if(k==='ArrowLeft')answer(0);if(k==='ArrowRight')answer(1)};
+}
+function duelEnd(wins){
+ const {age}=E.current(S),before=S.m.slice(),proof=!!(S.duelState&&S.duelState.proof),n=(S.duelState&&S.duelState.rounds.length)||E.DUEL_ROUNDS,d=E.duelFinish(S,wins,proof);
+ S.duelState=null;E.lixiStart(S);saveRun();
+ const title=wins===n?'Toàn thắng!':wins>=2?'Thắng bác rồi!':wins===1?'Thua sát nút!':'Thua trắng!';
+ const line=wins===n?'Con nhìn bạn như nhìn idol. Cả họ nhắc chuyện này tới Tết sau.':wins>=2?'Con thì thầm: "{P} đỉnh nóc kịch trần."':wins===1?'Con vỗ vai bạn: "Năm sau mình luyện tiếp."':'Con lặng lẽ đưa bạn miếng mứt dừa.';
+ const judge=judgeArt('judge');   // bà nội chủ tọa đọc phán quyết
+ app.innerHTML=`<div class="screen duel">${topbar(age)}
+  <div class="table"><div class="card sticker react" id="react"><span class="who">${judge?'Bà nội phán quyết':'Đấu khẩu ngày Tết'} · ${wins}/${n}</span>
+   <div class="face">${faceArt(S.stage,wins>=2?'happy':'cringe',S.style)}</div>${judge}
+   <p class="say"><b class="disp big2">${title}</b><br>${esc(fill(line))}</p><div class="tap">${deltaTxt(d)} · chạm để tiếp</div></div></div></div>`;
+ refreshTop(age,before);
+ sfx(wins>=2?'ach':'bad',.6);
+ busy=true;afterReact(app.querySelector('.screen'),age);
+}
+
+// ---------- lì xì kéo co (ngay sau đấu khẩu): bác dúi phong bao nhiều lần, chưa dọa giận thì từ chối, dọa giận thì nhận ----------
+function lixiIntro(){
+ music('music_tet');setBg(TET_BG);sceneBg('scene_tet',TET_TINT,-1);
+ splash({big:'Lì xì kéo co!',sub:'Bác dúi phong bao. Từ chối cho phải phép, tới lúc bác dọa giận thì nhận bằng hai tay.'},()=>lixi(0));
+}
+function lixi(i){
+ const L=LD.LIXI,last=i>=S.lixi.n-1,line=fill(rand(i===0?L.first:last?L.angry:L.push));
+ app.innerHTML=`<div class="screen duel lixi">
+  <div class="top"><div class="age">Lì xì kéo co<small>Tết năm con ${S.lastAge} tuổi · bác dúi lần ${i+1}</small></div><div class="score" aria-hidden="true">${art('lixi')?img(art('lixi'),'envi'):'🧧'}</div></div>
+  <div class="timer"><i style="animation-duration:${E.LIXI_SECONDS}s"></i></div>
+  <div class="arena">
+   <div class="bac${last?' mad':''}">${bacArt(last?'mad':'')}</div>
+   <div class="dlg${last?' mad':''}"><span class="dlg-name">Bác</span><p>${esc(line)}</p></div>
+   <div class="envl" aria-hidden="true">${art('lixi')?img(art('lixi'),'envimg'):'🧧'}</div>
+   <div class="kid">${faceArt(S.stage,last?'shock':['happy','sulky','cry'][Math.min(i,2)],S.style)}</div>
+  </div>
+  <p class="rule">Bác chưa dọa giận thì từ chối. Bác dọa giận thì nhận.</p>
+  <div class="dopts"><button class="opt" data-a="0"><span>←</span>Thôi ạ, cháu không lấy đâu!</button><button class="opt" data-a="1"><span>→</span>Dạ cháu xin, cảm ơn bác!</button></div>
+ </div>`;
+ if(last)sfx('shock',.6);
+ let done=false;
+ const act=a=>{if(done)return;done=true;clearTimeout(timer);onKey=null;
+  app.querySelectorAll('.dopts .opt').forEach(b=>b.disabled=true);app.querySelector('.dopts').classList.add('done');
+  app.querySelector('.timer i').style.animationPlayState='paused';
+  if(a===0&&!last){sfx('swipe',.6);app.querySelector('.envl').classList.add('back');setTimeout(()=>lixi(i+1),550);return}   // từ chối đúng phép: bác dúi tiếp
+  // nhận khi bác dọa giận = chuẩn; nhận sớm hoặc đứng im (con nhận luôn) = vồ vập; từ chối cả lần cuối = bác cất
+  lixiEnd(a===1?(last?'chuan':'vo'):a===0||last?'cat':'vo',a==null);
+ };
+ const timer=setTimeout(()=>act(null),E.LIXI_SECONDS*1000);
+ app.querySelectorAll('.dopts .opt').forEach(b=>b.onclick=()=>act(+b.dataset.a));
+ onKey=k=>{if(k==='ArrowLeft')act(0);if(k==='ArrowRight')act(1)};
+}
+function lixiEnd(out,grab){
+ const cung=ROOM&&S.duo&&S.duo.mode==='cung',L=LD.LIXI,age=S.lastAge,d=cung?(E.LIXI_EFFECT[out]||[0,0,0]):E.lixiFinish(S,out),ok=out==='chuan';if(!cung)saveRun();
+ const line=fill(rand(out==='vo'&&grab&&L.grab?L.grab:L[out])),dlg=app.querySelector('.dlg'),env=app.querySelector('.envl');
+ app.querySelector('.kid').innerHTML=faceArt(S.stage,ok?'happy':out==='vo'?'sly':'cry',S.style);
+ if(ok){sfx('duel_win',.7);env.classList.add('got')}
+ else{sfx('duel_lose',.7);dlg.insertAdjacentHTML('beforeend',`<span class="stamp">${out==='vo'?'Vồ vập!':'Bác cất<br>luôn rồi!'}</span>`);env.classList.add(out==='vo'?'got':'back')}
+ dlg.insertAdjacentHTML('afterend',`<p class="dres ${ok?'w':'l'}">${esc(line)}${out!=='cat'?`<br>Trong phong bao: <b>${esc(rand(L.money))}</b>.`:''}<span class="tapn">${deltaTxt(d)} · chạm để tiếp</span></p>`);
+ app.querySelector('.rule').remove();
+ if(ok)objection('CHUẨN BÀI!','me');
+ waitTap(app.querySelector('.screen'),()=>{if(cung)return cungSend({lixi:out});if(ROOM)return duoNext();const early=E.earlyEnd(S);if(early)return end(early,age);render()});
+}
+
+// ---------- gia phả: các đời của dòng họ đang chơi (SAVE.tree) ----------
+function treeSheet(){
+ const g=S?S.gen:pick.gen,el=document.createElement('div');el.className='sheet';app.appendChild(el);
+ const prevKey=onKey;onKey=null;
+ const close=()=>{el.remove();onKey=prevKey};
+ const byN=new Map(SAVE.tree.map(e=>[e.n,e])),top=Math.max(g.n,...SAVE.tree.map(e=>e.n)),rv=!S&&SAVE.run&&cleanGen(SAVE.run.gen);
+ let rows=`<li><span class="tn">★</span><b>Bạn</b><small>Người mở đầu dòng họ</small></li>`;
+ for(let k=1;k<=top;k++){let e=byN.get(k);
+  if(!e&&k===g.n-1&&g.parent)e={name:g.parent,sign:g.parentSign,end:g.trait};
+  const t=e&&e.end&&(LD.TITLES[e.end]||LD.ENDS[e.end]);
+  if(e)rows+=`<li><span class="tn">${k}</span><b>${esc(e.name)}</b>${e.sign?` · ${signTxt(e.sign)}`:''}<small>${t?'Cái kết: '+esc(t[0]):'Đã nuôi tới 18 tuổi'}</small>${jobOf(e.job)?`<span class="tj">${jobTxt(e.job)}</span>`:''}</li>`;
+  else if(k===g.n){const cur=S?`Đang nuôi ${esc(S.name)}, ${ageTxt(S.lastAge).toLowerCase()}`:rv&&rv.n===k?`Đang nuôi ${esc(SAVE.run.name)}`:'Sắp chào đời';
+   rows+=`<li class="now"><span class="tn">${k}</span><b>Đời ${k}</b><small>${cur}</small></li>`}
+  else rows+=`<li><span class="tn">${k}</span><b>Đời ${k}</b><small>Chưa ghi lại (từ trước khi có gia phả)</small></li>`}
+ const hs=E.heirs(g);
+ el.innerHTML=`<div class="box sticker" role="dialog" aria-modal="true" aria-labelledby="tree-h"><button class="x" aria-label="Đóng">✕</button>
+  <h2 class="disp" id="tree-h">Gia phả nhà mình</h2>
+  <ol class="tree">${rows}</ol>
+  ${hs.length?`<p class="sub">Đời ${g.n} mang theo: ${hs.map(id=>`<b>${esc(LD.TRAITS[id][0])}</b>`).join(' · ')} (${deltaTxt(E.heirBonus(g))}).</p>`:''}
+  <p class="sub">Nuôi tới 18 tuổi rồi bấm <b>Đời sau</b> để viết tiếp. Đời sau mang theo nét gia truyền của ${E.HEIR_MAX} đời gần nhất và khiếu theo nghề của phụ huynh.</p></div>`;
+ el.onclick=e=>{if(e.target===el)close()};
+ el.onkeydown=e=>{if(e.key==='Escape')close()};
+ el.querySelector('.x').onclick=close;
+}
+
+// ---------- nuôi chung qua link (owner 05/10/2026): chia ca, cùng vuốt, một người làm con ----------
+// Phòng nằm trên máy chủ (worker/index.js, /api/room). Máy người chơi tự chạy luật rồi ghi cả ván lên phòng:
+// chia ca và một người làm con thì ai tới lượt người đó ghi; cùng vuốt thì hai người chỉ gửi lựa chọn (pick),
+// chủ phòng (ghế a) gom đủ hai lựa chọn mới chạy luật và ghi ván. Ai chưa tới lượt thì giữ một yêu cầu chờ (?wait=ver).
+// Máy này nhớ token ghế của từng phòng trong localStorage 'ld-rooms' (đổi máy là mất ghế).
+const ROOM_RE=/^[a-z2-9]{8}$/,MODE_TXT={ca:'Chia ca',cung:'Cùng vuốt',con:'Một người làm con'};
+const MODE_SUB={ca:'Mỗi người một ca, rảnh lúc nào vuốt lúc đó. Hết mỗi giai đoạn họp gia đình, bỏ phiếu kín một quyết định lớn. Ván dài gần gấp đôi.',
+ cung:'Hai người online cùng lúc, cùng thấy một tình huống, chọn kín rồi lật. Cuối ván biết hai bạn hợp nhau bao nhiêu phần trăm.',
+ con:'Một người làm bố hoặc mẹ, người kia vào vai con: con chọn tình huống ném cho bố mẹ, có nhiệm vụ bí mật.'};
+const MODE_ICO={ca:'🔁',cung:'🤝',con:'😈'};
+function myRooms(){try{const o=JSON.parse(localStorage.getItem('ld-rooms')||'{}');return o&&typeof o==='object'&&!Array.isArray(o)?o:{}}catch(e){return{}}}
+function saveRoom(id,info){const o=myRooms();if(info)o[id]={...(o[id]||{}),...info,at:Date.now()};else delete o[id];try{localStorage.setItem('ld-rooms',JSON.stringify(o))}catch(e){}}
+async function roomApi(path,method,body,token){
+ const h={};if(body)h['content-type']='application/json';if(token)h['x-seat']=token;
+ let r;try{r=await fetch('/api/room'+path,{method:method||'GET',headers:h,body:body?JSON.stringify(body):undefined,cache:'no-store',signal:ROOM&&ROOM.ctl&&method==='GET'?ROOM.ctl.signal:undefined})}
+ catch(e){throw Object.assign(new Error(e.name==='AbortError'?'abort':'net'),{code:e.name==='AbortError'?'abort':'net'})}
+ let j={};try{j=await r.json()}catch(e){}
+ if(!r.ok)throw Object.assign(new Error(j.error||'server'),{code:j.error||'server',status:r.status,data:j});
+ return j}
+const roomLink=id=>location.origin+'/?duo='+id;
+const roomCode=id=>String(id).toUpperCase().replace(/^(.{4})(.{4})$/,'$1-$2');
+const parseCode=t=>{const c=String(t||'').toLowerCase().replace(/[^a-z2-9]/g,'');return ROOM_RE.test(c)?c:''};
+const ROOM_ERR={net:'Mất mạng rồi. Kiểm tra mạng rồi thử lại nha.',no_room:'Không tìm thấy phòng này. Có thể link sai hoặc phòng đã quá 30 ngày.',full:'Phòng đủ hai người rồi.',
+ rate_limited:'Bấm nhanh quá. Đợi một phút rồi thử lại nha.',server:'Máy chủ đang dỗi. Thử lại sau nha.',too_big:'Ván này dài quá, máy chủ không giữ nổi.',bad_state:'Ván này được tạo bằng bản game cũ, không mở tiếp được.'};
+
+// ---- đóng gói ván để ghi lên phòng ----
+function packDuo(s){return{v:1,run:packRun(s),pk:s.pk||{}}}
+function unpackDuo(state){const s=state&&unpackRun(state.run);if(!s||!s.duo)return null;s.pk=state.pk&&typeof state.pk==='object'?state.pk:{};return s}
+// thanh của người chơi trên máy này: Con vui chung + pin, thân của mình
+function myM(){if(!ROOM||!S||!S.duo||S.duo.mode==='con')return S.m;const m=E.duoM(S,ROOM.seat);return[S.m[0],m[0],m[1]]}
+function seatRole(s){return S.duo.seats[s].role}
+function partner(){return E.other(ROOM.seat)}
+const isKid=()=>S&&S.duo&&S.duo.mode==='con'&&S.duo.kid===ROOM.seat;
+// chữ của một người cụ thể ({p} = người đó), ví dụ kể lại ca của người kia
+function fillAs(t,r){const q=r==='bố'?'mẹ':'bố';return fill(t.replace(/\{p\}/g,r).replace(/\{P\}/g,cap(r)).replace(/\{q\}/g,q).replace(/\{Q\}/g,cap(q)))}
+function dfill(t,seat){const x=seatRole(seat),y=seatRole(E.other(seat));return fill(t.replace(/\{X\}/g,cap(x)).replace(/\{x\}/g,x).replace(/\{Y\}/g,cap(y)).replace(/\{y\}/g,y))}
+
+// ---- vào phòng: từ link mời, từ danh sách phòng của máy này ----
+async function duoOpen(id){
+ const mine=myRooms()[id];
+ if(mine&&mine.t)return enterRoom(id);
+ app.innerHTML=`<div class="screen"><p class="bload">Đang mở phòng…</p></div>`;
+ let r;try{r=await roomApi('/'+id)}catch(e){return roomFail(e)}
+ const st=unpackDuo(r.state);if(!st)return roomFail({code:'bad_state'});
+ const kidSide=r.mode==='con'&&st.duo.kid==='b',myRole=r.mode==='con'?st.role:st.duo.seats.b.role;
+ const g=E.sign(st),fam=st.fam;
+ setBg(STAGES[0].bg);stageTile(0);
+ app.innerHTML=`<div class="screen scroll duojoin">
+  <h1 class="logo">Con nhà <span>mình</span></h1>
+  <div class="duohero sticker"><span class="duotag">${MODE_ICO[r.mode]} ${MODE_TXT[r.mode]}</span>
+   <div class="face">${faceArt(0,'happy',st.style)}</div>
+   <h2 class="disp">${r.mode==='con'?(kidSide?'Bạn được mời vào vai con':`Bạn được mời làm ${esc(myRole)}`):`Bạn được mời làm ${esc(myRole)}`}</h2>
+   <p>Cùng nuôi <b>${esc(st.name)}</b>${g?` · ${signTxt(g.id)}`:''} · ${esc(fam.ico)} ${esc(fam.name)}</p>
+   <p class="sub2">${esc(MODE_SUB[r.mode])}</p></div>
+  ${r.open?`<button class="act main" id="j-go">Vào nuôi chung →</button>`:`<p class="ferr">Phòng này đủ hai người rồi.</p>`}
+  <p class="ferr" id="j-err" role="alert"></p>
+  <button class="linkbtn" id="j-home">${r.open?'Thôi, về màn đầu chơi một mình':'Về màn đầu'}</button></div>`;
+ app.querySelector('#j-home').onclick=leaveRoom;
+ const go=app.querySelector('#j-go');
+ if(go)go.onclick=async()=>{go.disabled=true;go.textContent='Đợi xíu…';
+  try{const j=await roomApi('/'+id+'/join','POST',{});saveRoom(id,{t:j.token,s:'b',mode:j.mode,kid:st.name});enterRoom(id)}
+  catch(e){go.disabled=false;go.textContent='Vào nuôi chung →';app.querySelector('#j-err').textContent=ROOM_ERR[e.code]||ROOM_ERR.server}};
+}
+function roomFail(e){
+ setBg(STAGES[0].bg);stageTile(0);
+ app.innerHTML=`<div class="screen"><div class="duohero sticker"><h2 class="disp">Chưa mở được phòng</h2><p>${esc(ROOM_ERR[e.code]||ROOM_ERR.server)}</p></div>
+  <div class="endbtns"><button class="main" id="r-again">Thử lại</button><button id="r-home">Về màn đầu</button></div></div>`;
+ app.querySelector('#r-home').onclick=leaveRoom;
+ app.querySelector('#r-again').onclick=()=>{const id=new URLSearchParams(location.search).get('duo');id?duoOpen(id):intro()};
+}
+async function enterRoom(id){
+ const mine=myRooms()[id];if(!mine)return duoOpen(id);
+ if(ROOM&&ROOM.ctl)ROOM.ctl.abort();
+ ROOM={id,seat:mine.s,token:mine.t,ver:0,ctl:null,timer:0,dirty:false,seen:null,seenStep:-1,seenStage:-2,splashed:{}};
+ try{history.replaceState(null,'','/?duo='+id)}catch(e){}
+ app.innerHTML=`<div class="screen"><p class="bload">Đang mở phòng…</p></div>`;
+ let r;try{r=await roomApi('/'+id,'GET',null,ROOM.token)}catch(e){return roomFail(e)}
+ if(!r.seat){saveRoom(id,null);return duoOpen(id)}   // token cũ không còn ghế (bị mời người khác vào thay)
+ if(!roomTake(r))return roomFail({code:'bad_state'});
+ saveRoom(id,{mode:r.mode,kid:S.name});
+ music('music_calm');duoNext();
+}
+// nhận ván từ máy chủ
+function roomTake(r){const s=unpackDuo(r.state);if(!s)return false;S=s;ROOM.ver=r.ver;ROOM.mode=r.mode;ROOM.open=!!r.open;ROOM.seen=r.seen||ROOM.seen;badgeQ={like:[],dislike:[]};voiceQ={};return true}
+function leaveRoom(){if(ROOM){if(ROOM.dirty)roomFlush();clearTimeout(ROOM.timer);if(ROOM.ctl)ROOM.ctl.abort()}ROOM=null;S=null;try{history.replaceState(null,'','/')}catch(e){}intro()}
+
+// ---- ghi ván lên phòng: gộp nhiều bước liền nhau thành một lần ghi (now = ghi ngay, chờ xong) ----
+function roomSave(now){
+ if(!ROOM||!S)return;
+ if(S.duo.mode==='cung'&&ROOM.seat!=='a')return;   // cùng vuốt: chỉ chủ phòng ghi ván
+ ROOM.dirty=true;clearTimeout(ROOM.timer);
+ if(now)return roomFlush();
+ ROOM.timer=setTimeout(roomFlush,900);
+}
+async function roomFlush(){
+ if(!ROOM||!ROOM.dirty)return true;
+ clearTimeout(ROOM.timer);ROOM.dirty=false;
+ const R=ROOM;
+ try{const j=await roomApi('/'+R.id,'PUT',{ver:R.ver,state:packDuo(S)},R.token);if(ROOM===R)R.ver=j.ver;return true}
+ catch(e){
+  if(ROOM!==R)return false;
+  if(e.code==='stale'&&e.data&&e.data.state){roomTake({state:e.data.state,ver:e.data.ver,mode:R.mode,open:R.open});tinyToast('Ván vừa được cập nhật từ máy bên kia.');duoNext();return false}
+  R.dirty=true;R.timer=setTimeout(roomFlush,5000);tinyToast('Chưa lưu được lên phòng, sẽ thử lại.');return false}
+}
+function tinyToast(t){const el=document.createElement('div');el.className='toast';el.innerHTML=`<p>${esc(t)}</p>`;app.appendChild(el);setTimeout(()=>el.remove(),3500)}
+// chờ người kia: giữ một yêu cầu tới khi ván đổi, rồi vẽ lại
+async function roomPoll(){
+ const R=ROOM;if(!R||R.ctl)return;
+ R.ctl=new AbortController();
+ try{
+  while(ROOM===R){
+   let r;try{r=await roomApi('/'+R.id+'?wait='+R.ver,'GET',null,R.token)}
+   catch(e){if(e.code==='abort'||ROOM!==R)return;await new Promise(x=>setTimeout(x,4000));continue}
+   if(ROOM!==R)return;
+   if(r.ver!==R.ver||!!r.open!==!!R.open){if(!roomTake(r))return roomFail({code:'bad_state'});R.ctl=null;return duoNext()}
+   R.seen=r.seen||R.seen;
+  }
+ }finally{if(ROOM===R)R.ctl=null}
+}
+function stopPoll(){if(ROOM&&ROOM.ctl){ROOM.ctl.abort();ROOM.ctl=null}}
+
+// ---- điều phối: vẽ màn đúng với lượt và pha của ván ----
+function duoNext(){
+ busy=false;onKey=null;
+ if(!ROOM||!S||!S.duo)return leaveRoom();
+ stopPoll();
+ const d=S.duo;
+ if(d.over)return duoEnd();
+ const early=E.duoEarly(S);if(early&&d.ph!=='lobby')return duoOver(early);
+ if(d.mode==='ca')return caNext();
+ if(d.mode==='con')return conNext();
+ return cungNext();
+}
+
+// ======== chia ca ========
+function caNext(){
+ const d=S.duo,me=ROOM.seat;
+ if(d.turn!==me&&!d.solo)return waitScreen();
+ if(!d.ph){E.duoStage(S,0);d.began='';saveRun(true);return caSplash()}
+ if(d.ph==='vote')return voteScreen(d.turn);
+ const seat=d.ph==='ca1'?'a':'b';
+ if(d.began!==seat+S.stage){
+  d.began=seat+S.stage;const n=E.duoBeginCa(S,seat);saveRun();
+  if(seat==='b'&&!d.solo)return recapScreen(n);
+ }
+ E.duoUse(S,seat);
+ if(S.lixi)return lixiIntro();
+ if(E.duoCaEnd(S)){
+  d.mark[seat]=S.log.length;
+  if(d.ph==='ca1'){d.ph='ca2';d.turn='b';d.at=Date.now();saveRun(true);return d.solo?caNext():waitScreen({k:'Hết ca của bạn',t:`Tới ca của ${seatRole('b')}`,p:`Bạn đã lo xong những năm đầu của giai đoạn ${STAGES[S.stage].name.toLowerCase()}. Nhắc ${seatRole('b')} vào ca nha.`})}
+  d.ph='vote';E.duoVoteStart(S);saveRun();return voteScreen('b');
+ }
+ return render();
+}
+// màn chào giai đoạn của ca 1 (người tạo phòng mở đầu mỗi giai đoạn)
+function caSplash(){
+ app.innerHTML='<div class="screen"></div>';   // dọn màn chờ / màn lật phiếu nằm bên dưới
+ const g=E.sign(S),si=S.stage,d=S.duo,first=d.split,second=S.deck.length-d.split;
+ music('music_calm');sfx('stage',.8);
+ if(S.note&&(S.note.ev||S.note.back))sfx('shock',.5,.25);
+ splash(STAGES[si],caNext,g?`<span style="color:${EL_COLOR[g.el]}">${zg(g)}</span> ${esc(g.name+': '+fill(g.stages[si]))}`:'',
+  famNote(S.note)+`<p class="fnote">Ca của ${esc(seatRole('a'))}: ${first} tình huống · rồi tới ca của ${esc(seatRole('b'))}: ${second} tình huống · cuối giai đoạn họp gia đình</p>`+skillRow(S,si?`Năng khiếu của ${esc(S.name)}`:'Năng khiếu bẩm sinh'));
+}
+// đầu ca 2: kể lại ca của người kia, kết quả họp gia đình trước, việc được nhờ
+function recapScreen(added){
+ const d=S.duo,a=seatRole('a'),it=d.q,lines=S.log.slice(d.mark.b||0).filter(x=>x.w==='a'||x.w==='vote').slice(-3);
+ const last=d.votes[d.votes.length-1],passed=S.deck.slice(S.i).filter(x=>x.from||x.x).length;
+ setBg(STAGES[S.stage].bg);stageTile(S.stage);music('music_calm');
+ app.innerHTML=`<div class="screen scroll recap"><h1 class="disp">Tới ca của bạn!</h1>
+  <p class="cl">${esc(S.name)} đang ${ageTxt(S.deck[S.i]?S.deck[S.i].age:S.lastAge).toLowerCase()} · ${esc(STAGES[S.stage].name)}</p>
+  ${last&&S.stage>0?voteResultBox(last,'Kết quả họp gia đình lần trước'):''}
+  ${lines.length?`<h2 class="sub3">Ca vừa rồi của ${esc(a)}</h2><div class="moments light">${lines.map(x=>`<p><b>${ageTxt(x.age)}</b> ${esc(x.w==='a'?fillAs(x.r,a):fill(x.r))}</p>`).join('')}</div>`:''}
+  ${passed?`<p class="frule">${passed===1?'Có 1 việc':`Có ${passed} việc`} ${esc(a)} để lại cho bạn (nhờ làm thay hoặc hậu quả từ ca trước).</p>`:''}
+  ${duoMeters()}
+  <button class="act main" id="rc-go">Vào ca →</button></div>`;
+ app.querySelector('#rc-go').onclick=()=>caNext();
+ onKey=k=>{if(k==='Enter'||k===' ')caNext()};
+}
+// bỏ phiếu kín cho quyết định lớn; seat = người đang bỏ (b bỏ trước, a bỏ sau và lật)
+function voteScreen(seat){
+ const d=S.duo,v=d.vote||E.duoVoteStart(S),q=LD.DUO_VOTES[v.v],me=seat||ROOM.seat;
+ E.duoUse(S,me);
+ setBg(STAGES[S.stage].bg);stageTile(S.stage);music('music_calm');
+ const second=!!v[E.other(me)];
+ app.innerHTML=`<div class="screen vote">${topbar(S.lastAge)}
+  <div class="table"><div class="card sticker votecard"><span class="who">Họp gia đình · quyết định lớn</span>
+   <div class="face">${faceArt(S.stage,'neutral',S.style)}</div>
+   <p class="say">${esc(fill(q.q))}</p>
+   <p class="votehint">${second?`${esc(cap(seatRole(E.other(me))))} đã bỏ phiếu kín. Bạn bỏ xong là lật kết quả.`:`Phiếu kín: ${esc(seatRole(E.other(me)))} không thấy bạn chọn gì. Khác ý thì con nghe người thân hơn.`}</p></div></div>
+  <div class="opts"><button class="opt l" id="bl"><span>←</span>${esc(fill(q.L.l))}${kBadge(q.L)}</button><button class="opt r" id="br"><span>→</span>${esc(fill(q.R.l))}${kBadge(q.R)}</button></div></div>`;
+ const pickV=side=>{if(busy)return;busy=true;onKey=null;sfx('swipe',.7);
+  const before=myM().slice(),res=E.duoVote(S,me,side);
+  if(!res){d.turn=E.other(me);d.at=Date.now();d.mark[me]=S.log.length;saveRun(true);busy=false;
+   return d.solo?voteScreen(E.other(me)):waitScreen({k:'Đã bỏ phiếu kín',t:`Chờ ${seatRole(E.other(me))} bỏ phiếu`,p:`${seatRole(E.other(me))} vào là lật kết quả họp gia đình.`})}
+  saveRun();voteReveal(res,before)};
+ app.querySelector('#bl').onclick=()=>pickV('L');app.querySelector('#br').onclick=()=>pickV('R');
+ onKey=k=>{if(k==='ArrowLeft')pickV('L');if(k==='ArrowRight')pickV('R')};
+}
+function voteResultBox(r,head){
+ const q=LD.DUO_VOTES[r.v],o=q[r.side],a=seatRole('a'),b=seatRole('b');
+ const how=r.win==='both'?`Hai người cùng chọn <b>${esc(fill(o.l))}</b>. Đồng lòng: Con vui +${E.DUO_AGREE}.`
+  :r.win==='ongba'?`Hai người khác ý. Ông bà quyết: <b>${esc(fill(o.l))}</b>.`
+  :`Hai người khác ý. ${esc(S.name)} nghe ${esc(seatRole(r.win))} (thân hơn): <b>${esc(fill(o.l))}</b>. Người kia tức, Pin −${E.DUO_LOSE}.`;
+ return `<div class="votebox sticker"><small>${esc(head)}</small><p class="vq">${esc(fill(q.q))}</p>
+  <div class="vrow"><span>${esc(cap(a))}: <b>${esc(fill(q[r.a].l))}</b></span><span>${esc(cap(b))}: <b>${esc(fill(q[r.b].l))}</b></span></div>
+  <p>${how}</p><p class="vr">${esc(fill(o.r))}</p></div>`}
+function voteReveal(res,before){
+ sfx(res.win==='both'?'duel_win':'shock',.7);
+ app.innerHTML=`<div class="screen vote">${topbar(S.lastAge)}<div class="table reveal">${voteResultBox(res,'Lật phiếu họp gia đình')}<div class="tap">Chạm để tiếp</div></div></div>`;
+ refreshTop(S.lastAge,before);
+ waitTap(app.querySelector('.screen'),()=>{busy=false;
+  const early=E.duoEarly(S);if(early)return duoOver(early);
+  if(S.stage>=STAGES.length-1)return duoOver(null);
+  E.duoStage(S,S.stage+1);S.duo.began='';saveRun();caSplash()});
+}
+
+// ======== một người làm con ========
+function conNext(){
+ const d=S.duo,me=ROOM.seat;
+ if(d.turn!==me)return waitScreen();
+ if(d.ph==='pick')return kidPick();
+ if(ROOM.seenStage!==S.stage){ROOM.seenStage=S.stage;return conSplash()}
+ if(S.lixi)return lixiIntro();
+ if(E.stageDone(S)){
+  if(S.stage>=STAGES.length-1)return duoOver(null);
+  d.mark[me]=S.log.length;E.conOffer(S,S.stage+1);d.at=Date.now();saveRun(true);
+  return waitScreen({k:'Xong một giai đoạn',t:'Tới lượt con chọn tình huống',p:`${esc(S.name)} đang lựa xem ném gì cho bạn tiếp.`});
+ }
+ return render();
+}
+function conSplash(){
+ app.innerHTML='<div class="screen"></div>';
+ const g=E.sign(S),si=S.stage,av=S.deck.some(x=>x.av);
+ music('music_calm');sfx('stage',.8);
+ if(S.note&&(S.note.ev||S.note.back))sfx('shock',.5,.25);
+ splash(STAGES[si],conNext,g?`<span style="color:${EL_COLOR[g.el]}">${zg(g)}</span> ${esc(g.name+': '+fill(g.stages[si]))}`:'',
+  famNote(S.note)+`<p class="fnote">😈 Con đã chọn sẵn ${S.deck.filter(x=>x.c).length} tình huống ném cho bạn${av?', có một lần ăn vạ (Con vui lên xuống gấp đôi)':''}.</p>`+skillRow(S,si?`Năng khiếu của ${esc(S.name)}`:'Năng khiếu bẩm sinh'));
+}
+// con chọn: mỗi cặp một thẻ, ăn vạ một thẻ; xem lại giai đoạn trước phụ huynh xử lý ra sao
+function kidPick(){
+ const d=S.duo,o=d.offer,mis=E.missionById(d.mission),par=S.role,si=o.si,prev=S.log.slice(d.mark.k||0);
+ const sel=o.pairs.map(()=>-1);let av=null;
+ setBg(STAGES[si].bg);stageTile(si);music('music_calm');
+ const mini=(id,i,j)=>{const c=E.cardById(id);return `<button class="kc${sel[i]===j?' on':''}" data-i="${i}" data-j="${j}"><span class="who">${esc(fill(c.who))}</span><span class="kt">${esc(fill(c.t))}</span>
+   <span class="ko">← ${esc(fill(c.L.l))} · ${esc(fill(c.R.l))} →</span>${sel[i]===j?`<em class="avb${av===id?' on':''}" data-av="${id}">${av===id?'😭 Đang ăn vạ':'😭 Ăn vạ thẻ này'}</em>`:''}</button>`};
+ const draw=()=>{
+  const ok=sel.every(x=>x>=0);
+  app.innerHTML=`<div class="screen scroll kidpick">
+   <h1 class="disp">Con chọn tình huống</h1>
+   <p class="cl">${esc(STAGES[si].name)} · ${esc(STAGES[si].sub)}</p>
+   <div class="mission sticker"><small>Nhiệm vụ bí mật của bạn</small><b>${esc(fill(mis.t))}</b><span>${esc(cap(par))} không biết nhiệm vụ này.</span></div>
+   ${prev.length&&si>0?`<h2 class="sub3">Giai đoạn trước ${esc(par)} xử lý thế này</h2><div class="moments light">${prev.slice(-4).map(x=>`<p><b>${ageTxt(x.age)}</b> ${esc(fill(x.r))}</p>`).join('')}</div>`:''}
+   ${famNote(S.note)?`<div class="kidnote">${famNote(S.note)}</div>`:''}
+   ${o.forced.length?`<p class="frule">Không tránh được: ${o.forced.map(id=>`<b>${esc(fill(E.cardById(id).who))}</b>`).join(', ')}.</p>`:''}
+   <p class="kh">Mỗi cặp chọn một tình huống để ném cho ${esc(par)}. Chạm "Ăn vạ" trên một thẻ đã chọn: Con vui ở thẻ đó lên xuống gấp đôi.</p>
+   ${o.pairs.map((p,i)=>`<div class="kpair"><small>Cặp ${i+1}</small>${mini(p[0],i,0)}${mini(p[1],i,1)}</div>`).join('')}
+   <button class="act main" id="kp-go"${ok?'':' disabled'}>${ok?`Ném cho ${esc(par)} →`:`Chọn đủ ${o.pairs.length} cặp đã nha`}</button>
+   <button class="linkbtn" id="kp-home">Về màn đầu (để sau)</button></div>`;
+  app.querySelectorAll('.kc').forEach(b=>b.onclick=e=>{const avb=e.target.closest('.avb');
+   if(avb){av=av===avb.dataset.av?null:avb.dataset.av;sfx('tap',.5)}
+   else{const i=+b.dataset.i,j=+b.dataset.j;if(sel[i]>=0&&av===o.pairs[i][sel[i]])av=null;sel[i]=j;sfx('swipe',.5)}
+   const y=app.querySelector('.screen').scrollTop;draw();app.querySelector('.screen').scrollTop=y});
+  app.querySelector('#kp-home').onclick=leaveRoom;
+  app.querySelector('#kp-go').onclick=()=>{if(!sel.every(x=>x>=0))return;
+   d.mark.k=S.log.length;E.conCommit(S,sel,av);d.at=Date.now();saveRun(true);sfx('sign_up',.6);
+   waitScreen({k:'Đã ném',t:`Chờ ${par} xử lý`,p:`${cap(par)} sẽ gặp đúng những tình huống bạn chọn. Nhiệm vụ của bạn vẫn là bí mật.`})};
+ };
+ draw();
+}
+
+// ======== cùng vuốt ========
+// pk = { a: { s: bước, v }, b: ... } do /pick ghi. Chủ phòng thấy đủ hai lựa chọn của bước hiện tại thì chạy luật, xóa pk, ghi ván.
+const pickOf=(s)=>{const p=S.pk&&S.pk[s];return p&&p.s===S.duo.step?p.v:undefined};
+function cungNext(){
+ const d=S.duo,me=ROOM.seat;
+ if(d.ph==='lobby'){
+  if(me==='a'&&!ROOM.open){E.cungStage(S,0);d.ph='play';S.pk={};saveRun(true);return cungNext()}
+  return waitScreen(ROOM.open?{k:'Phòng đã tạo',t:'Chờ người kia vào phòng',p:'Đưa mã phòng cho người ấy. Người ấy nhập mã là bắt đầu.'}:{k:'Sắp bắt đầu',t:'Chờ chủ phòng mở màn',p:''});
+ }
+ if(me==='a'&&cungReady())return cungResolve();
+ if(d.last&&ROOM.seenStep>=0&&d.last.step>ROOM.seenStep)return cungReveal();
+ ROOM.seenStep=d.last?d.last.step:0;
+ if(ROOM.seenStage!==S.stage){ROOM.seenStage=S.stage;return cungSplash()}
+ const it=E.current(S);
+ if(pickOf(me)!==undefined)return waitScreen(S.lixi?{k:'Lì xì kéo co',t:`Chờ ${seatRole(partner())} ghi nhận`,p:''}:{k:'Đã chọn kín',t:`Chờ ${seatRole(partner())} chọn`,p:'Hai người chọn xong là lật.'});
+ if(S.lixi)return d.lixiBy===me?lixiIntro():waitScreen({k:'Lì xì kéo co',t:`${cap(seatRole(d.lixiBy||'b'))} đang nhận lì xì`,p:'Từ chối cho phải phép, tới lúc bác dọa giận thì nhận bằng hai tay.'});
+ if(!it)return waitScreen();
+ if(it.duel)return cungDuel();
+ if(it.vote)return voteCung();
+ return render();
+}
+function cungReady(){const d=S.duo;if(d.over)return false;if(S.lixi)return pickOf(d.lixiBy||'b')!==undefined;return pickOf('a')!==undefined&&pickOf('b')!==undefined}
+// chủ phòng: chạy luật cho bước hiện tại
+function cungResolve(){
+ const d=S.duo,it=E.current(S),pa=pickOf('a'),pb=pickOf('b');
+ if(S.lixi){const out=(pb&&pb.lixi)||(pa&&pa.lixi)||'cat';E.lixiFinish(S,out);d.step++;d.last={kind:'lixi',out,step:d.step}}
+ else if(it&&it.duel)cungDuelResolve(pa,pb);
+ else E.cungPick(S,pa==='R'?'R':'L',pb==='R'?'R':'L');
+ S.pk={};
+ const early=E.duoEarly(S);
+ if(early){const res=E.duoResult(S,early);d.over=res;saveRun(true);return duoEnd()}
+ if(!S.lixi&&!(E.current(S)&&E.current(S).duel)&&E.stageDone(S)){
+  if(S.stage>=STAGES.length-1){d.over=E.duoResult(S,null);saveRun(true);return duoEnd()}
+  E.cungStage(S,S.stage+1);
+ }
+ saveRun(true);return cungNext();
+}
+function cungSplash(){
+ app.innerHTML='<div class="screen"></div>';
+ const g=E.sign(S),si=S.stage;
+ music('music_calm');sfx('stage',.8);
+ splash(STAGES[si],cungNext,g?`<span style="color:${EL_COLOR[g.el]}">${zg(g)}</span> ${esc(g.name+': '+fill(g.stages[si]))}`:'',
+  famNote(S.note)+`<p class="fnote">🤝 Hợp nhau tới giờ: ${S.duo.n?Math.round(S.duo.agree/S.duo.n*100):0}% (${S.duo.agree}/${S.duo.n} lần chọn giống nhau)</p>`+skillRow(S,si?`Năng khiếu của ${esc(S.name)}`:'Năng khiếu bẩm sinh'));
+}
+// vuốt ở chế độ cùng vuốt: chỉ gửi lựa chọn kín
+async function cungChoose(side){
+ if(busy)return;busy=true;onKey=null;
+ const card=app.querySelector('#card');if(card){card.style.transform=`translateX(${side==='L'?-140:140}%) rotate(${side==='L'?-25:25}deg)`;card.style.opacity='0'}
+ sfx('swipe',.7);
+ await cungSend(side);
+}
+async function cungSend(v){
+ const R=ROOM,step=S.duo.step;
+ S.pk=S.pk||{};S.pk[R.seat]={s:step,v};
+ try{const j=await roomApi('/'+R.id+'/pick','POST',{v:{s:step,v}},R.token);if(ROOM===R&&j.ver)R.ver=Math.max(R.ver,j.ver)}
+ catch(e){if(ROOM!==R)return;busy=false;delete S.pk[R.seat];tinyToast(ROOM_ERR[e.code]||ROOM_ERR.server);return duoNext()}
+ if(ROOM!==R)return;
+ // chủ phòng tự đọc lại phòng để thấy lựa chọn của người kia (nếu đã có)
+ if(R.seat==='a'){try{const r=await roomApi('/'+R.id,'GET',null,R.token);if(ROOM===R)roomTake(r)}catch(e){}}
+ busy=false;duoNext();
+}
+// lật một bước vừa xong (thẻ, quyết định lớn, câu đấu khẩu, lì xì)
+function cungReveal(){
+ const d=S.duo,l=d.last,a=seatRole('a'),b=seatRole('b');ROOM.seenStep=l.step;
+ let body='';
+ if(l.kind==='card'){const c=E.cardById(l.id),o=c[l.side];sfx(l.win==='both'?'good':'shock',.6);
+  body=`<div class="card sticker react"><span class="who">${l.win==='both'?'Đồng lòng!':'Bất đồng!'}</span><div class="face">${faceArt(S.stage,o.m||'neutral',S.style)}</div>
+   <div class="vrow"><span>${esc(cap(a))}: <b>${esc(fill(c[l.a].l))}</b></span><span>${esc(cap(b))}: <b>${esc(fill(c[l.b].l))}</b></span></div>
+   <p class="say">${esc(fill(o.r))}</p>${l.win==='both'?'':`<p class="votehint">${l.win==='ongba'?'Ông bà quyết.':`${esc(S.name)} nghe ${esc(seatRole(l.win))} (thân hơn).`} Người kia Pin −${E.CUNG_LOSE}.</p>`}<div class="tap">Chạm để tiếp</div></div>`}
+ else if(l.kind==='vote')body=voteResultBox(l,'Lật phiếu quyết định lớn')+'<div class="tap">Chạm để tiếp</div>';
+ else if(l.kind==='duel'){const rd=l.rd,st=rd.steps[l.st];sfx(l.ok?'duel_win':'duel_lose',.7);
+  body=`<div class="card sticker react"><span class="who">Đấu khẩu ngày Tết · vòng ${l.r+1}</span><p class="say">Bác: “${esc(fill(st.q))}”</p>
+   <div class="vrow"><span>${esc(cap(a))}: <b>${l.a==null?'Đứng hình':esc(fill(st.opts[l.a].l))}</b></span><span>${esc(cap(b))}: <b>${l.b==null?'Đứng hình':esc(fill(st.opts[l.b].l))}</b></span></div>
+   <p class="say"><b class="disp big2">${l.ok?(l.more?'Bác phản pháo tiếp!':'Thắng vòng này!'):'Thua vòng này!'}</b></p><div class="tap">Chạm để tiếp</div></div>`}
+ else if(l.kind==='lixi')body=`<div class="card sticker react"><span class="who">Lì xì kéo co</span><p class="say">${esc(fill(rand(LD.LIXI[l.out]||LD.LIXI.cat)))}</p><div class="tap">Chạm để tiếp</div></div>`;
+ app.innerHTML=`<div class="screen">${topbar(S.lastAge)}<div class="table">${body}</div></div>`;
+ waitTap(app.querySelector('.screen'),()=>duoNext());
+}
+function voteCung(){
+ const d=S.duo,it=E.current(S),q=LD.DUO_VOTES[it.v];
+ setBg(STAGES[S.stage].bg);stageTile(S.stage);
+ app.innerHTML=`<div class="screen vote">${topbar(S.lastAge)}
+  <div class="table"><div class="card sticker votecard"><span class="who">Quyết định lớn</span><div class="face">${faceArt(S.stage,'neutral',S.style)}</div>
+   <p class="say">${esc(fill(q.q))}</p><p class="votehint">Chọn kín. Khác ý thì con nghe người thân hơn.</p></div></div>
+  <div class="opts"><button class="opt l" id="bl"><span>←</span>${esc(fill(q.L.l))}</button><button class="opt r" id="br"><span>→</span>${esc(fill(q.R.l))}</button></div></div>`;
+ app.querySelector('#bl').onclick=()=>cungChoose('L');app.querySelector('#br').onclick=()=>cungChoose('R');
+ onKey=k=>{if(k==='ArrowLeft')cungChoose('L');if(k==='ArrowRight')cungChoose('R')};
+}
+// đấu khẩu khi cùng vuốt: hai người cùng đáp từng câu, một người đáp khéo là thắng câu đó
+function cungDuel(){
+ const d=S.duo;
+ if(!d.duel){   // chủ phòng mở trận: bốc các vòng
+  if(ROOM.seat!=='a')return waitScreen({k:'Tết đến rồi',t:'Đang dọn mâm cỗ…',p:''});
+  if(!S.bac)S.bac=art('duel_bac_gai')&&Math.random()<.5?'gai':'trai';
+  d.duel={rounds:E.duelRounds(S),r:0,st:0,wins:0,proof:0};saveRun(true);
+ }
+ const D=d.duel,rd=D.rounds[D.r],step=rd.steps[D.st],{age}=E.current(S),qs=rd.sign&&E.signById(rd.sign),qf=rd.fam&&E.famById(rd.fam),sk=rd.skill&&E.skillById(rd.skill);
+ if(!ROOM.splashed['duel'+S.stage]){ROOM.splashed['duel'+S.stage]=1;music('music_tet');sfx('duel_start',.8);setBg(TET_BG);sceneBg('scene_tet',TET_TINT,-1);
+  app.innerHTML='<div class="screen"></div>';
+  return splash({big:'Đấu khẩu ngày Tết!',sub:`Hai người cùng đỡ bác: mỗi câu cả hai cùng đáp kín, chỉ cần một người đáp khéo là thắng. ${D.rounds.length} vòng, mỗi câu ${secTxt(E.DUEL_SECONDS)} giây.`},cungDuel)}
+ music('music_tet');setBg(TET_BG);sceneBg('scene_tet',TET_TINT,-1);
+ app.innerHTML=`<div class="screen duel">
+  <div class="top"><div class="age">Tết năm con ${age} tuổi<small>Vòng ${D.r+1}/${D.rounds.length}${rd.steps.length>1?` · Hiệp ${D.st+1}/${rd.steps.length}`:''}</small></div>
+   <div class="score">${D.rounds.map((x,i)=>lantern(i<D.wins)).join('')}</div></div>
+  <div class="timer"><i style="animation-duration:${E.DUEL_SECONDS}s"></i></div>
+  <div class="arena"${qs?` style="--el:${EL_COLOR[qs.el]}"`:''}>
+   ${rd.title?`<span class="case">⚖️ ${esc(rd.title)}</span>`:''}
+   <div class="bac">${bacArt()}</div>
+   ${qs?`<span class="duelsign">${zg(qs)} Câu theo cung ${qs.name}</span>`:''}${qf&&!rd.title?`<span class="duelsign" style="--el:var(--ink)">${qf.ico} Câu theo gia cảnh: ${esc(qf.name)}</span>`:''}
+   ${sk?`<span class="duelsign" style="--el:#22B07D">${sk.ico} ${esc(S.name)} giỏi ${sk.name.toLowerCase()}: có bằng chứng!</span>`:''}
+   <div class="dlg${qs?' sgq':''}${sk?' proof':''}"><span class="dlg-name">Bác</span><p>${esc(fill(step.q))}</p></div>
+   <div class="kid">${faceArt(S.stage,D.st>0?'shock':'neutral',S.style)}</div></div>
+  <div class="dopts">${step.opts.map((o,i)=>`<button class="opt" data-i="${i}"><span>${i?'→':'←'}</span>${esc(fill(o.l))}${sk&&step.ev&&o.win?'<i class="evb">Bằng chứng</i>':''}</button>`).join('')}</div></div>`;
+ let done=false;
+ const answer=i=>{if(done)return;done=true;clearTimeout(timer);onKey=null;app.querySelectorAll('.dopts .opt').forEach((b,j)=>{b.disabled=true;if(j===i)b.classList.add('right')});cungSend(i==null?null:i)};
+ const timer=setTimeout(()=>answer(null),E.DUEL_SECONDS*1000);
+ app.querySelectorAll('.dopts .opt').forEach(b=>b.onclick=()=>answer(+b.dataset.i));
+ onKey=k=>{if(k==='ArrowLeft')answer(0);if(k==='ArrowRight')answer(1)};
+}
+function cungDuelResolve(pa,pb){
+ const d=S.duo,D=d.duel,rd=D.rounds[D.r],st=rd.steps[D.st],win=i=>i!=null&&st.opts[i]&&st.opts[i].win===1,ok=win(pa)||win(pb),more=ok&&D.st+1<rd.steps.length;
+ d.step++;d.last={kind:'duel',a:pa,b:pb,ok,more,r:D.r,st:D.st,rd,step:d.step};
+ if(more){D.st++;return}
+ if(ok){D.wins++;if(rd.skill)D.proof=1}
+ D.r++;D.st=0;
+ if(D.r>=D.rounds.length){E.duelFinish(S,D.wins,!!D.proof);d.duel=null;E.lixiStart(S);d.lixiBy='b'}
+}
+
+// ======== màn chờ, đồng hồ, nhắc người kia ========
+function duoMeters(){
+ if(S.duo.mode==='con')return `<div class="dmeters"><span>${MICON[0]}<b>${S.m[0]}</b>Con vui</span><span>${MICON[1]}<b>${S.m[1]}</b>Pin ${esc(S.role)}</span><span>${MICON[2]}<b>${S.m[2]}</b>Thân</span></div>`;
+ const a=E.duoM(S,'a'),b=E.duoM(S,'b'),row=(s,m)=>`<span class="${s===ROOM.seat?'me':''}"><em>${esc(cap(seatRole(s)))}${s===ROOM.seat?' (bạn)':''}</em>${MICON[1]}<b>${m[0]}</b>${MICON[2]}<b>${m[1]}</b></span>`;
+ return `<div class="dmeters"><span>${MICON[0]}<b>${S.m[0]}</b>Con vui (chung)</span>${row('a',a)}${row('b',b)}</div>`}
+function waitScreen(banner){
+ const d=S.duo,me=ROOM.seat,p=partner(),pr=S.duo.mode==='con'?(isKid()?S.role:'con'):seatRole(p),age=S.deck[S.i]?S.deck[S.i].age:S.lastAge;
+ const idle=!ROOM.open&&ROOM.seen&&ROOM.seen[p]&&Date.now()-ROOM.seen[p]>48*3600e3;   // ROOM.seen = lần cuối mỗi ghế gọi máy chủ
+ const title=banner?banner.t:ROOM.open?`Chờ ${pr} vào phòng`:d.mode==='ca'?(d.ph==='vote'?`Chờ ${pr} bỏ phiếu`:`Tới ca của ${pr}`):d.mode==='con'?(d.ph==='pick'?'Chờ con chọn tình huống':`Chờ ${pr} xử lý`):`Chờ ${pr}`;
+ setBg(STAGES[Math.max(0,S.stage)].bg);stageTile(Math.max(0,S.stage));
+ app.innerHTML=`<div class="screen scroll duowait">
+  ${banner&&banner.k?`<div class="evbox"><small>${esc(banner.k)}</small>${banner.p?`<p>${esc(banner.p)}</p>`:''}</div>`:''}
+  <h1 class="disp">${esc(title)}</h1>
+  <div class="face wface">${faceArt(Math.max(0,S.stage),'neutral',S.style)}</div>
+  <p class="cl">${esc(S.name)} · ${S.stage<0?'sắp chào đời':ageTxt(age).toLowerCase()+' · '+esc(STAGES[S.stage].name)} · ${MODE_ICO[d.mode]} ${MODE_TXT[d.mode]}</p>
+  ${S.stage>=0?duoMeters():''}
+  ${ROOM.open?`<p class="frule">Chưa ai vào ghế ${esc(pr)}. Đưa mã này cho người ấy, vào game bấm Nuôi chung rồi nhập mã:</p><div class="codebox sel">${esc(roomCode(ROOM.id))}</div>`:''}
+  <div class="endbtns"><button class="main" id="w-nudge">📣 ${ROOM.open?'Gửi mã mời':`Nhắc ${esc(pr)}`}</button><button id="w-home">Về màn đầu</button></div>
+  ${idle&&d.mode!=='cung'?`<p class="note">${esc(cap(pr))} im lặng hơn 2 ngày rồi.</p><div class="endbtns">${me==='a'?`<button id="w-reseat">Mời người khác vào thay</button>`:''}${d.mode==='ca'?`<button id="w-solo">Chơi luôn phần của ${esc(pr)}</button>`:''}</div>`:''}
+  <p class="note" id="w-st">Cứ để trang này mở: tới lượt bạn là tự chuyển. Tắt đi cũng được, lát mở game, vào Nuôi chung là chơi tiếp.</p></div>`;
+ app.querySelector('#w-home').onclick=leaveRoom;
+ app.querySelector('#w-nudge').onclick=()=>shareRoom(ROOM.open);
+ const rs=app.querySelector('#w-reseat');if(rs)rs.onclick=async()=>{rs.disabled=true;try{await roomApi('/'+ROOM.id+'/reseat','POST',{},ROOM.token);ROOM.open=true;waitScreen()}catch(e){rs.disabled=false;tinyToast(e.code==='not_idle'?`${cap(pr)} vừa quay lại đấy.`:ROOM_ERR[e.code]||ROOM_ERR.server)}};
+ const so=app.querySelector('#w-solo');if(so)so.onclick=()=>{d.solo=1;d.turn=me;saveRun(true);duoNext()};
+ roomPoll();
+}
+// tin nhắn nhắc người kia / mời vào phòng (chia sẻ của điện thoại, không có thì copy)
+async function shareRoom(invite){
+ const d=S.duo,code=roomCode(ROOM.id),p=partner(),pr=d.mode==='con'?(isKid()?S.role:'con'):seatRole(p),age=S.deck[S.i]?S.deck[S.i].age:S.lastAge;
+ const last=[...S.log].reverse().find(x=>x.w===ROOM.seat||!x.w);
+ const text=invite?(d.mode==='con'?(isKid()?`Làm ${S.role} của mình trong game Con nhà mình nhé! Mình vào vai con, chọn tình huống ném cho bạn 😈`:`Vào vai con của mình trong game Con nhà mình nhé! Bạn chọn tình huống ném cho mình, có nhiệm vụ bí mật 😈`)
+   :d.mode==='cung'?`Cùng nuôi ${S.name} với mình trong game Con nhà mình! Mình với bạn cùng vuốt, xem hợp nhau bao nhiêu % 🤝`
+   :`Làm ${pr} của ${S.name} với mình trong game Con nhà mình nhé! Mỗi người một ca, rảnh lúc nào vuốt lúc đó 👶`)
+  :`Tới lượt ${pr} rồi! ${S.name} ${S.stage<0?'sắp chào đời':ageTxt(age).toLowerCase()} đang chờ.${last?' Vừa rồi: '+fill(last.r):''}`;
+ const msg=invite?text+` Mở game, bấm "Nuôi chung", nhập mã: ${code}`:text;
+ try{if(navigator.share){await navigator.share({title:'Con nhà mình',text:msg});return}}catch(e){if(e&&e.name==='AbortError')return}
+ try{await navigator.clipboard.writeText(msg);tinyToast('Đã copy tin nhắn. Dán vào Zalo hay Messenger nha.')}catch(e){tinyToast(invite?code:msg)}
+}
+
+// ======== kết thúc ========
+// kết quả cho bảng xếp hạng nuôi chung (SAVE.duo), tính cho người chơi ở ghế seat
+function duoRecord(d,res,seat){const D=SAVE.duo;
+ if(d.mode==='con'){if(seat===d.kid){if(res.mission)D.ck++}else if(!res.early&&!res.mission)D.cp++}
+ else if(!res.early){if(d.mode==='ca')D.ca++;else if(d.mode==='cung'){D.cn++;D.cung=Math.max(D.cung,res.total?Math.round(res.agree/res.total*100):0)}}}
+// ván nuôi chung xong trước khi có bảng xếp hạng nuôi chung (phòng có done, chưa có rk): đọc kết quả từ phòng, tính một lần
+async function duoBackfill(){const o=myRooms(),ids=Object.keys(o).filter(id=>o[id].done&&!o[id].rk&&o[id].t),ok=[];let n=0;
+ for(const id of ids){try{const r=await roomApi('/'+id,'GET',null,o[id].t),d=r.state&&r.state.run&&r.state.run.duo;
+   if(r.seat&&d&&d.over){duoRecord(d,d.over,r.seat);n++}ok.push(id)}catch(e){if(e.code==='no_room')ok.push(id)}}
+ if(!ok.length)return;
+ const cur=myRooms();ok.forEach(id=>{if(cur[id])cur[id].rk=1});try{localStorage.setItem('ld-rooms',JSON.stringify(cur))}catch(e){}
+ if(n)persist()}
+function duoOver(early){const d=S.duo;d.over=E.duoResult(S,early);d.at=Date.now();saveRun(true);duoEnd()}
+function duoEnd(){
+ stopPoll();onKey=null;
+ const d=S.duo,res=d.over,me=ROOM.seat,a=seatRole('a'),b=seatRole('b'),job=jobOf(res.job),fe=res.famEnd&&LD.TITLES[res.famEnd]?res.famEnd:null;
+ // bộ sưu tập: mỗi máy tính một lần cho mỗi phòng
+ const rm=myRooms()[ROOM.id]||{};let newAch=[];
+ if(!rm.done){
+  S.seen.forEach(id=>{if(!SAVE.cards.includes(id))SAVE.cards.push(id)});
+  if(job&&!SAVE.jobs.includes(res.job))SAVE.jobs.push(res.job);
+  if(fe&&!SAVE.endings.includes(fe))SAVE.endings.push(fe);
+  newAch=E.duoAch(S,res,me).filter(id=>!SAVE.ach.includes(id));SAVE.ach.push(...newAch);
+  SAVE.runs++;if(!res.early)SAVE.n18++;duoRecord(d,res,me);persist();saveRoom(ROOM.id,{done:1,rk:1});
+ }
+ music(null);sfx(res.early?'end_early':'end',.8);if(newAch.length)sfx('ach',.6,1.2);
+ setBg(res.early?'#FFB4A2':STAGES[5].bg);stageTile(res.early?-1:5);
+ const kid=d.mode==='con',mis=kid&&E.missionById(d.mission),age=res.early?S.lastAge:18;
+ const title=res.early&&res.seat?dfill(res.title,res.seat):fill(res.title),sub=res.early&&res.seat?dfill(res.sub,res.seat):fill(res.sub);
+ const styles=!kid&&!res.early?`<div class="duostyles"><span><small>${esc(cap(a))}</small>${esc(LD.TITLES[res.styles.a][0])}</span><span><small>${esc(cap(b))}</small>${esc(LD.TITLES[res.styles.b][0])}</span></div>`:'';
+ const stat=!kid&&!res.early?`<p class="duostat">${d.mode==='cung'?`🤝 Hợp nhau <b>${res.total?Math.round(res.agree/res.total*100):0}%</b> (${res.agree}/${res.total} lần chọn giống nhau)`:`🗳️ Đồng lòng <b>${res.agree}/${res.total}</b> quyết định lớn`}${d.mode==='ca'?` · ${res.closer?`Con thân ${esc(seatRole(res.closer))} hơn`:'Con thân hai người như nhau'}`:''}</p>`:'';
+ const meters=kid?`<div class="stats">${S.m.map((v,k)=>`<span>${MICON[k]}${v}</span>`).join('')}</div>`
+  :`<div class="stats duo"><span>${MICON[0]}${S.m[0]}</span>${['a','b'].map(s=>{const m=E.duoM(S,s);return `<span><small>${esc(cap(seatRole(s)))}</small>${MICON[1]}${m[0]} ${MICON[2]}${m[1]}</span>`}).join('')}</div>`;
+ const misBox=kid?`<div class="mission end ${res.mission?'ok':'no'}"><small>Nhiệm vụ bí mật của con</small><b>${esc(fill(mis.t))}</b><span>${res.mission?'✅ Hoàn thành! Con thắng ván này.':'❌ Chưa xong. Phụ huynh giữ được thế trận.'}</span></div>`:'';
+ app.innerHTML=`<div class="screen scroll">
+  <div class="share duoshare"><div class="k">${MODE_ICO[d.mode]} ${MODE_TXT[d.mode]} · ${res.early?'kết thúc sớm · '+ageTxt(age).toLowerCase():'hoàn thành · 18 tuổi'}</div>
+   <div class="nm">${esc(S.name)}</div>
+   <div class="face endface">${faceArt(res.early?Math.max(0,S.stage):5,res.early?'cry':'happy',S.style)}</div>
+   <div class="ttl">${esc(title)}</div><div class="sub">${esc(sub)}</div>
+   ${styles}${stat}
+   ${job?`<div class="job"><small>18 tuổi, ${esc(S.name)} ${job.k?'thành':'chọn'}</small><b>${jobTxt(res.job)}</b><span>${esc(fill(job.sub))}</span></div>`:''}
+   ${fe?`<div class="famend"><small>Kết riêng · ${esc(E.famById(fe.slice(2))?E.famById(fe.slice(2)).name:'')}</small><b>${esc(fill(LD.TITLES[fe][0]))}</b></div>`:''}
+   ${misBox}${meters}
+   <div class="foot">CON NHÀ MÌNH · Nuôi chung qua link</div></div>
+  <div class="endbtns"><button class="main wide" id="e-new">👫 Nuôi chung ván mới</button><button id="e-copy">Copy để khoe</button><button id="e-home">Về màn đầu</button></div>
+  <p class="note" id="e-note">Chụp màn hình để đăng story nha.</p></div>`;
+ toast(newAch);
+ app.querySelector('#e-home').onclick=leaveRoom;
+ app.querySelector('#e-new').onclick=()=>{leaveRoom();duoSheet()};
+ app.querySelector('#e-copy').onclick=()=>{
+  const txt=kid?`Mình vừa chơi Con nhà mình kiểu "một người làm con": ${S.name} ${res.early?'dừng ở '+age+' tuổi':'tới 18 tuổi'}. Nhiệm vụ của con: ${res.mission?'hoàn thành':'thất bại'}! 😈`
+   :`Hai đứa mình vừa nuôi chung ${S.name} ${res.early?'tới '+age+' tuổi':'tới 18 tuổi'} trong game Con nhà mình: "${title}".${!res.early?(d.mode==='cung'?` Hợp nhau ${res.total?Math.round(res.agree/res.total*100):0}%.`:` Đồng lòng ${res.agree}/${res.total} quyết định lớn.`):''}${job?` Con thành ${job.name}.`:''} Nhà bạn hợp nhau bao nhiêu %?`;
+  const note=app.querySelector('#e-note');
+  try{navigator.clipboard.writeText(txt).then(()=>note.textContent='Đã copy. Dán vào story nhé!',()=>note.textContent=txt)}catch(e){note.textContent=txt}};
+}
+
+// ======== tạo phòng, danh sách phòng của máy này ========
+function duoSheet(){
+ const el=document.createElement('div');el.className='sheet';app.appendChild(el);
+ const prevKey=onKey;onKey=null;
+ const close=()=>{el.remove();onKey=prevKey};
+ el.onclick=e=>{if(e.target===el)close()};
+ el.onkeydown=e=>{if(e.key==='Escape')close()};
+ let mode=null,kidSeat='b',famId=null,busyC=false,err='';
+ const rooms=Object.entries(myRooms()).sort((x,y)=>(y[1].at||0)-(x[1].at||0)).slice(0,8);
+ const name=cleanKidName(pick.name),nameErr=kidNameErr(name);
+ const draw=()=>{
+  const fams=LD.FAMS.filter(f=>!f.rare&&(mode==='con'||f.two));
+  el.innerHTML=`<div class="box sticker duosheet" role="dialog" aria-modal="true" aria-labelledby="duo-h"><button class="x" aria-label="Đóng">✕</button>
+   <h2 class="disp" id="duo-h">Nuôi chung</h2>
+   ${rooms.length&&!mode?`<p class="lbl">Ván nuôi chung của bạn</p><div class="rlist">${rooms.map(([id,r])=>`<div class="rrow"><button class="rgo" data-id="${id}"><b>${MODE_ICO[r.mode]||'👫'} ${esc(r.kid||'Bé')}</b><small>${esc(MODE_TXT[r.mode]||'')} · <span class="rst" data-id="${id}">…</span></small></button><button class="rdel" data-id="${id}" aria-label="Bỏ khỏi danh sách">✕</button></div>`).join('')}</div>`:''}
+   ${!mode?`<p class="lbl">Có mã phòng rồi? Nhập vào đây</p><div class="joinrow"><input id="d-code" class="codein" maxlength="12" placeholder="ABCD-EFGH" autocapitalize="characters" autocomplete="off" spellcheck="false"><button class="act main" id="d-join">Vào →</button></div><p class="ferr" id="d-jerr" role="alert"></p><p class="lbl">Hoặc tạo ván mới, lấy mã đưa người kia</p><div class="modes">${['ca','cung','con'].map(m=>`<button class="mode" data-m="${m}"><b>${MODE_ICO[m]} ${MODE_TXT[m]}</b><small>${esc(MODE_SUB[m])}</small></button>`).join('')}</div>`
+   :`<button class="linkbtn back" id="d-back">← Chọn kiểu khác</button>
+    <p class="mhead"><b>${MODE_ICO[mode]} ${MODE_TXT[mode]}</b></p>
+    ${nameErr?`<p class="ferr">${esc(nameErr)} Đặt tên con ở màn đầu trước nha.</p>`:`<p class="frow">Con: <b>${esc(name)}</b> · ${signTxt(pick.sign)} <small>(đổi ở màn đầu)</small></p>`}
+    ${mode==='con'?`<p class="lbl">Bạn vào vai</p><div class="seg"><button data-k="b" aria-pressed="${kidSeat==='b'}">${esc(cap(pick.role))}</button><button data-k="a" aria-pressed="${kidSeat==='a'}">Con</button></div>
+      <p class="fnote">${kidSeat==='a'?`Bạn làm con, người được mời làm ${esc(pick.role)}.`:`Bạn làm ${esc(pick.role)}, người được mời vào vai con.`}</p>`
+     :`<p class="frow">Bạn là <b>${esc(pick.role)}</b>, người được mời làm <b>${pick.role==='bố'?'mẹ':'bố'}</b> <small>(đổi ở màn đầu)</small></p>`}
+    <p class="lbl">Gia cảnh</p>
+    <div class="fchips">${fams.map(f=>`<button class="fchip${famId===f.id?' on':''}" data-f="${f.id}">${esc(f.ico)} ${esc(f.name)}</button>`).join('')}<button class="fchip${famId==='?'?' on':''}" data-f="?">🎲 Để số phận chọn</button></div>
+    ${famId&&famId!=='?'?`<p class="frule">${esc(fill(E.famById(famId).duoRule&&mode!=='con'?E.famById(famId).duoRule:E.famById(famId).rule))}</p>`:''}
+    <button class="act main" id="d-make"${famId&&!nameErr&&!busyC?'':' disabled'}>${busyC?'Đang tạo phòng…':'Tạo phòng, lấy mã →'}</button>
+    <p class="ferr" role="alert">${esc(err)}</p>`}</div>`;
+  el.querySelector('.x').onclick=close;
+  el.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{mode=b.dataset.m;famId=null;err='';draw()});
+  const bk=el.querySelector('#d-back');if(bk)bk.onclick=()=>{mode=null;draw()};
+  el.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{kidSeat=b.dataset.k;draw()});
+  el.querySelectorAll('.fchip').forEach(b=>b.onclick=()=>{famId=b.dataset.f;draw()});
+  el.querySelectorAll('.rgo').forEach(b=>b.onclick=()=>{close();enterRoom(b.dataset.id)});
+  el.querySelectorAll('.rdel').forEach(b=>b.onclick=()=>{saveRoom(b.dataset.id,null);b.closest('.rrow').remove()});
+  const mk=el.querySelector('#d-make');if(mk)mk.onclick=()=>makeRoom();
+  const jb=el.querySelector('#d-join'),ji=el.querySelector('#d-code');
+  if(jb){const go=()=>{const id=parseCode(ji.value),je=el.querySelector('#d-jerr');if(!id){je.textContent='Mã gồm 8 ký tự chữ và số, ví dụ ABCD-EFGH.';return}close();duoOpen(id)};jb.onclick=go;ji.onkeydown=e=>{if(e.key==='Enter')go()}}
+  // trạng thái từng phòng (tới lượt ai)
+  el.querySelectorAll('.rst').forEach(async sp=>{const id=sp.dataset.id,r=myRooms()[id];if(!r)return;
+   try{const j=await roomApi('/'+id,'GET',null,r.t),s=j.state&&j.state.run&&j.state.run.duo;
+    sp.textContent=!s?'':s.over?'đã xong':j.open?'chờ người kia vào':s.mode==='cung'?'cùng vuốt':s.turn===j.seat?'tới lượt bạn!':'chờ người kia';if(s&&s.turn===j.seat&&!s.over)sp.classList.add('hot')}
+   catch(e){sp.textContent=e.code==='no_room'?'phòng đã hết hạn':''}});
+ };
+ const makeRoom=async()=>{
+  if(busyC||nameErr||!famId)return;busyC=true;err='';draw();
+  const fam=famId==='?'?(()=>{const l=LD.FAMS.filter(f=>mode==='con'||f.two),rare=l.filter(f=>f.rare),norm=l.filter(f=>!f.rare);return rare.length&&Math.random()<rare.length/l.length?rand(rare):rand(norm)})():E.famById(famId);
+  const st=E.newDuo(fam,mode==='con'?pick.role:pick.role,name,pick.style,pick.sign,mode,kidSeat);st.bday=pick.bday;if(famId==='?')st.lucky=1;
+  if(mode==='cung')st.duo.ph='lobby';
+  if(mode==='con')E.conOffer(st,0);
+  st.pk={};
+  try{const j=await roomApi('','POST',{mode,state:packDuo(st),meta:{kid:name,role:pick.role,fam:fam.id,kidSeat}});
+   saveRoom(j.id,{t:j.token,s:'a',mode,kid:name});close();invited(j.id,mode,kidSeat)}
+  catch(e){busyC=false;err=ROOM_ERR[e.code]||ROOM_ERR.server;draw()}
+ };
+ draw();
+}
+// phòng vừa tạo: gửi mã rồi vào phòng
+function invited(id,mode,kidSeat){
+ const code=roomCode(id);
+ const el=document.createElement('div');el.className='sheet';app.appendChild(el);
+ el.innerHTML=`<div class="box sticker" role="dialog" aria-modal="true" aria-labelledby="inv-h"><h2 class="disp" id="inv-h">Phòng đã tạo!</h2>
+  <p class="sub">Đưa mã này cho người ${mode==='con'?(kidSeat==='a'?`làm ${esc(pick.role)}`:'vào vai con'):`làm ${pick.role==='bố'?'mẹ':'bố'}`}. Người ấy mở game, bấm "Nuôi chung", nhập mã là vào phòng, không cần tài khoản.</p>
+  <div class="codebox sel">${esc(code)}</div>
+  <button class="act main" id="i-share">📣 Gửi mã</button><button class="act" id="i-copy">📋 Copy mã</button>
+  <button class="act" id="i-go">Vào phòng →</button>
+  <p class="fnote">Phòng nhớ trong máy này. Muốn mở lại thì vào "Nuôi chung" ở màn đầu.</p></div>`;
+ el.querySelector('#i-share').onclick=()=>shareInvite(id,mode,kidSeat);
+ el.querySelector('#i-copy').onclick=async()=>{try{await navigator.clipboard.writeText(code);tinyToast('Đã copy mã '+code)}catch(e){tinyToast(code)}};
+ el.querySelector('#i-go').onclick=()=>{el.remove();enterRoom(id)};
+}
+// tin nhắn mời ngay sau khi tạo phòng (chưa vào phòng)
+async function shareInvite(id,mode,kidSeat){
+ const code=roomCode(id),name=cleanKidName(pick.name),other=pick.role==='bố'?'mẹ':'bố';
+ const text=mode==='con'?(kidSeat==='a'?`Làm ${pick.role} của mình trong game Con nhà mình nhé! Mình vào vai con, chọn tình huống ném cho bạn 😈`:`Vào vai con của mình trong game Con nhà mình nhé! Bạn chọn tình huống ném cho mình, có nhiệm vụ bí mật 😈`)
+  :mode==='cung'?`Cùng nuôi ${name} với mình trong game Con nhà mình! Mình với bạn cùng vuốt, xem hợp nhau bao nhiêu % 🤝`
+  :`Làm ${other} của ${name} với mình trong game Con nhà mình nhé! Mỗi người một ca, rảnh lúc nào vuốt lúc đó 👶`;
+ const msg=text+` Mở game, bấm "Nuôi chung", nhập mã: ${code}`;
+ try{if(navigator.share){await navigator.share({title:'Con nhà mình',text:msg});return}}catch(e){if(e&&e.name==='AbortError')return}
+ try{await navigator.clipboard.writeText(msg);tinyToast('Đã copy tin nhắn kèm mã. Dán vào Zalo hay Messenger nha.')}catch(e){tinyToast(code)}
+}
+
+// ---------- end ----------
+function toast(list){
+ if(!list.length)return;
+ const el=document.createElement('div');el.className='toast';
+ el.innerHTML=list.map(id=>{const a=E.ACH.find(x=>x.id===id);return `<p>${achIcon(id,true)} <b>${esc(a.name)}</b><br><small>${esc(a.desc)}</small></p>`}).join('');
+ app.appendChild(el);el.onclick=()=>el.remove();setTimeout(()=>el.remove(),5000);
+}
+function end(early,age){
+ onKey=null;
+ const res=E.result(S,early),isNew=!SAVE.endings.includes(res.id),job=jobOf(res.job),newJob=!!job&&!SAVE.jobs.includes(res.job);
+ if(isNew)SAVE.endings.push(res.id);
+ const fe=res.famEnd&&LD.TITLES[res.famEnd]?res.famEnd:null,feNew=!!fe&&!SAVE.endings.includes(fe),feFam=fe&&E.famById(fe.slice(2));
+ if(feNew)SAVE.endings.push(fe);
+ if(newJob)SAVE.jobs.push(res.job);
+ // gia phả: đứa con nuôi tới 18 thành dòng của đời này (nuôi lại cùng đời thì thay dòng cũ)
+ if(!early){SAVE.tree=SAVE.tree.filter(e=>e.n<S.gen.n);SAVE.tree.push({n:S.gen.n,name:S.name,sign:S.sign,fam:S.famStart||S.fam.id,role:S.role,end:res.id,job:res.job,t:Date.now()})}
+ S.seen.forEach(id=>{if(!SAVE.cards.includes(id))SAVE.cards.push(id)});
+ const fd=S.famStart||S.fam.id;if(!early&&!SAVE.famDone.includes(fd))SAVE.famDone.push(fd);
+ if(!early&&!SAVE.signsDone.includes(S.sign))SAVE.signsDone.push(S.sign);
+ SAVE.runs++;if(!early)SAVE.n18++;
+ SAVE.best=betterBest(SAVE.best,{name:S.name,age,sign:S.sign,end:res.id,gen:S.gen.n,job:res.job||null,t:Date.now()});
+ const newAch=E.checkAch(S,res,SAVE);SAVE.ach.push(...newAch);SAVE.run=null;persist();
+ music(null);sfx(early?'end_early':'end',.8);if(newAch.length)sfx('ach',.6,1.2);
+ setBg(early?'#FFB4A2':STAGES[5].bg);stageTile(early?-1:5);
+ const n=counts();
+ const mood=early?(early.endsWith('100')?'cringe':'cry'):(S.m[0]>=50?'happy':'sly');
+ const sg=E.sign(S),moments=E.shuffle(S.log).slice(0,Math.max(0,(job?1:res.signLine?2:3)-(fe?1:0))).sort((a,b)=>a.age-b.age);
+ const gen=S.gen.n>1?` · đời ${S.gen.n}`:'';
+ app.innerHTML=`<div class="screen">
+  <div class="share" id="share"><div class="k">${early?'Kết thúc sớm':'Hoàn thành'} · ${ageTxt(age).toLowerCase()}${gen}${isNew?' · <span class="new">kết mới</span>':''}</div>
+   <div class="nm">${esc(S.name)}</div>${sg?`<div class="signtag" style="color:${EL_COLOR[sg.el]}">${zg(sg)} ${sg.name} · sinh ${esc(S.bday||'')}</div>`:''}
+   <div class="face endface">${faceArt(early?S.stage:5,mood,S.style)}${art('end_'+res.id)?img(art('end_'+res.id),'endsticker'):''}</div>
+   <div class="ttl">${esc(fill(res.title))}</div><div class="sub">${esc(fill(res.sub))}</div>
+   ${job?`<div class="job"><small>18 tuổi, ${esc(S.name)} ${job.k?'thành':'chọn'}${newJob?' · <span class="new">nghề mới</span>':''}</small><b>${jobTxt(res.job)}</b><span>${esc(fill(job.sub))}</span></div>`:''}
+   ${fe?`<div class="famend"><small>Kết riêng · ${feFam?esc(feFam.ico+' '+feFam.name):'gia cảnh'}</small><b>${esc(fill(LD.TITLES[fe][0]))}${feNew?' <span class="new">mới</span>':''}</b><span>${esc(fill(LD.TITLES[fe][1]))}</span></div>`:''}
+   <div class="stats">${S.m.map((v,k)=>`<span>${MICON[k]}${v}</span>`).join('')}</div>
+   ${res.quote&&!job?`<q>${esc(fill(res.quote))}</q>`:''}
+   ${res.signLine&&sg?`<p class="signq"><b>${zg(sg)} ${sg.name} nói:</b> ${esc(fill(res.signLine))}</p>`:''}
+   <div class="moments">${moments.map(x=>`<p><b>${ageTxt(x.age)}</b> ${esc(fill(x.r))}</p>`).join('')}</div>
+   <div class="foot">CON NHÀ MÌNH · Phụ huynh hệ gì? Vuốt là biết</div></div>
+  <div class="endbtns">${early?'':`<button class="main wide" id="next">Đời sau: ${esc(S.name)} làm phụ huynh →</button>`}<button id="again">Nuôi lại</button><button id="copy">Copy để khoe</button></div>
+  <p class="note" id="note">Kết ${n.ends}/${E.ALL_ENDS.length} · nghề ${n.jobs}/${E.ALL_JOBS.length} · thẻ ${n.cards}/${CARD_IDS.size} · mục tiêu ${n.ach}/${E.ACH.length} · chụp màn hình để đăng story</p>
+  ${early?'':`<button class="linkbtn" id="tree">Xem gia phả nhà mình (${SAVE.tree.length} đời) →</button>`}
+  ${ACC.api&&!ACC.token?`<button class="linkbtn" id="acct2">${CLOUD} Tạo tài khoản để giữ bộ sưu tập khi đổi máy</button>`:''}</div>`;
+ toast(newAch);
+ const a2=app.querySelector('#acct2');
+ if(a2)a2.onclick=()=>accountSheet(()=>{if(ACC.token){a2.innerHTML=CLOUD+' Đã lưu vào tài khoản '+esc(ACC.name);a2.disabled=true}});
+ app.querySelector('#again').onclick=()=>{setGen(S.gen);newSign();setName(S.name);pick.style=Math.random()<.5?0:1;intro()};
+ const nx=app.querySelector('#next');
+ if(nx)nx.onclick=()=>{setGen({n:S.gen.n+1,parent:S.name,parentSign:S.sign,trait:res.id,traits:[res.id,...E.heirs(S.gen)].slice(0,E.HEIR_MAX),job:res.job||undefined});newSign();setName(newName(S.name));pick.style=Math.random()<.5?0:1;intro()};
+ const tb=app.querySelector('#tree');if(tb)tb.onclick=treeSheet;
+ app.querySelector('#copy').onclick=()=>{
+  const txt=`Mình vừa nuôi ${S.name}${sg?` (cung ${sg.name})`:''} ${age?'tới '+age+' tuổi':'được vài tháng'}${S.gen.n>1?' (đời '+S.gen.n+')':''} trong game Con nhà mình: "${fill(res.title)}".${job?(job.k?` Lớn lên thành ${job.name}.`:` 18 tuổi chọn ${job.name.toLowerCase()}.`):''}${fe?` Kết riêng: "${fill(LD.TITLES[fe][0])}".`:''} 😆${S.m[0]} 🔋${S.m[1]} ❤️${S.m[2]}. Còn bạn, phụ huynh hệ gì? Vuốt là biết.`;
+  const note=app.querySelector('#note');
+  try{navigator.clipboard.writeText(txt).then(()=>note.textContent='Đã copy. Dán vào story nhé!',()=>note.textContent=txt)}catch(e){note.textContent=txt}
+ };
+}
+
+document.addEventListener('keydown',e=>{if(onKey&&(e.key==='ArrowLeft'||e.key==='ArrowRight'||e.key===' '||e.key==='Enter')){e.preventDefault();if(!e.repeat)onKey(e.key)}});
+// link nuôi chung (/?duo=<mã phòng>) thì vào phòng, còn lại về màn đầu
+function boot(){const id=new URLSearchParams(location.search).get('duo');if(id&&ROOM_RE.test(id))return duoOpen(id);intro()}
+Promise.race([loadArt(),new Promise(r=>setTimeout(r,2500))]).then(boot);
+// có máy chủ thì hiện phần tài khoản; đã đăng nhập thì lấy tiến độ về rồi vẽ lại màn đầu (nếu người chơi còn ở đó)
+apiCheck().then(async()=>{if(!ACC.api)return;if(ACC.token)await cloudPull();duoBackfill();
+ if(!S&&app.querySelector('.logo')&&!app.querySelector('.sheet')&&!(document.activeElement&&document.activeElement.id==='nm'))intro()});
+</script></body></html>
